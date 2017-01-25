@@ -17,3 +17,4 @@ The genetic algorithm is used to find the optimal parameters to find as stable g
 
 # Dependencies
 This project uses the Processing 3 Java core, available on the [processing website](https://processing.org/).
+[Here](https://processing.org/tutorials/eclipse/) you can learn how to add the core to your project when using eclipse. It is not included in the repository on purpose.
