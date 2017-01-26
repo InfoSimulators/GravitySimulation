@@ -17,6 +17,7 @@ public class InertialSystem {
         this.length = length;
         this.width = width;
         objectsInSpace = new ArrayList<PhysicsObject>();
+        deltaTime = 1f;
     }
 
     public InertialSystem(int length, int width, float deltaTime) {
@@ -56,6 +57,11 @@ public class InertialSystem {
 
     public void update() {
         addGravitationForces();
+        getCollisions();
+        for (PhysicsObject object : objectsInSpace) {
+            object.playoutForces();
+            object.move(deltaTime);
+        }
         getCollisions();
     }
 
