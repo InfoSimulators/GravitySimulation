@@ -19,8 +19,8 @@ public class test
         PhysicsObject a = new PhysicsObject(new Vector2D(100,100), new Vector2D(),50f);
         System.out.println(Vector2D.subtract(a.position, b.position));
         System.out.println(Vector2D.add(a.position, b.position));
-        System.out.println(IntertialSystem.gravitation(a,b));
+        System.out.println(InertialSystem.gravitation(a,b));
         System.out.println("END");
-        //System.out.println(IntertialSystem.gravitation());
+        //System.out.println(InertialSystem.gravitation());
     }
 }
