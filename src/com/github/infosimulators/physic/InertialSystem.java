@@ -80,11 +80,11 @@ public class InertialSystem {
             for (PhysicsObject other : objectsInSpace) {
 
                 /*If both objects overlap*/
-                Vector2D gravitationForce = gravitation(object, other);
-                if (Vector2D.subtract(object.position, other.position).magnitude() <= object.size + other.size) {
+                if (Vector2D.dist(object.position, other.position) <= object.size + other.size) {
+                    Vector2D gravitationForce = gravitation(object, other);
                     /*If the gravitation is stronger than velocity*/
                     if (Vector2D.subtract(object.velocity, other.velocity)
-                            .sqrMagnitude() < gravitationForce.sqrMagnitude() * deltaTime) {
+                            .sqrMagnitude() < gravitationForce.sqrMagnitude() * deltaTime * deltaTime) {
                         //Unite Objects and remove old
                         ArrayList<Vector2D> forces = new ArrayList<Vector2D>();
                         forces.addAll(object.forces);
@@ -109,7 +109,7 @@ public class InertialSystem {
 
     public static Vector2D gravitation(PhysicsObject a, PhysicsObject b) {
         float force = (float) (6.673 * (Math.pow(10, -11))
-                * ((a.mass * b.mass) / Math.pow(Vector2D.subtract(a.position, b.position).magnitude(), 2)));
+                * ((a.mass * b.mass) / Math.pow(Vector2D.dist(a.position, b.position), 2)));
         /*System.out.println("force: " + force);
         System.out.println("normalized: " + Vector2D.subtract(a.position, b.position).normalized());*/
         return Vector2D.scale(Vector2D.subtract(a.position, b.position).normalized(), force);
