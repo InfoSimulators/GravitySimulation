@@ -15,12 +15,12 @@ public class test
 
     public static void main()
     {
-        PhysicsObject b = new PhysicsObject(new Vector2D(200,100), new Vector2D(),50f);
-        PhysicsObject a = new PhysicsObject(new Vector2D(100,100), new Vector2D(),50f);
-        System.out.println(Vector2D.subtract(a.position, b.position));
-        System.out.println(Vector2D.add(a.position, b.position));
-        System.out.println(InertialSystem.gravitation(a,b));
+        PhysicsObject b = new PhysicsObject(new Vector2(200,100), new Vector2(),50f);
+        PhysicsObject a = new PhysicsObject(new Vector2(100,100), new Vector2(),50f);
+        System.out.println(Vector2.subtract(a.position, b.position));
+        System.out.println(Vector2.add(a.position, b.position));
+        System.out.println(Space.gravitation(a,b));
         System.out.println("END");
-        //System.out.println(InertialSystem.gravitation());
+        //System.out.println(Space.gravitation());
     }
 }

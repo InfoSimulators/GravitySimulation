@@ -8,79 +8,64 @@ import java.util.*;
  * It is assumed to be a sphere with the radius size with the mass located in the middle
  */
 public class PhysicsObject {
-    public Vector2D position;
-    public Vector2D velocity;
-    protected ArrayList<Vector2D> forces;
-    public float mass;
-    public float size;
+    public Vector3 position = new Vector3();;
+    public Vector3 velocity = new Vector3();
+    protected ArrayList<Vector3> forces = new ArrayList<Vector3>();
+    public float mass = 1f;
+    public float size = 1f;
 
+    @Override
     public String toString() {
-        return "PhysicsObject: position=(" + position + "), velocity=(" + velocity + "), mass= " + mass + "', size=" + size;
+        return "PhysicsObject:{\n position: '" + position + "',\n velocity: '" + velocity + "',\n mass: '" + mass
+                + "',\n size: '" + size + "'\n}";
     }
 
-// Constructors
+    // Constructors
     public PhysicsObject() {
-        forces = new ArrayList<Vector2D>();
-        position = new Vector2D(0f, 0f);
-        velocity = new Vector2D(0f, 0f);
-        this.size = 0;
-        mass = 0f;
     }
 
-    public PhysicsObject(Vector2D position) {
-        forces = new ArrayList<Vector2D>();
+    public PhysicsObject(Vector3 position) {
         position = position;
-        velocity = new Vector2D(0f, 0f);
-        mass = 0f;
-        size = 0f;
     }
 
-    public PhysicsObject(Vector2D position, Vector2D velocity) {
-        forces = new ArrayList<Vector2D>();
+    public PhysicsObject(Vector3 position, Vector3 velocity) {
         this.position = position;
         this.velocity = velocity;
-        mass = 0f;
-        size = 0f;
     }
 
-    public PhysicsObject(Vector2D position, Vector2D velocity, float mass) {
-        forces = new ArrayList<Vector2D>();
+    public PhysicsObject(Vector3 position, Vector3 velocity, float mass) {
         this.position = position;
         this.velocity = velocity;
-        this.size = 0f;
         this.mass = mass;
     }
-    public PhysicsObject(Vector2D position, Vector2D velocity, float mass, float size) {
-        forces = new ArrayList<Vector2D>();
+
+    public PhysicsObject(Vector3 position, Vector3 velocity, float mass, float size) {
         this.position = position;
         this.velocity = velocity;
         this.mass = mass;
         this.size = size;
     }
 
-    public PhysicsObject(Vector2D position, float mass) {
-        forces = new ArrayList<Vector2D>();
+    public PhysicsObject(Vector3 position, float mass) {
         this.position = position;
-        this.velocity = new Vector2D(0f, 0f);
         this.mass = mass;
         this.size = 0f;
     }
-    public PhysicsObject(Vector2D position, float mass, float size) {
-        forces = new ArrayList<Vector2D>();
+
+    public PhysicsObject(Vector3 position, float mass, float size) {
         this.position = position;
-        this.velocity = new Vector2D(0f, 0f);
         this.mass = mass;
         this.size = size;
     }
 
-    public PhysicsObject(Vector2D position, Vector2D velocity, float mass, ArrayList<Vector2D> forces) {
+    public PhysicsObject(Vector3 position, Vector3 velocity, float mass, ArrayList<Vector3> forces) {
         this.forces = forces;
         this.position = position;
         this.velocity = velocity;
         this.mass = mass;
-        this.size = 0;
     }
-    public PhysicsObject(Vector2D position, Vector2D velocity, float mass, float size, ArrayList<Vector2D> forces) {
+
+    public PhysicsObject(Vector3 position, Vector3 velocity, float mass, float size, ArrayList<Vector3> forces) {
         this.forces = forces;
         this.position = position;
         this.velocity = velocity;
@@ -88,27 +73,27 @@ public class PhysicsObject {
         this.size = size;
     }
 
-// FUNCTIONS
-    public void appendForce(Vector2D force) {
+    // FUNCTIONS
+    public void appendForce(Vector3 force) {
         forces.add(force);
     }
 
     public void resetForces() {
-        forces = new ArrayList<Vector2D>();
+        forces.clear();
     }
 
     public void playoutForces(float deltaTime) {
-        float sumX = 0f;
-        float sumY = 0f;
+        Vector3 sum = new Vector3();
 
-        for (Vector2D force : forces) {
-            sumX += force.x;
-            sumY += force.y;
+        for (Vector3 force : forces) {
+            sum.add(force);
         }
-        velocity.add((sumX / mass) * deltaTime, (sumY / mass) * deltaTime);
+        velocity.add(sum.div(mass).scale(deltaTime));
     }
-
+    /**
+     * @param time between calculationcircles
+     */
     public void move(float deltaTime) {
-        position = Vector2D.scale(velocity, deltaTime);
+        position.add(Vector3.scale(velocity, deltaTime));
     }
 }
