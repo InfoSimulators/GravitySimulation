@@ -1,6 +1,7 @@
 package com.github.infosimulators.physic;
 
 import java.lang.Math;
+import processing.core.PVector;
 
 /**
  * Vector class that is limited to x and y components: Can store positions, forces and velocities.

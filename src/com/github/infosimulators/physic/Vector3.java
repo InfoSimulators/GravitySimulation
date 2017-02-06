@@ -1,7 +1,8 @@
-
 package com.github.infosimulators.physic;
 
 import java.lang.Math;
+import processing.core.PVector;
+import java.lang.Random;
 
 /**
  * Vector3 class: Can store things like positions, forces and velocities.
@@ -78,7 +79,7 @@ public class Vector3 {
      * @param z
      * @return this
      */
-    public Vector3 Set(float x, float y, float z) {
+    public Vector3 set(float x, float y, float z) {
         this.x = x;
         this.y = y;
         this.z = z;
@@ -91,7 +92,7 @@ public class Vector3 {
      * @param v another Vector3D
      * @return this
      */
-    public Vector3 Set(Vector3 v) {
+    public Vector3 set(Vector3 v) {
         this.x = v.x;
         this.y = v.y;
         this.z = v.z;
@@ -118,7 +119,7 @@ public class Vector3 {
     * @param y second float
     * @return this vector
     */
-    public Vector2 add(float x, float y) {
+    public Vector3 add(float x, float y) {
         this.x += x;
         this.y += y;
         return this;
@@ -254,13 +255,13 @@ public class Vector3 {
     }
 
     //STATIC/PURE FUNCTIONS
-    public static final Vector3D zero = new Vector3D(0, 0, 0);
-    public static final Vector3D up = new Vector3D(0, 1, 0);
-    public static final Vector3D down = new Vector3D(0, -1, 0);
-    public static final Vector3D left = new Vector3D(-1, 0, 0);
-    public static final Vector3D right = new Vector3D(1, 0, 0);
-    public static final Vector3D forwards = new Vector3D(0, 0, 1);
-    public static final Vector3D backwards = new Vector3D(0, 0, -1);
+    public static final Vector3 zero = new Vector3(0, 0, 0);
+    public static final Vector3 up = new Vector3(0, 1, 0);
+    public static final Vector3 down = new Vector3(0, -1, 0);
+    public static final Vector3 left = new Vector3(-1, 0, 0);
+    public static final Vector3 right = new Vector3(1, 0, 0);
+    public static final Vector3 forwards = new Vector3(0, 0, 1);
+    public static final Vector3 backwards = new Vector3(0, 0, -1);
 
     /**
      * Converts PVector (Vectorclass form Processing) to Vector2
@@ -375,5 +376,15 @@ public class Vector3 {
         Vector3 v = v1.copy();
         v.lerp(v2, amt);
         return v;
+    }
+
+    /**
+    * @return a new vector based on
+    * @param angle around y;
+    * @param angle around z between
+    *
+    */
+    static public Vector3 fromAngle(float alpha, float beta) {
+        return new Vector3((float) Math.cos(alpha) * (float) Math.cos(beta), (float) Math.sin(alpha)* (float)Math.cos(beta), (float) Math.sin(beta));
     }
 }
