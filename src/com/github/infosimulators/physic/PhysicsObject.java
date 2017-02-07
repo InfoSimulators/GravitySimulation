@@ -83,21 +83,19 @@ public class PhysicsObject {
         forces.clear();
     }
 
-    public void playoutForces(float deltaTime) {
+    public void playoutForces() {
         Vector3 sum = new Vector3();
         for (Vector3 force : forces) {
             sum.add(force);
         }
-
         acceleration = sum.div(mass);
-        //System.out.println("acceleration: " + acceleration);
         resetForces();
     }
     /**
      * @param time between calculationcircles
      */
-    public void move(float deltaTime) {
-        position.add(Vector3.scale(acceleration, (deltaTime*deltaTime)/2).add(Vector3.scale(velocity, deltaTime)));
-        velocity.add(Vector3.scale(acceleration, deltaTime));
+    public void move() {
+        position.add(Vector3.scale(acceleration, 1/2).add(velocity));
+        velocity.add(acceleration);
     }
 }

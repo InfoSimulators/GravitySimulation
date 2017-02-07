@@ -95,17 +95,19 @@ public class Space {
     }
 
     public void tick() {
-        addGravitationForces();
-        for (PhysicsObject object : spaceRegister) {
-            if (Vector3.sqrDistance(object.position, pointOfOrigin) >= maxDistance * maxDistance){
-                unregisterPhysicsObject(object);
-                System.out.println("left system");
-                return;
+        for(int i = 0; i < deltaTime; i++){
+            addGravitationForces();
+            for (PhysicsObject object : spaceRegister) {
+                if (Vector3.sqrDistance(object.position, pointOfOrigin) >= maxDistance * maxDistance){
+                    unregisterPhysicsObject(object);
+                    System.out.println("left system");
+                    return;
+                }
+                object.playoutForces();
+                object.move();
             }
-            object.playoutForces(deltaTime);
-            object.move(deltaTime);
+            getCollisions();
         }
-        getCollisions();
     }
 
     public void addGravitationForces() {
@@ -128,8 +130,7 @@ public class Space {
                 if (Vector3.distance(object.position, other.position) < (object.size + other.size)/1.5f ) {
                     Vector3 gravitationForce = gravitation(object, other);
                     /*If the gravitation is stronger than velocity*/
-                    if (Vector3.sqrDistance(object.velocity, other.velocity) < gravitationForce.sqrMagnitude()
-                            * deltaTime * deltaTime) {
+                    if (Vector3.sqrDistance(object.velocity, other.velocity) < gravitationForce.sqrMagnitude()) {
                         //System.out.println("connection");
                         //Unite Objects and remove old
                         ArrayList<Vector3> forces = new ArrayList<Vector3>();
