@@ -80,11 +80,20 @@ public class Vector2 extends Vector3 {
     }
 
     //STATIC/PURE FUNCTIONS
-    public static final Vector2 zero = new Vector2(0, 0);
-    public static final Vector2 up = new Vector2(0, 1);
-    public static final Vector2 down = new Vector2(0, -1);
-    public static final Vector2 left = new Vector2(-1, 0);
-    public static final Vector2 right = new Vector2(1, 0);
+    public static final Vector2 zero() {return new Vector2(0, 0);
+    }
+    public static final Vector2 up() {
+        return  new Vector2(0, 1);
+    }
+    public static final Vector2 down() {
+        return  new Vector2(0, -1);
+    }
+    public static final Vector2 left() {
+        return  new Vector2(-1, 0);
+    }
+    public static final Vector2 right() {
+        return  new Vector2(1, 0);
+    }
 
     /**
      * Converts PVector (Vectorclass form Processing) to Vector2
@@ -93,6 +102,14 @@ public class Vector2 extends Vector3 {
      */
     public static Vector2 fromPVector(PVector pvector) {
         return new Vector2(pvector.x, pvector.y);
+    }
+        /**
+     * Converts Vector3 to Vector2
+     * @param Vector3
+     * @return transformed vector
+     */
+    public static Vector2 fromVector3(Vector3 vector3) {
+        return new Vector2(vector3.x, vector3.y);
     }
 
     /**

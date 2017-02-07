@@ -2,7 +2,7 @@ package com.github.infosimulators.physic;
 
 import java.lang.Math;
 import processing.core.PVector;
-import java.lang.Random;
+import java.util.Random;
 
 /**
  * Vector3 class: Can store things like positions, forces and velocities.
@@ -255,13 +255,26 @@ public class Vector3 {
     }
 
     //STATIC/PURE FUNCTIONS
-    public static final Vector3 zero = new Vector3(0, 0, 0);
-    public static final Vector3 up = new Vector3(0, 1, 0);
-    public static final Vector3 down = new Vector3(0, -1, 0);
-    public static final Vector3 left = new Vector3(-1, 0, 0);
-    public static final Vector3 right = new Vector3(1, 0, 0);
-    public static final Vector3 forwards = new Vector3(0, 0, 1);
-    public static final Vector3 backwards = new Vector3(0, 0, -1);
+    public static  Vector3 zero() {
+        return  new Vector3(0, 0, 0);
+    }
+    public static  Vector3 up() {
+        return  new Vector3(0, 1, 0);
+    }
+    public static  Vector3 down() {
+        return  new Vector3(0, -1, 0);
+    }
+    public static  Vector3 left() {
+        return  new Vector3(-1, 0, 0);}
+    public static  Vector3 right() {
+        return  new Vector3(1, 0, 0);
+    }
+    public static final Vector3 forwards() {
+         return  new Vector3(0, 0, 1);
+    }
+    public static final Vector3 backwards() {
+        return new Vector3(0, 0, -1);
+    }
 
     /**
      * Converts PVector (Vectorclass form Processing) to Vector2

@@ -8,8 +8,9 @@ import java.util.*;
  * It is assumed to be a sphere with the radius size with the mass located in the middle
  */
 public class PhysicsObject {
-    public Vector3 position = new Vector3();;
+    public Vector3 position = new Vector3();
     public Vector3 velocity = new Vector3();
+    public Vector3 acceleration = new Vector3();
     protected ArrayList<Vector3> forces = new ArrayList<Vector3>();
     public float mass = 1f;
     public float size = 1f;
@@ -84,16 +85,19 @@ public class PhysicsObject {
 
     public void playoutForces(float deltaTime) {
         Vector3 sum = new Vector3();
-
         for (Vector3 force : forces) {
             sum.add(force);
         }
-        velocity.add(sum.div(mass).scale(deltaTime));
+
+        acceleration = sum.div(mass);
+        //System.out.println("acceleration: " + acceleration);
+        resetForces();
     }
     /**
      * @param time between calculationcircles
      */
     public void move(float deltaTime) {
-        position.add(Vector3.scale(velocity, deltaTime));
+        position.add(Vector3.scale(acceleration, (deltaTime*deltaTime)/2).add(Vector3.scale(velocity, deltaTime)));
+        velocity.add(Vector3.scale(acceleration, deltaTime));
     }
 }
