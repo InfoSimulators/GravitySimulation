@@ -26,7 +26,7 @@ public class Space {
     /**
      *  The mathmatical time between cicles of update.
      */
-    protected float deltaTime = 10000000f;
+    protected float runsPerUpdate = 1f;
 
     // Constructors
     public Space() {
@@ -36,17 +36,17 @@ public class Space {
         this.maxDistance = maxDistance;
     }
 
-    public Space(float maxDistance, float deltaTime) {
+    public Space(float maxDistance, float runsPerUpdate) {
         this.maxDistance = maxDistance;
-        this.deltaTime = deltaTime;
+        this.runsPerUpdate = runsPerUpdate;
     }
 
     /**
      * Gets deltatime, the mathmatical time between cicles of update.
      * @return current deltatime
      */
-    public float getDeltaTime() {
-        return this.deltaTime;
+    public float getRunsPerUpdate() {
+        return this.runsPerUpdate;
     }
 
     /**
@@ -54,12 +54,12 @@ public class Space {
      *
      * @param deltaTime the new tim between cicles. Must be larger then 0
      */
-    public void setDeltaTime(float deltaTime) {
-        if (deltaTime <= 0) {
-            new Error("deltaTime can´t be below / or 0.");
+    public void setRunsPerUpdate(float deltaTime) {
+        if (runsPerUpdate <= 0) {
+            new Error("runsPerUpdate can´t be below / or 0.");
             return;
         }
-        this.deltaTime = deltaTime;
+        this.runsPerUpdate = runsPerUpdate;
     }
 
     /**
@@ -95,7 +95,7 @@ public class Space {
     }
 
     public void tick() {
-        for(int i = 0; i < deltaTime; i++){
+        for(int i = 0; i < runsPerUpdate; i++){
             addGravitationForces();
             for (PhysicsObject object : spaceRegister) {
                 if (Vector3.sqrDistance(object.position, pointOfOrigin) >= maxDistance * maxDistance){

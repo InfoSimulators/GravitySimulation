@@ -2,10 +2,10 @@ package com.github.infosimulators.physic;
 
 import processing.core.PApplet;
 
+public class test extends PApplet{
 
-public class test extends PApplet
-{
     public Space s;
+
     public test(){
         s = new Space(400f,1f);
         PhysicsObject b = new PhysicsObject(Vector2.zero(), Vector2.zero(), 1E20f,30f);
