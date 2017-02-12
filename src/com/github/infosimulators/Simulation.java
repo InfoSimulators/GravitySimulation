@@ -1,6 +1,7 @@
 package com.github.infosimulators;
 
 import com.github.infosimulators.physic.*;
+import java.util.*;
 import java.util.Random;
 
 /**
@@ -8,6 +9,11 @@ import java.util.Random;
  */
 public class Simulation {
 	protected Space space;
+	/**
+	* The rate of new baseobjects spawning.
+	* A new Object is spawned every spawnRate turns.
+	* If set to -1 no baseobjects will spawn.
+	*/
 	public int spawnRate = 10;
 	private int spawnCounter = 0;
 	public Vector3 basePosition = new Vector3(100f,100f);
@@ -61,13 +67,20 @@ public class Simulation {
 	 * Called on each frame
 	 */
 	public void update() {
-		if(spawnCounter >= spawnRate){
-			addBaseObject();
-			spawnCounter = 0;
-		} else{
-			spawnCounter++;
+		if(spawnRate != -1){
+			if(spawnCounter >= spawnRate){
+				addBaseObject();
+				spawnCounter = 0;
+			} else {
+				spawnCounter++;
+			}
 		}
 		space.tick()
 	}
-
+	/**
+ 	* @return the content of the Simulation as ArrayList of PhysicsObjects
+ 	*/
+	public ArrayList<PhysicsObject> getContent(){
+		return space.getSpaceRegister();
+	}
 }
