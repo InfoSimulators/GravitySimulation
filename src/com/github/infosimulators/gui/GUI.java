@@ -1,5 +1,10 @@
 package com.github.infosimulators.gui;
 
+import java.util.ArrayList;
+
+import com.github.infosimulators.gui.GElement.Button;
+import com.github.infosimulators.gui.GElement.GElement;
+
 import processing.core.PApplet;
 
 /**
@@ -16,9 +21,10 @@ public class GUI extends PApplet {
 	private static GUI instance;
 	
 	/**
-	 * Number of tabs
+	 * tabs
 	 */
-	private int tabs;
+	private ArrayList<Tab> tabs;
+	private int activeTab;
 	
 	/**
 	 * Constructor, to be called automatically.
@@ -26,9 +32,67 @@ public class GUI extends PApplet {
 	 */
 	public GUI() {
 		GUI.instance = this;
-		tabs = 1;
+		tabs = new ArrayList<Tab>(0);
 	}
 	
+	/**
+	 * Called once on startup
+	 */
+	public void settings() {
+		size(1000, 1000); // has to be here instead setup()
+	}
+	
+	/**
+	 * Called once after startup
+	 */
+	public void setup() {
+		ArrayList<GElement> tes = new ArrayList<GElement>();
+		tes.add(new Button(40, 80, 80, 80));
+		tabs.add(new Tab(instance, "Main", tes));
+		tabs.add(new Tab(instance, "1", new ArrayList<GElement>()));
+		activeTab = 0;
+	}
+	
+	/**
+	 * Called each frame
+	 */
+	public void draw() {
+		// Phase 1: Basic Necessities
+		background(0);
+		if (mousePressed){
+			mouseActions();
+		}
+		
+		//Phase 2: Objects in the Simulation
+		
+		//Phase 3: GUI
+		displayTabs();
+		displayContent();
+	}
+	
+	private void displayTabs(){
+		stroke(255);
+		textSize(height/20 - 20);
+		for (int i = 0; i < tabs.size(); i++){
+			noFill();
+			rect(i*width/tabs.size(), 0, (i+1)*width/tabs.size(), height/20);
+			fill(255);
+			text(tabs.get(i).getHeader(), i*width/tabs.size() + 10, 10, (i+1)*width/tabs.size() - 10, height/20 - 10);
+		}
+	}
+	
+	private void displayContent(){
+		tabs.get(activeTab).update();
+	}
+	
+	private void mouseActions(){
+		if(mouseY <= height/20){
+			activeTab = mouseX*tabs.size()/width;
+			System.out.println(activeTab);
+		}
+	}
+	
+
 	/**
 	 * Configures this class as main processing class.
 	 * Use instead of constructor.
@@ -40,45 +104,4 @@ public class GUI extends PApplet {
 			main("com.github.infosimulators.gui.GUI");
 		return instance;
 	}
-	
-	/**
-	 * Called once on startup
-	 */
-	public void settings() {
-		size(500, 400); // has to be here instead setup()
-	}
-	
-	/**
-	 * Called once after startup
-	 */
-	public void setup() {}
-	
-	/**
-	 * Called each frame
-	 */
-	public void draw() {
-		background(0);
-		noStroke();
-		for (int i = 0; i < tabs; i++) {
-			rect(width / (float) tabs * i, 0, width / (float) tabs, 20);
-		}
-	}
-	
-	/**
-	 * Example configuration method.
-	 * Sets the number of tabs to display / choose from.
-	 * @param tabs Number of tabs
-	 */
-	public void setTabs(int tabs) {
-		this.tabs = tabs;
-	}
-	
-	/**
-	 * Number of tabs.
-	 * @return tabs
-	 */
-	public int getTabs() {
-		return tabs;
-	}
-
 }

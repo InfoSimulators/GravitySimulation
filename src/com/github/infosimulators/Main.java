@@ -20,9 +20,6 @@ public class Main {
 		// creates and runs processing sketch
 		gui = GUI.getInstance();
 
-		// example configuration
-		gui.setTabs(3);
-
 		/*
 		 * Some ideas for GUI-Objects:
 		 *
@@ -43,15 +40,4 @@ public class Main {
 		Parameter[] parameters = new Parameter[5];
 		trainer.train(parameters);
 	}
-
-	/**
-	 * Adds a simulation run.
-	 * @param parameters Parameters given for the simulation.
-	 */
-	public static void addSimulation(int[] parameters) {
-		// add tab to gui
-		gui.setTabs(gui.getTabs() + 1);
-		// ...
-	}
-
 }
