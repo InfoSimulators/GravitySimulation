@@ -18,7 +18,7 @@ public class Main {
 	 */
 	public static void main(String[] args) {
 		// creates and runs processing sketch
-		gui = GUI.getInstance();
+		GUI gui = GUI.getInstance();
 
 		/*
 		 * Some ideas for GUI-Objects:

@@ -14,6 +14,8 @@ import processing.core.PApplet;
  * Use {@code GUI.getInstance()} instead of constructor!
  */
 public class GUI extends PApplet {
+	
+	private int backgroundColor;
 
 	/**
 	 * Static instance of GUI for public access.
@@ -33,6 +35,7 @@ public class GUI extends PApplet {
 	public GUI() {
 		GUI.instance = this;
 		tabs = new ArrayList<Tab>(0);
+		backgroundColor = 0;
 	}
 	
 	/**
@@ -47,7 +50,30 @@ public class GUI extends PApplet {
 	 */
 	public void setup() {
 		ArrayList<GElement> tes = new ArrayList<GElement>();
-		tes.add(new Button(40, 80, 80, 80));
+		
+		Runnable backgroundColorChangeUp = new Runnable(){
+
+			@Override
+			public void run() {
+				setBackgroundColor(getBackgroundColor() + 1);
+				
+			}
+			
+		};
+		
+		Runnable backgroundColorChangeDown = new Runnable(){
+
+			@Override
+			public void run() {
+				setBackgroundColor(getBackgroundColor() - 1);
+				
+			}
+			
+		};
+		
+		tes.add(new Button(backgroundColorChangeUp, 40, 80, 80, 80));
+		tes.add(new Button(backgroundColorChangeDown, 160, 80, 80, 80));
+		
 		tabs.add(new Tab(instance, "Main", tes));
 		tabs.add(new Tab(instance, "1", new ArrayList<GElement>()));
 		activeTab = 0;
@@ -58,7 +84,7 @@ public class GUI extends PApplet {
 	 */
 	public void draw() {
 		// Phase 1: Basic Necessities
-		background(0);
+		background(backgroundColor);
 		if (mousePressed){
 			mouseActions();
 		}
@@ -88,7 +114,6 @@ public class GUI extends PApplet {
 	private void mouseActions(){
 		if(mouseY <= height/20){
 			activeTab = mouseX*tabs.size()/width;
-			System.out.println(activeTab);
 		}
 	}
 	
@@ -103,5 +128,13 @@ public class GUI extends PApplet {
 		if (instance == null)
 			main("com.github.infosimulators.gui.GUI");
 		return instance;
+	}
+	
+	public int getBackgroundColor(){
+		return backgroundColor;
+	}
+	
+	public void setBackgroundColor(int color){
+		backgroundColor = color;
 	}
 }

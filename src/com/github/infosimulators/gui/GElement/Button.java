@@ -4,9 +4,12 @@ package com.github.infosimulators.gui.GElement;
 import processing.core.PApplet;
 
 public class Button extends GElement{
+	
+	private Runnable r;
 
-	public Button(float x, float y, float xSize, float ySize) {
+	public Button(Runnable r, float x, float y, float xSize, float ySize) {
 		super(x, y, xSize, ySize);
+		this.r = r;
 	}
 
 	@Override
@@ -15,6 +18,7 @@ public class Button extends GElement{
 			p.fill(255, 0, 0);
 			if (p.mousePressed){
 				p.fill(200, 0, 0);
+				r.run();
 			}
 		}else{
 			p.fill(255);
