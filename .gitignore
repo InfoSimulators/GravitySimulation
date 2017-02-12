@@ -62,3 +62,13 @@ local.properties
 
 # Code Recommenders
 .recommenders/
+
+# Gitignore for VS Code
+buildpath.txt
+javaconfig.json
+javac-services.0.log.lck
+javac-services.0.log
+.vscode/
+package.bluej
+*.ctxt
+\doc
