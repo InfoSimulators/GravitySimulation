@@ -49,33 +49,27 @@ public class GUI extends PApplet {
 	 * Called once after startup
 	 */
 	public void setup() {
-		ArrayList<GElement> tes = new ArrayList<GElement>();
-		
-		Runnable backgroundColorChangeUp = new Runnable(){
+		tabs.add(new Tab(instance, "Main", new ArrayList<GElement>()));
+		tabs.get(0).addElement(new Button(new Runnable(){
 
 			@Override
 			public void run() {
-				setBackgroundColor(getBackgroundColor() + 1);
+				tabs.add(new Tab(instance, str(tabs.size()), new ArrayList<GElement>()));
 				
 			}
 			
-		};
-		
-		Runnable backgroundColorChangeDown = new Runnable(){
+		}, "New Tab", 80, 80, 100, 40));
+		tabs.get(0).addElement(new Button(new Runnable(){
 
 			@Override
 			public void run() {
-				setBackgroundColor(getBackgroundColor() - 1);
+				if (tabs.size() > 1){
+					tabs.remove(tabs.size() - 1);
+				}
 				
 			}
 			
-		};
-		
-		tes.add(new Button(backgroundColorChangeUp, 40, 80, 80, 80));
-		tes.add(new Button(backgroundColorChangeDown, 160, 80, 80, 80));
-		
-		tabs.add(new Tab(instance, "Main", tes));
-		tabs.add(new Tab(instance, "1", new ArrayList<GElement>()));
+		}, "Close Last", 190, 80, 120, 40));
 		activeTab = 0;
 	}
 	
@@ -100,8 +94,10 @@ public class GUI extends PApplet {
 		stroke(255);
 		textSize(height/20 - 20);
 		for (int i = 0; i < tabs.size(); i++){
-			noFill();
-			rect(i*width/tabs.size(), 0, (i+1)*width/tabs.size(), height/20);
+			if (i != activeTab){
+				noFill();
+				rect(i*width/tabs.size(), 0, width/tabs.size(), height/20);
+			}
 			fill(255);
 			text(tabs.get(i).getHeader(), i*width/tabs.size() + 10, 10, (i+1)*width/tabs.size() - 10, height/20 - 10);
 		}

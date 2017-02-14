@@ -31,5 +31,9 @@ public class Tab {
 	public void setHeader(String header) {
 		this.header = header;
 	}
+	
+	public void addElement(GElement e){
+		elements.add(e);
+	}
 }
 
