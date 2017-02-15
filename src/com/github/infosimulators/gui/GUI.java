@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.github.infosimulators.gui.GElement.Button;
 import com.github.infosimulators.gui.GElement.GElement;
+import com.github.infosimulators.gui.GElement.Switch;
 
 import processing.core.PApplet;
 
@@ -43,6 +44,7 @@ public class GUI extends PApplet {
 	 */
 	public void settings() {
 		size(1000, 1000); // has to be here instead setup()
+		//TODO: implement frame.setTitle("GravitationSimulation");
 	}
 	
 	/**
@@ -70,6 +72,23 @@ public class GUI extends PApplet {
 			}
 			
 		}, "Close Last", 190, 80, 120, 40));
+		tabs.get(0).addElement(new Switch(false, new Runnable(){
+
+			@Override
+			public void run() {
+				backgroundColor = 200;
+				
+			}
+			
+		}, new Runnable(){
+
+			@Override
+			public void run() {
+				backgroundColor = 0;
+				
+			}
+			
+		}, 80, 160, 100, 40));
 		activeTab = 0;
 	}
 	
