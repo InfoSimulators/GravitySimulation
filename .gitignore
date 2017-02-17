@@ -62,6 +62,9 @@ local.properties
 
 # Code Recommenders
 .recommenders/
+\nbproject
+build.xml
+manifest.mf
 
 # Gitignore for VS Code
 buildpath.txt
