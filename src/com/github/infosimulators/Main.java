@@ -1,7 +1,7 @@
 package com.github.infosimulators;
 
 import com.github.infosimulators.genetictrainer.GeneticTrainer;
-import com.github.infosimulators.genetictrainer.GeneticTrainer.Parameter;
+import com.github.infosimulators.genetictrainer.GeneticTrainer.ParameterTypes;
 import com.github.infosimulators.gui.GUI;
 
 /**
@@ -36,8 +36,12 @@ public class Main {
 		 *
 		 */
 
-		GeneticTrainer trainer = new GeneticTrainer();
-		Parameter[] parameters = new Parameter[5];
-		trainer.train(parameters);
+		ParameterTypes[] format = new ParameterTypes[]{
+			ParameterTypes.BOOLEAN,
+			ParameterTypes.INT,
+			ParameterTypes.DOUBLE
+		};
+		GeneticTrainer trainer = new GeneticTrainer(format);
+		trainer.train();
 	}
 }
