@@ -2,7 +2,6 @@ package com.github.infosimulators.physic;
 
 import java.lang.Math;
 import processing.core.PVector;
-import java.util.Random;
 
 /**
  * Vector3 class: Can store things like positions, forces and velocities.

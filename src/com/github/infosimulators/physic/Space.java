@@ -1,6 +1,6 @@
 package com.github.infosimulators.physic;
 
-import java.util.*;
+import java.util.ArrayList;
 import java.lang.Math;
 import java.util.Random;
 
@@ -50,11 +50,11 @@ public class Space {
     }
 
     /**
-     * Sets deltatime, the mathmatical time between cicles of update.
+     * sets the time of runs per cicle of update.
      *
-     * @param deltaTime the new tim between cicles. Must be larger then 0
+     * @param runsPerUpdate the new tim between cicles. Must be larger then 0
      */
-    public void setRunsPerUpdate(float deltaTime) {
+    public void setRunsPerUpdate(float runsPerUpdate) {
         if (runsPerUpdate <= 0) {
             new Error("runsPerUpdate can´t be below / or 0.");
             return;

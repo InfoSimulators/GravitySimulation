@@ -1,6 +1,6 @@
 package com.github.infosimulators.physic;
 
-import java.util.*;
+import java.util.ArrayList;
 
 /**
  * Baseclass for all objects, manipulated by physics.
@@ -26,7 +26,7 @@ public class PhysicsObject {
     }
 
     public PhysicsObject(Vector3 position) {
-        position = position;
+        this.position = position;
     }
 
     public PhysicsObject(Vector3 position, Vector3 velocity) {
