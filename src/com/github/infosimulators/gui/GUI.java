@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.github.infosimulators.gui.GElement.Button;
 import com.github.infosimulators.gui.GElement.GElement;
+import com.github.infosimulators.gui.GElement.Slider;
 import com.github.infosimulators.gui.GElement.Switch;
 
 import processing.core.PApplet;
@@ -76,7 +77,7 @@ public class GUI extends PApplet {
 
 			@Override
 			public void run() {
-				backgroundColor = 200;
+				//backgroundColor = 200;
 				
 			}
 			
@@ -84,11 +85,20 @@ public class GUI extends PApplet {
 
 			@Override
 			public void run() {
-				backgroundColor = 0;
+				//backgroundColor = 0;
 				
 			}
 			
 		}, 80, 160, 100, 40));
+		tabs.get(0).addElement(new Slider(50, new Runnable(){
+
+			@Override
+			public void run() {
+				//backgroundColor += 2.55;
+				
+			}
+			
+		}, 190, 200, 120, 40));
 		activeTab = 0;
 	}
 	
