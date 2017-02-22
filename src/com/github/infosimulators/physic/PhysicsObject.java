@@ -1,6 +1,6 @@
 package com.github.infosimulators.physic;
 
-import java.util.*;
+import java.util.ArrayList;
 
 /**
  * Baseclass for all objects, manipulated by physics. stores position, forces,
@@ -8,7 +8,6 @@ import java.util.*;
  * with the mass located in the middle
  */
 public class PhysicsObject {
-	
 	public Vector3 position = new Vector3();
 	public Vector3 velocity = new Vector3();
 	public Vector3 acceleration = new Vector3();
@@ -99,12 +98,9 @@ public class PhysicsObject {
 		resetForces();
 	}
 
-	/**
-	 * @param time
-	 *            between calculationcircles
-	 */
 	public void move() {
 		position.add(Vector3.scale(acceleration, 1 / 2).add(velocity));
 		velocity.add(acceleration);
 	}
+
 }

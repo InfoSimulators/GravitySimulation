@@ -1,7 +1,10 @@
 package com.github.infosimulators;
 
-import com.github.infosimulators.physic.*;
-import java.util.*;
+import com.github.infosimulators.physic.Space;
+import com.github.infosimulators.physic.PhysicsObject;
+import com.github.infosimulators.physic.Vector3;
+import com.github.infosimulators.physic.Vector2;
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
