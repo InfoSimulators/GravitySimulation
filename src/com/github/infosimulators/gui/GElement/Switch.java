@@ -2,6 +2,9 @@ package com.github.infosimulators.gui.GElement;
 
 import processing.core.PApplet;
 
+/*
+ * GElement to change between two states and run one of its two methods depending on the state.
+ */
 public class Switch extends GElement{
 
 	private boolean on;

@@ -1,7 +1,12 @@
 package com.github.infosimulators.gui.GElement;
 
-
 import processing.core.PApplet;
+
+//TODO: Button reactivation not by timer, but activation if mouse released.
+
+/*
+ * GElement running its method once when pressed.
+ */
 
 public class Button extends GElement{
 	
@@ -18,6 +23,7 @@ public class Button extends GElement{
 
 	@Override
 	public void update(PApplet p){
+		//Checks if mouse is over Button and acts accordingly.
 		if (p.mouseX > x && p.mouseY > y && p.mouseX < x+xSize && p.mouseY < y+ySize){
 			p.fill(255, 0, 0);
 			if (p.mousePressed && timer == 0){

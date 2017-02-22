@@ -2,10 +2,7 @@ package com.github.infosimulators.gui;
 
 import java.util.ArrayList;
 
-import com.github.infosimulators.gui.GElement.Button;
-import com.github.infosimulators.gui.GElement.GElement;
-import com.github.infosimulators.gui.GElement.Slider;
-import com.github.infosimulators.gui.GElement.Switch;
+import com.github.infosimulators.gui.GElement.*;
 
 import processing.core.PApplet;
 
@@ -50,60 +47,16 @@ public class GUI extends PApplet {
 	
 	/**
 	 * Called once after startup
+	 * Creates a main tab and makes it active
 	 */
 	public void setup() {
 		tabs.add(new Tab(instance, "Main", new ArrayList<GElement>()));
-		tabs.get(0).addElement(new Button(new Runnable(){
-
-			@Override
-			public void run() {
-				tabs.add(new Tab(instance, str(tabs.size()), new ArrayList<GElement>()));
-				
-			}
-			
-		}, "New Tab", 80, 80, 100, 40));
-		tabs.get(0).addElement(new Button(new Runnable(){
-
-			@Override
-			public void run() {
-				if (tabs.size() > 1){
-					tabs.remove(tabs.size() - 1);
-				}
-				
-			}
-			
-		}, "Close Last", 190, 80, 120, 40));
-		tabs.get(0).addElement(new Switch(false, new Runnable(){
-
-			@Override
-			public void run() {
-				//backgroundColor = 200;
-				
-			}
-			
-		}, new Runnable(){
-
-			@Override
-			public void run() {
-				//backgroundColor = 0;
-				
-			}
-			
-		}, 80, 160, 100, 40));
-		tabs.get(0).addElement(new Slider(50, new Runnable(){
-
-			@Override
-			public void run() {
-				//backgroundColor += 2.55;
-				
-			}
-			
-		}, 190, 200, 120, 40));
 		activeTab = 0;
 	}
 	
 	/**
 	 * Called each frame
+	 * Split into 3 phases, each one overlaying the previous ones.
 	 */
 	public void draw() {
 		// Phase 1: Basic Necessities
@@ -119,6 +72,10 @@ public class GUI extends PApplet {
 		displayContent();
 	}
 	
+	
+	/*
+	 * Displays the tabs on the top side of the window.
+	 */
 	private void displayTabs(){
 		stroke(255);
 		textSize(height/20 - 20);
@@ -132,10 +89,18 @@ public class GUI extends PApplet {
 		}
 	}
 	
+	/*
+	 * Starts to update every element in the active tab.
+	 */
 	private void displayContent(){
 		tabs.get(activeTab).update();
 	}
 	
+	/*
+	 * Tab related UI interactions.
+	 * Other ones are handled by each GObject itself.
+	 * Sets the active tab according to the mouse position.
+	 */
 	private void mouseActions(){
 		if(mouseY <= height/20){
 			activeTab = mouseX*tabs.size()/width;
@@ -154,6 +119,10 @@ public class GUI extends PApplet {
 			main("com.github.infosimulators.gui.GUI");
 		return instance;
 	}
+	
+	/*
+	 * Getters and setters.
+	 */
 	
 	public int getBackgroundColor(){
 		return backgroundColor;
