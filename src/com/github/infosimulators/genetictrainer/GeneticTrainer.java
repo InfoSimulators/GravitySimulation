@@ -4,7 +4,7 @@ package com.github.infosimulators.genetictrainer;
  * Trainer class for finding optimal parameters.
  */
 public class GeneticTrainer {
-	
+
 	private Evaluator evaluator;
 	private int geneCount;
 	private int genomesPerGeneration;
@@ -16,15 +16,15 @@ public class GeneticTrainer {
 		setEvaluator(evaluator);
 		setGenomesPerGeneration(genomesPerGeneration);
 	}
-	
+
 	public void evaluateCurrent() {
-		
+
 	}
-	
+
 	public void generateNextGeneration() {
-		
+
 	}
-	
+
 	private void updateGeneCount(ParameterTypes[] format) {
 		this.geneCount = 0;
 		for (ParameterTypes p : format) {
@@ -53,16 +53,16 @@ public class GeneticTrainer {
 			}
 		}
 	}
-	
+
 	public int getGeneCount() {
 		return geneCount;
 	}
-	
+
 	public void setEvaluator(Evaluator evaluator) {
 		this.evaluator = evaluator;
 		this.updateGeneCount(evaluator.getFormat());
 	}
-	
+
 	public Evaluator getEvaluator() {
 		return evaluator;
 	}

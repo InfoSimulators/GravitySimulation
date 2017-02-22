@@ -6,5 +6,5 @@ package com.github.infosimulators.genetictrainer;
 public enum ParameterTypes {
 
 	BOOLEAN, BYTE, SHORT, INT, LONG, FLOAT, DOUBLE
-	
+
 }
