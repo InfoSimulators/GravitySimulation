@@ -1,6 +1,6 @@
 package com.github.infosimulators.gui.GElement;
 
-/*
+/**
  * Special Button automatically running its method if displayed on screen.
  */
 public class Autorun extends Button {

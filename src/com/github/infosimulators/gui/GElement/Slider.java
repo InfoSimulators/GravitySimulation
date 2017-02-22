@@ -2,7 +2,7 @@ package com.github.infosimulators.gui.GElement;
 
 import processing.core.PApplet;
 
-/*
+/**
  * GElement to hold a value between 0 and 100 and run its method that many times.
  */
 public class Slider extends GElement {

@@ -2,12 +2,11 @@ package com.github.infosimulators.gui.GElement;
 
 import processing.core.PApplet;
 
-//TODO: Button reactivation not by timer, but activation if mouse released.
+// TODO: Button reactivation not by timer, but activation if mouse released.
 
-/*
+/**
  * GElement running its method once when pressed.
  */
-
 public class Button extends GElement {
 
 	protected Runnable r;

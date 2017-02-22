@@ -35,7 +35,10 @@ public class Space {
 	 */
 	protected float runsPerUpdate = 1f;
 
-	// Constructors
+	/*
+	 * Constructors
+	 */
+	
 	public Space() {
 	}
 
@@ -58,7 +61,7 @@ public class Space {
 	}
 
 	/**
-	 * Sets deltatime, the mathmatical time between cicles of update.
+	 * Sets deltatime, the mathematical time between cycles of update.
 	 *
 	 * @param deltaTime
 	 *            the new tim between cicles. Must be larger then 0

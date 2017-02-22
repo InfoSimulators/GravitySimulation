@@ -16,7 +16,10 @@ public class Vector2 extends Vector3 {
 		return "[x:'" + x + "', y:" + y + "', magnitude:'" + magnitude() + "']";
 	}
 
-	// Constructors
+	/*
+	 * Constructors
+	 */
+	
 	public Vector2(float x, float y) {
 		this.x = x;
 		this.y = y;
@@ -25,7 +28,10 @@ public class Vector2 extends Vector3 {
 	public Vector2() {
 	}
 
-	// METHODES FOR ATTRIBUTESS
+	/*
+	 * METHODS FOR ATTRIBUTESS
+	 */
+	
 	/**
 	 * returns the squared length of the vector. Much faster then magitude()
 	 *
@@ -66,7 +72,10 @@ public class Vector2 extends Vector3 {
 		return new Vector2(x, y);
 	}
 
-	// METHODES FOR MANIPULATION
+	/*
+	 * METHODS FOR MANIPULATION
+	 */
+	
 	/**
 	 *
 	 * Rotate the vector by an angle, magnitude remains the same
@@ -82,7 +91,10 @@ public class Vector2 extends Vector3 {
 		return this;
 	}
 
-	// STATIC/PURE FUNCTIONS
+	/*
+	 * STATIC/PURE FUNCTIONS
+	 */
+	
 	public static final Vector2 zero() {
 		return new Vector2(0, 0);
 	}

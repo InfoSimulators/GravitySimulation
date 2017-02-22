@@ -2,7 +2,7 @@ package com.github.infosimulators.gui.GElement;
 
 import processing.core.PApplet;
 
-/*
+/**
  * GElement to change between two states and run one of its two methods depending on the state.
  */
 public class Switch extends GElement {
@@ -22,7 +22,7 @@ public class Switch extends GElement {
 	@Override
 	public void update(PApplet p) {
 
-		/**
+		/*
 		 * Checks if Switch is clicked If clicked it changes the state of the
 		 * switch and sets a timer for when it can next be activated
 		 */
@@ -54,7 +54,7 @@ public class Switch extends GElement {
 		}
 		p.rect(x + xSize / 2, y, xSize / 2, ySize);
 
-		/**
+		/*
 		 * Lowers the timer each frame after the switch was changed Once it is
 		 * back to zero the switch can be swapped again
 		 */

@@ -2,7 +2,7 @@ package com.github.infosimulators.gui.GElement;
 
 import processing.core.PApplet;
 
-/*
+/**
  * Abstract class for GElements to take variables and methods from.
  */
 public abstract class GElement {

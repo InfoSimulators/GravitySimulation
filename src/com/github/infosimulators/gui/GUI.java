@@ -70,7 +70,7 @@ public class GUI extends PApplet {
 		displayContent();
 	}
 
-	/*
+	/**
 	 * Displays the tabs on the top side of the window.
 	 */
 	private void displayTabs() {
@@ -87,14 +87,14 @@ public class GUI extends PApplet {
 		}
 	}
 
-	/*
+	/**
 	 * Starts to update every element in the active tab.
 	 */
 	private void displayContent() {
 		tabs.get(activeTab).update();
 	}
 
-	/*
+	/**
 	 * Tab related UI interactions. Other ones are handled by each GObject
 	 * itself. Sets the active tab according to the mouse position.
 	 */

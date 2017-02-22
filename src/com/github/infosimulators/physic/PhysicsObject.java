@@ -22,12 +22,15 @@ public class PhysicsObject {
 				+ "',\n size: '" + size + "'\n}";
 	}
 
-	// Constructors
+	/*
+	 * Constructors
+	 */
+	
 	public PhysicsObject() {
 	}
 
 	public PhysicsObject(Vector3 position) {
-		position = position;
+		this.position = position;
 	}
 
 	public PhysicsObject(Vector3 position, Vector3 velocity) {
@@ -75,7 +78,10 @@ public class PhysicsObject {
 		this.size = size;
 	}
 
-	// FUNCTIONS
+	/*
+	 * FUNCTIONS
+	 */
+	
 	public void appendForce(Vector3 force) {
 		forces.add(force);
 	}

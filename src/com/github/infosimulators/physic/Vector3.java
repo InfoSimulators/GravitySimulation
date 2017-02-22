@@ -1,8 +1,6 @@
 package com.github.infosimulators.physic;
 
-import java.lang.Math;
 import processing.core.PVector;
-import java.util.Random;
 
 /**
  * Vector3 class: Can store things like positions, forces and velocities. Used
@@ -21,7 +19,10 @@ public class Vector3 {
 		return "[x='" + x + "', y='" + y + "', z=" + z + "', magnitude='" + magnitude() + "']";
 	}
 
-	// Constructors
+	/*
+	 * Constructors
+	 */
+	
 	public Vector3(float x, float y, float z) {
 		this.x = x;
 		this.y = y;
@@ -31,7 +32,10 @@ public class Vector3 {
 	public Vector3() {
 	}
 
-	// METHODES FOR ATTRIBUTESS
+	/*
+	 * METHODES FOR ATTRIBUTES
+	 */
+	
 	/**
 	 * returns the squared length of the vector. Much faster then magitude()
 	 *
@@ -69,7 +73,10 @@ public class Vector3 {
 		return new Vector3(x, y, z);
 	}
 
-	// METHODES FOR MANIPULATION
+	/*
+	 * METHODS FOR MANIPULATION
+	 */
+	
 	/**
 	 * Sets the x and y components.
 	 *
@@ -271,7 +278,10 @@ public class Vector3 {
 		return this;
 	}
 
-	// STATIC/PURE FUNCTIONS
+	/*
+	 * STATIC/PURE FUNCTIONS
+	 */
+	
 	public static Vector3 zero() {
 		return new Vector3(0, 0, 0);
 	}
@@ -442,4 +452,5 @@ public class Vector3 {
 		return new Vector3((float) Math.cos(alpha) * (float) Math.cos(beta),
 				(float) Math.sin(alpha) * (float) Math.cos(beta), (float) Math.sin(beta));
 	}
+	
 }

@@ -18,7 +18,7 @@ public class Tab {
 		this.elements = elements;
 	}
 
-	/*
+	/**
 	 * Updates all elements inside the tab.
 	 */
 	public void update() {
@@ -27,7 +27,7 @@ public class Tab {
 		}
 	}
 
-	/*
+	/**
 	 * Method to add an element to the tab.
 	 */
 	public void addElement(GElement e) {
