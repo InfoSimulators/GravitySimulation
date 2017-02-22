@@ -7,7 +7,7 @@ public class test extends PApplet {
 	public Space s;
 
 	public test() {
-		s = new Space(400f, 1f);
+		s = new Space(400f);
 		PhysicsObject b = new PhysicsObject(Vector2.zero(), Vector2.zero(), 1E20f, 30f);
 		s.registerPhysicsObject(b);
 		Vector2 x = new Vector2(0, 100);
