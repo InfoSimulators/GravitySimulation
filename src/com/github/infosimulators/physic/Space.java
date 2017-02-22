@@ -5,7 +5,8 @@ import java.lang.Math;
 import java.util.Random;
 
 /**
- * This class can be seen as a host for objects that should be effected by physics especially gravity.
+ * This class can be seen as a host for objects that should be effected by
+ * physics especially gravity.
  *
  * @author Julisep
  */

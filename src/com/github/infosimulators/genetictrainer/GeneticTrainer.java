@@ -4,33 +4,27 @@ package com.github.infosimulators.genetictrainer;
  * Trainer class for finding optimal parameters.
  */
 public class GeneticTrainer {
-	
-	public enum ParameterTypes {
-		BOOLEAN, BYTE, SHORT, INT, LONG, FLOAT, DOUBLE
-	}
-	
-	private ParameterTypes[] format;
+
+	private Evaluator evaluator;
 	private int geneCount;
+	private int genomesPerGeneration;
 
 	/**
 	 * constructor
 	 */
-	public GeneticTrainer(ParameterTypes[] format) {
-		setFormat(format);
+	public GeneticTrainer(Evaluator evaluator, int genomesPerGeneration) {
+		setEvaluator(evaluator);
+		setGenomesPerGeneration(genomesPerGeneration);
 	}
 
-	/**
-	 * Trains
-	 */
-	public void train() {
-		// train parameters
+	public void evaluateCurrent() {
+
 	}
-	
-	public void setFormat(ParameterTypes[] format) {
-		updateGeneCount(format);
-		this.format = format;
+
+	public void generateNextGeneration() {
+
 	}
-	
+
 	private void updateGeneCount(ParameterTypes[] format) {
 		this.geneCount = 0;
 		for (ParameterTypes p : format) {
@@ -59,13 +53,26 @@ public class GeneticTrainer {
 			}
 		}
 	}
-	
-	public ParameterTypes[] getFormat() {
-		return format;
-	}
-	
+
 	public int getGeneCount() {
 		return geneCount;
+	}
+
+	public void setEvaluator(Evaluator evaluator) {
+		this.evaluator = evaluator;
+		this.updateGeneCount(evaluator.getFormat());
+	}
+
+	public Evaluator getEvaluator() {
+		return evaluator;
+	}
+
+	public int getGenomesPerGeneration() {
+		return genomesPerGeneration;
+	}
+
+	public void setGenomesPerGeneration(int genomesPerGeneration) {
+		this.genomesPerGeneration = genomesPerGeneration;
 	}
 
 }
