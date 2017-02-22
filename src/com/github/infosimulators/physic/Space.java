@@ -77,19 +77,6 @@ public class Space {
         return Vector3.fromAngle(r.nextInt(360 + 1),r.nextInt(360 + 1)).scale(maxDistance-1f).add(pointOfOrigin);
     }
 
-    public void tick() {
-            addGravitationForces();
-            for (PhysicsObject object : spaceRegister) {
-                if (!isInside(object.position)){
-                    unregisterPhysicsObject(object);
-                    System.out.println("left system");
-                    return;
-                }
-                object.playoutForces();
-                object.move();
-            }
-            getCollisions();
-    }
     public bool isInside(Vector3 position){
         return Vector3.sqrDistance(position, pointOfOrigin) <= maxDistance * maxDistance;
     }
@@ -143,6 +130,19 @@ public class Space {
         }
     }
 
+    public void tick() {
+            addGravitationForces();
+            for (PhysicsObject object : spaceRegister) {
+                if (!isInside(object.position)){
+                    unregisterPhysicsObject(object);
+                    System.out.println("left system");
+                    return;
+                }
+                object.playoutForces();
+                object.move();
+            }
+            getCollisions();
+    }
     /**
      * Calculats the force PhysicsObject b acts on PhysicsObject a.
      * Only the force from b to a is returned.
