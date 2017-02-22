@@ -23,10 +23,6 @@ public class Space {
      * Spaceregister that stores all objects that should be effected by gravity.
      */
     protected ArrayList<PhysicsObject> spaceRegister = new ArrayList<PhysicsObject>();
-    /**
-     *  The mathmatical time between cicles of update.
-     */
-    protected float runsPerUpdate = 1f;
 
     // Constructors
     public Space() {
@@ -36,9 +32,9 @@ public class Space {
         this.maxDistance = maxDistance;
     }
 
-    public Space(float maxDistance, float runsPerUpdate) {
+    public Space(float maxDistance, Vector3 pointOfOrigin) {
         this.maxDistance = maxDistance;
-        this.runsPerUpdate = runsPerUpdate;
+        this.pointOfOrigin = pointOfOrigin;
     }
 
     /**
@@ -47,19 +43,6 @@ public class Space {
      */
     public float getRunsPerUpdate() {
         return this.runsPerUpdate;
-    }
-
-    /**
-     * sets the time of runs per cicle of update.
-     *
-     * @param runsPerUpdate the new tim between cicles. Must be larger then 0
-     */
-    public void setRunsPerUpdate(float runsPerUpdate) {
-        if (runsPerUpdate <= 0) {
-            new Error("runsPerUpdate can´t be below / or 0.");
-            return;
-        }
-        this.runsPerUpdate = runsPerUpdate;
     }
 
     /**
@@ -95,7 +78,6 @@ public class Space {
     }
 
     public void tick() {
-        for(int i = 0; i < runsPerUpdate; i++){
             addGravitationForces();
             for (PhysicsObject object : spaceRegister) {
                 if (Vector3.sqrDistance(object.position, pointOfOrigin) >= maxDistance * maxDistance){
@@ -107,7 +89,6 @@ public class Space {
                 object.move();
             }
             getCollisions();
-        }
     }
 
     public void addGravitationForces() {
