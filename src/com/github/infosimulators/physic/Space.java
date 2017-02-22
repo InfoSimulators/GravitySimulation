@@ -11,7 +11,7 @@ import java.util.Random;
  */
 public class Space {
     /**
-     * Stores the maximum distance from the center @see pointOfOrigin.
+     * Stores the maximum distance from the origin
      * Objects further appart are seen lost and will be removed from space register and deleted by GC.
      */
     public float maxDistance = 1000f;
@@ -167,7 +167,6 @@ public class Space {
      * @param a PhysicsObject
      * @param b PhysicsObject
      * @return the reulting force as a Vector3
-     * @see PhysicsObject
      */
     public static Vector3 gravitation(PhysicsObject a, PhysicsObject b) {
         float force = (float) Constants.G * ((a.mass * b.mass) / (Vector3.sqrDistance(a.position, b.position)*1000*1000));
