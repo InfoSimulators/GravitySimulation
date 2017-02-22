@@ -37,13 +37,6 @@ public class Space {
         this.pointOfOrigin = pointOfOrigin;
     }
 
-    /**
-     * Gets deltatime, the mathmatical time between cicles of update.
-     * @return current deltatime
-     */
-    public float getRunsPerUpdate() {
-        return this.runsPerUpdate;
-    }
 
     /**
      * Adds objects to the space register
@@ -77,7 +70,7 @@ public class Space {
         return Vector3.fromAngle(r.nextInt(360 + 1),r.nextInt(360 + 1)).scale(maxDistance-1f).add(pointOfOrigin);
     }
 
-    public bool isInside(Vector3 position){
+    public boolean isInside(Vector3 position){
         return Vector3.sqrDistance(position, pointOfOrigin) <= maxDistance * maxDistance;
     }
     public void addGravitationForces() {
