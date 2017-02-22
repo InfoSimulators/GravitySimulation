@@ -80,7 +80,7 @@ public class Space {
     public void tick() {
             addGravitationForces();
             for (PhysicsObject object : spaceRegister) {
-                if (Vector3.sqrDistance(object.position, pointOfOrigin) >= maxDistance * maxDistance){
+                if (!isInside(object.position)){
                     unregisterPhysicsObject(object);
                     System.out.println("left system");
                     return;
@@ -90,7 +90,9 @@ public class Space {
             }
             getCollisions();
     }
-
+    public bool isInside(Vector3 position){
+        return Vector3.sqrDistance(position, pointOfOrigin) <= maxDistance * maxDistance;
+    }
     public void addGravitationForces() {
         for (PhysicsObject object : spaceRegister) {
             for (PhysicsObject other : spaceRegister) {
