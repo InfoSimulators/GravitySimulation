@@ -12,8 +12,8 @@ import com.github.infosimulators.genetictrainer.GeneticTrainer;
  */
 public class Main {
 
-	public static Evaluator evaluator;
-	public static GeneticTrainer trainer;
+	private static GeneticTrainer trainer;
+	private static List<EvaluationEvent> events;
 
 	/**
 	 * Main method, called on startup.
@@ -27,7 +27,7 @@ public class Main {
 
 		int numPlanets = 3;
 
-		evaluator = new ExampleEvaluator(numPlanets);
+		Evaluator evaluator = new ExampleEvaluator(numPlanets);
 		trainer = new GeneticTrainer(evaluator, 50);
 
 		for (int i = 0; i < 20; i++)
@@ -39,16 +39,28 @@ public class Main {
 	}
 
 	public static void mainLoop() {
-		if (evaluator.isRunningEvaluation()) {
+		if (trainer.getEvaluator().isEvaluating()) {
 			try {
 				trainer.updateEvaluation();
-				List<EvaluationEvent> events = trainer.getEvents();
-				handleEvents(events);
+				events = trainer.getEvents();
+				handleEvents();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+			
+			/*
+			 * Rendering simulations goes here
+			 */
+			// trainer.getEvaluator().getSimulations()
+			
 		} else {
 			// not running evaluation
+			
+			/*
+			 * Rendering GUI interface goes here.
+			 * 
+			 * Add option to call methods as shown here (start an evaluation)
+			 */
 			
 			System.out.println("Next generation: " + (trainer.getGeneration() + 1));
 
@@ -71,7 +83,7 @@ public class Main {
 		}
 	}
 
-	public static void handleEvents(List<EvaluationEvent> events) {
+	public static void handleEvents() {
 		for (EvaluationEvent e : events)
 			handleEvent(e);
 	}

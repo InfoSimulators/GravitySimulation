@@ -13,7 +13,7 @@ public abstract class Evaluator {
 	private boolean isCostFunction;
 	private List<Simulation> simulations;
 	private List<EvaluationEvent> events;
-	private boolean isRunningEvaluation;
+	private boolean isEvaluating;
 
 	/**
 	 * Creates an evaluator that evaluates based on a cost function.
@@ -38,7 +38,7 @@ public abstract class Evaluator {
 		this.numParams = numParams;
 		this.isCostFunction = isCostFunction;
 
-		isRunningEvaluation = false;
+		isEvaluating = false;
 	}
 
 	/**
@@ -50,7 +50,7 @@ public abstract class Evaluator {
 	 */
 	public void startEvaluateAll(float[][] genomes) {
 		// TODO create all simulations necessary
-		isRunningEvaluation = true;
+		isEvaluating = true;
 	}
 
 	/**
@@ -61,7 +61,7 @@ public abstract class Evaluator {
 	 *             If no evaluation is currently running.
 	 */
 	public void updateEvaluation() throws Exception {
-		if (!isRunningEvaluation)
+		if (!isEvaluating)
 			throw new Exception("No evaluation is running.");
 		// TODO updateEvaluation
 	}
@@ -124,8 +124,8 @@ public abstract class Evaluator {
 	/**
 	 * @return Whether an evaluation is currently running.
 	 */
-	public boolean isRunningEvaluation() {
-		return isRunningEvaluation;
+	public boolean isEvaluating() {
+		return isEvaluating;
 	}
 
 }
