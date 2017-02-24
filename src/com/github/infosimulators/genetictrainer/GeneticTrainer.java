@@ -1,6 +1,5 @@
 package com.github.infosimulators.genetictrainer;
 
-import java.util.List;
 import java.util.Random;
 
 /**
@@ -88,11 +87,6 @@ public class GeneticTrainer {
 	public void updateEvaluation() throws Exception {
 		// TODO update in trainer
 		evaluator.updateEvaluation();
-	}
-	
-	public List<EvaluationEvent> getEvents() {
-		// TODO handle trainer events
-		return evaluator.getEvents();
 	}
 
 	/**

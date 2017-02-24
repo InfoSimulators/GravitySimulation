@@ -12,7 +12,6 @@ public abstract class Evaluator {
 	private int numParams;
 	private boolean isCostFunction;
 	private List<Simulation> simulations;
-	private List<EvaluationEvent> events;
 	private boolean isEvaluating;
 
 	/**
@@ -90,14 +89,6 @@ public abstract class Evaluator {
 	 */
 	public List<Simulation> getSimulations() {
 		return simulations;
-	}
-
-	/**
-	 * @return A list of all events that were thrown since the last time this
-	 *         method was called.
-	 */
-	public List<EvaluationEvent> getEvents() {
-		return events;
 	}
 
 	/**

@@ -2,7 +2,8 @@ package com.github.infosimulators;
 
 import java.util.List;
 
-import com.github.infosimulators.genetictrainer.EvaluationEvent;
+import com.github.infosimulators.events.Event;
+import com.github.infosimulators.events.EventRegistry;
 import com.github.infosimulators.genetictrainer.Evaluator;
 import com.github.infosimulators.genetictrainer.ExampleEvaluator;
 import com.github.infosimulators.genetictrainer.GeneticTrainer;
@@ -13,7 +14,7 @@ import com.github.infosimulators.genetictrainer.GeneticTrainer;
 public class Main {
 
 	private static GeneticTrainer trainer;
-	private static List<EvaluationEvent> events;
+	private static List<Event> events;
 
 	/**
 	 * Main method, called on startup.
@@ -42,7 +43,9 @@ public class Main {
 		if (trainer.getEvaluator().isEvaluating()) {
 			try {
 				trainer.updateEvaluation();
-				events = trainer.getEvents();
+				
+				events = EventRegistry.getEvents();
+				
 				handleEvents();
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -84,14 +87,14 @@ public class Main {
 	}
 
 	public static void handleEvents() {
-		for (EvaluationEvent e : events)
+		for (Event e : events)
 			handleEvent(e);
 	}
 
-	public static void handleEvent(EvaluationEvent event) {
+	public static void handleEvent(Event event) {
 		System.out.println("Event occured:");
 		System.out.println("Type: " + event.getType().toString());
-		System.out.println("Message: '" + event.getMessage() + "'");
+		System.out.println("Message: '" + event.getArgs()[0] + "'");
 	}
 
 }
