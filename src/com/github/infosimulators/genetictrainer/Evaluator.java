@@ -1,122 +1,57 @@
 package com.github.infosimulators.genetictrainer;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
-import com.github.infosimulators.Simulation;
+import com.github.infosimulators.events.Event;
 
-/**
- * Evaluator class
- */
 public abstract class Evaluator {
-
-	private int numParams;
-	private boolean isCostFunction;
-	private List<Simulation> simulations;
-	private boolean isEvaluating;
-
+	
 	/**
-	 * Creates an evaluator that evaluates based on a cost function.
+	 * Evaluates the given data.
 	 * 
-	 * @param format
-	 *            The data format
+	 * @param data
+	 *            Data's key has the index of the item as first element.
+	 * @return The sorted cost/fitness determined by this evaluator.
 	 */
-	public Evaluator(int numParams) {
-		this(numParams, true);
+	public float[] eval(Map<float[], List<Event>> data) {
+		float[] results = new float[data.size()];
+
+		Iterator<Entry<float[], List<Event>>> it = data.entrySet().iterator();
+
+		while (it.hasNext()) {
+			Map.Entry<float[], List<Event>> pair = it.next();
+			results[(int) pair.getKey()[0]] = eval(pair.getValue());
+			it.remove();
+		}
+
+		return results;
 	}
 
 	/**
-	 * Creates an evaluator.
+	 * Calculates the cost/fitness for one specific genome by all events that
+	 * affected the simulation it caused.
 	 * 
-	 * @param numParams
-	 *            The number of parameters that will be passed for each genome.
-	 * @param isCostFunction
-	 *            Whether this evaluator works based on a cost function or not.
-	 *            True for cost function, false for fitness function.
+	 * @param events
+	 *            All events that appeared in this genome's simulation.
+	 * @return The cost/fitness of this genome.
 	 */
-	public Evaluator(int numParams, boolean isCostFunction) {
-		this.numParams = numParams;
-		this.isCostFunction = isCostFunction;
-
-		isEvaluating = false;
-	}
+	protected abstract float eval(List<Event> events);
 
 	/**
-	 * Evaluates all given genomes with this evaluators evaluation-function.
-	 * 
-	 * @param genomes
-	 *            The genomes to evaluate.
-	 * @return The results of the evaluation-function for each genome.
+	 * @return Whether this evaluator is based on a cost function, meaning 0 is
+	 *         ideal and the higher the outcome the worse.
 	 */
-	public void startEvaluateAll(float[][] genomes) {
-		// TODO create all simulations necessary
-		isEvaluating = true;
-	}
+	public abstract boolean isCostFunction();
 
 	/**
-	 * Calculates next simulation step for all simulations and adds events to
-	 * event-list.
-	 * 
-	 * @throws Exception
-	 *             If no evaluation is currently running.
-	 */
-	public void updateEvaluation() throws Exception {
-		if (!isEvaluating)
-			throw new Exception("No evaluation is running.");
-		// TODO updateEvaluation
-	}
-
-	/**
-	 * Evaluation function. This function has to be a cost- or fitness-function
-	 * based on what the object was configured as.
-	 * 
-	 * @param parameters
-	 *            The parameters to evaluate
-	 * @return The cost/fitness for this genome
-	 */
-	public abstract float evaluate(float[] parameters);
-
-	/**
-	 * @return The number of parameters that will be passed for each genome to
-	 *         evaluate.
-	 */
-	public int getNumParams() {
-		return numParams;
-	}
-
-	/**
-	 * @return A list of all currently running simulations to evaluate the
-	 *         different genomes.
-	 */
-	public List<Simulation> getSimulations() {
-		return simulations;
-	}
-
-	/**
-	 * A cost function is a function that returns a higher value the worse the
-	 * genome that is evaluated is. The ideal value is 0.
-	 * 
-	 * @return Whether or not this evaluator evaluates based on a cost function.
-	 */
-	public boolean isCostFunction() {
-		return isCostFunction;
-	}
-
-	/**
-	 * A fitness function is a function that returns a higher value the better
-	 * the evaluated genome performed. The worst value is 0.
-	 * 
-	 * @return Whether or not this evaluator evaluates based on a fitness
-	 *         function.
+	 * @return Whether this evaluator is based on a fitness function, meaning 0
+	 *         is the worst outcome, but the higher the outcome the better.
 	 */
 	public boolean isFitnessFunction() {
-		return !isCostFunction;
-	}
-
-	/**
-	 * @return Whether an evaluation is currently running.
-	 */
-	public boolean isEvaluating() {
-		return isEvaluating;
+		return !isCostFunction();
 	}
 
 }

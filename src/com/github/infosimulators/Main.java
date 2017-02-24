@@ -5,7 +5,6 @@ import java.util.List;
 import com.github.infosimulators.events.Event;
 import com.github.infosimulators.events.EventRegistry;
 import com.github.infosimulators.genetictrainer.Evaluator;
-import com.github.infosimulators.genetictrainer.ExampleEvaluator;
 import com.github.infosimulators.genetictrainer.GeneticTrainer;
 
 /**
@@ -14,6 +13,7 @@ import com.github.infosimulators.genetictrainer.GeneticTrainer;
 public class Main {
 
 	private static GeneticTrainer trainer;
+	private static Evaluator evaluator;
 	private static List<Event> events;
 
 	/**
@@ -27,58 +27,59 @@ public class Main {
 		// GUI gui = GUI.getInstance();
 
 		int numPlanets = 3;
-
-		Evaluator evaluator = new ExampleEvaluator(numPlanets);
-		trainer = new GeneticTrainer(evaluator, 50);
+		int paramsPerPlanet = 6;
+		int genomesPerGeneration = 50;
+		trainer = new GeneticTrainer(numPlanets, paramsPerPlanet, genomesPerGeneration);
+		evaluator = new ExampleEvaluator();
 
 		for (int i = 0; i < 20; i++)
 			mainLoop();
-
-		System.out.println("Best in Gen.  : " + trainer.getBestResult());
-		System.out.println("Avg. in Gen.  : " + trainer.getAvgResult());
-		System.out.println("Worst in Gen. : " + trainer.getWorstResult());
 	}
 
 	public static void mainLoop() {
-		if (trainer.getEvaluator().isEvaluating()) {
+		if (trainer.isRunningSimulations()) {
 			try {
-				trainer.updateEvaluation();
-				
+				trainer.step();
+
+				// events that have not been handled by trainer
 				events = EventRegistry.getEvents();
-				
+
 				handleEvents();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
+
 			/*
 			 * Rendering simulations goes here
 			 */
 			// trainer.getEvaluator().getSimulations()
-			
+
 		} else {
 			// not running evaluation
-			
+
 			/*
 			 * Rendering GUI interface goes here.
 			 * 
 			 * Add option to call methods as shown here (start an evaluation)
 			 */
-			
+
 			System.out.println("Next generation: " + (trainer.getGeneration() + 1));
 
 			if (trainer.getGeneration() == 0) {
 				trainer.generateFirstGeneration();
 			} else {
+
+				float[] results = evaluator.eval(trainer.getEvalData());
+				
 				try {
-					trainer.generateNextGeneration();
+					trainer.generateNextGeneration(results);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
-			
+
 			try {
-				trainer.startEvaluation();
+				trainer.startSimulations();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
