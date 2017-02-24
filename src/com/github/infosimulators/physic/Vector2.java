@@ -276,5 +276,15 @@ public class Vector2 extends Vector3 {
 	static public Vector2 fromAngle(float angle) {
 		return new Vector2((float) Math.cos(angle), (float) Math.sin(angle));
 	}
+	
+	/**
+	 * @return a new vector based on
+	 * @param angle
+	 * @param magnitude
+	 *
+	 */
+	static public Vector2 fromAngle(float angle, float magnitude) {
+		return Vector2.scale(new Vector2((float) Math.cos(angle), (float) Math.sin(angle)),magnitude);
+	}
 
 }
