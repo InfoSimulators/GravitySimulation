@@ -1,6 +1,6 @@
 package com.github.infosimulators.events;
 
-public abstract class Event {
+public class Event {
 
 	private Eventtype type;
 	private String[] args;
