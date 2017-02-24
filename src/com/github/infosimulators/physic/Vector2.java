@@ -9,8 +9,10 @@ import processing.core.PVector;
  *
  * @author Julisep
  */
-public class Vector2 extends Vector3 {
-	
+public class Vector2 {
+	public float x;
+	public float y;
+
 	@Override
 	public String toString() {
 		return "[x:'" + x + "', y:" + y + "', magnitude:'" + magnitude() + "']";
@@ -19,7 +21,6 @@ public class Vector2 extends Vector3 {
 	/*
 	 * Constructors
 	 */
-	
 	public Vector2(float x, float y) {
 		this.x = x;
 		this.y = y;
@@ -31,13 +32,12 @@ public class Vector2 extends Vector3 {
 	/*
 	 * METHODS FOR ATTRIBUTESS
 	 */
-	
+
 	/**
 	 * returns the squared length of the vector. Much faster then magitude()
 	 *
 	 * @return squared length of the vector
 	 */
-	@Override
 	public float sqrMagnitude() {
 		return x * x + y * y;
 	}
@@ -45,7 +45,6 @@ public class Vector2 extends Vector3 {
 	/**
 	 * @return length of the vector.
 	 */
-	@Override
 	public float magnitude() {
 		return (float) Math.sqrt(x * x + y * y);
 	}
@@ -53,7 +52,6 @@ public class Vector2 extends Vector3 {
 	/**
 	 * @return a normalized version of this vector. The vector is not changed.
 	 */
-	@Override
 	public Vector2 normalized() {
 		Vector2 normalized = new Vector2();
 		float magnitude = magnitude();
@@ -67,7 +65,6 @@ public class Vector2 extends Vector3 {
 	/**
 	 * @return a copy of this vector
 	 */
-	@Override
 	public Vector2 copy() {
 		return new Vector2(x, y);
 	}
@@ -75,7 +72,163 @@ public class Vector2 extends Vector3 {
 	/*
 	 * METHODS FOR MANIPULATION
 	 */
-	
+	/**
+	* Sets the x and y components.
+	*
+	* @param x
+	*            new xcomponent
+	* @param y
+	*            new y component
+	* @return this
+	*/
+	public Vector2 set(float x, float y) {
+		this.x = x;
+		this.y = y;
+		return this;
+	}
+
+	/**
+	 * Sets the x and y components to the ones of another Vector2.
+	 *
+	 * @param v
+	 *            another Vector2
+	 * @return this
+	 */
+	public Vector2 set(Vector2 v) {
+		this.x = v.x;
+		this.y = v.y;
+		return this;
+	}
+
+	/**
+	 * method to add a Vector3D to this Vector3D;
+	 *
+	 * @param v
+	 *            to add
+	 * @return this Vector2
+	 */
+	public Vector2 add(Vector2 v) {
+		this.x += v.x;
+		this.y += v.y;
+		return this;
+	}
+
+	/**
+	 * method to add floats to this vector;
+	 *
+	 * @param x
+	 *            first float
+	 * @param y
+	 *            second float
+	 * @return this vector
+	 */
+	public Vector2 add(float x, float y) {
+		this.x += x;
+		this.y += y;
+		return this;
+	}
+
+	/**
+	 * method to subtract a vector to this vector;
+	 *
+	 * @param v
+	 * @return this Vector2 changed
+	 */
+	public Vector2 subtract(Vector2 v) {
+		this.x -= v.x;
+		this.y -= v.y;
+		return this;
+	}
+
+	/**
+	 * method to subtract floats from this vector;
+	 *
+	 * @param x
+	 *            first float
+	 * @param y
+	 *            second float
+	 * @return this vector changed
+	 */
+	public Vector2 subtract(float x, float y) {
+		this.x -= x;
+		this.y -= y;
+		return this;
+	}
+
+	/**
+	 * Multiplies a vector by a scalar.
+	 *
+	 * @param r
+	 *            the number to multiply with the vector
+	 * @return this vector changed
+	 */
+	public Vector2 scale(float r) {
+		this.x *= r;
+		this.y *= r;
+		return this;
+	}
+
+	/**
+	 *
+	 * Divides a vector by a scalar.
+	 *
+	 * @param r
+	 *            the number by which to divide the vector
+	 * @return this vector changed
+	 */
+	public Vector2 div(float r) {
+		x /= r;
+		y /= r;
+		return this;
+	}
+
+	/**
+	 * normalizes this vector. The vector IS changed.
+	 *
+	 * @return this vector changed
+	 */
+	public Vector2 normalize() {
+		float magnitude = magnitude();
+		if (magnitude != 0) {
+			x /= magnitude;
+			y /= magnitude;
+		}
+		return this;
+	}
+
+	/**
+	 *
+	 * Set the magnitude of this vector to the value used for the <b>len</b>
+	 * parameter.
+	 *
+	 * @param len
+	 *            the new length for this vector
+	 * @return this vector changed
+	 */
+	public Vector2 setMag(float len) {
+		normalize();
+		scale(len);
+		return this;
+	}
+
+	/**
+	 *
+	 * Linear interpolate the vector to another vector
+	 *
+	 * @param v
+	 *            the vector to lerp to
+	 * @param amt
+	 *            The amount of interpolation; some value between 0.0 (old
+	 *            vector) and 1.0 (new vector). 0.1 is very near the old vector;
+	 *            0.5 is halfway in between.
+	 * @return this vector changed
+	 */
+	public Vector2 lerp(Vector2 v, float amt) {
+		x = x + (v.x - x) * amt;
+		y = y + (v.y - y) * amt;
+		return this;
+	}
+
 	/**
 	 *
 	 * Rotate the vector by an angle, magnitude remains the same
@@ -94,7 +247,7 @@ public class Vector2 extends Vector3 {
 	/*
 	 * STATIC/PURE FUNCTIONS
 	 */
-	
+
 	public static final Vector2 zero() {
 		return new Vector2(0, 0);
 	}
@@ -117,7 +270,7 @@ public class Vector2 extends Vector3 {
 
 	/**
 	 * Converts PVector (Vectorclass form Processing) to Vector2
-	 * 
+	 *
 	 * @param pvector
 	 * @return transformed vector
 	 */
@@ -125,15 +278,6 @@ public class Vector2 extends Vector3 {
 		return new Vector2(pvector.x, pvector.y);
 	}
 
-	/**
-	 * Converts Vector3 to Vector2
-	 * 
-	 * @param Vector3
-	 * @return transformed vector
-	 */
-	public static Vector2 fromVector3(Vector3 vector3) {
-		return new Vector2(vector3.x, vector3.y);
-	}
 
 	/**
 	 * @param a
@@ -268,23 +412,26 @@ public class Vector2 extends Vector3 {
 	}
 
 	/**
-	 * @return a new vector based on
-	 * @param angle
-	 *            ;
+	 * generates a new vector based on the radial system
 	 *
+	 * @param theta
+	 *
+	 * @return a new Vector2
 	 */
-	static public Vector2 fromAngle(float angle) {
-		return new Vector2((float) Math.cos(angle), (float) Math.sin(angle));
+	static public Vector2 radial(float theta) {
+		return new Vector2((float) Math.cos(theta), (float) Math.sin(theta));
 	}
-	
+
 	/**
-	 * @return a new vector based on
-	 * @param angle
+	 * generates a new vector based on the radial system
+	 *
+	 * @param theta
 	 * @param magnitude
 	 *
+	 * @return a new Vector2
 	 */
-	static public Vector2 fromAngle(float angle, float magnitude) {
-		return Vector2.scale(new Vector2((float) Math.cos(angle), (float) Math.sin(angle)),magnitude);
+	static public Vector2 radial(float theta, float magnitude) {
+		return Vector2.scale(new Vector2((float) Math.cos(theta), (float) Math.sin(theta)), magnitude);
 	}
 
 }
