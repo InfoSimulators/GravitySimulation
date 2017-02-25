@@ -296,8 +296,16 @@ public class GeneticTrainer {
 	 */
 	public void startSimulations() {
 		simulations = new ArrayList<Simulation>(genomesPerGeneration);
-		for (float[] genome : genomes)
-			simulations.add(new Simulation(genome));
+		
+		for (float[] genome : genomes) {
+			float[][] simuParams = new float[genome.length / paramsPerPlanet][paramsPerPlanet];
+			
+			for (int i = 0; i < genome.length; i++) {
+				simuParams[i / 6][i % 6] = genome[i];
+			}
+			
+			simulations.add(new Simulation(simuParams));
+		}
 
 		isRunningSimulations = true;
 
