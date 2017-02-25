@@ -32,7 +32,8 @@ public class Main {
 		trainer = new GeneticTrainer(numPlanets, paramsPerPlanet, genomesPerGeneration);
 		evaluator = new ExampleEvaluator();
 
-		for (int i = 0; i < 20; i++)
+		// TODO replace this loop with gui-functionality
+		for (int i = 0; i < 3; i++)
 			mainLoop();
 	}
 
@@ -40,11 +41,6 @@ public class Main {
 		if (trainer.isRunningSimulations()) {
 			try {
 				trainer.step();
-
-				// events that have not been handled by trainer
-				events = EventRegistry.getEvents();
-
-				handleEvents();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -55,7 +51,7 @@ public class Main {
 			// trainer.getEvaluator().getSimulations()
 
 		} else {
-			// not running evaluation
+			// not running simulation
 
 			/*
 			 * Rendering GUI interface goes here.
@@ -63,28 +59,27 @@ public class Main {
 			 * Add option to call methods as shown here (start an evaluation)
 			 */
 
-			System.out.println("Next generation: " + (trainer.getGeneration() + 1));
-
 			if (trainer.getGeneration() == 0) {
 				trainer.generateFirstGeneration();
 			} else {
 
-				float[] results = evaluator.eval(trainer.getEvalData());
-				
+				float[] results = evaluator.eval(trainer.getEvalEvents());
+
 				try {
-					trainer.generateNextGeneration(results);
+					trainer.generateNextGeneration(results, evaluator.isCostFunction());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 
-			try {
-				trainer.startSimulations();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			
+			trainer.startSimulations();
 
 		}
+		
+		// output events
+		events = EventRegistry.getEvents();
+		handleEvents();
 	}
 
 	public static void handleEvents() {
@@ -93,9 +88,12 @@ public class Main {
 	}
 
 	public static void handleEvent(Event event) {
-		System.out.println("Event occured:");
+		System.out.println("----------------------------------");
+		System.out.println("EVENT OCCURED");
 		System.out.println("Type: " + event.getType().toString());
-		System.out.println("Message: '" + event.getArgs()[0] + "'");
+		for (String arg : event.getArgs())
+			System.out.println("> " + arg);
+		event.setHandled();
 	}
 
 }

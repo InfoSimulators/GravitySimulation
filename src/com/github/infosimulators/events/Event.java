@@ -43,6 +43,8 @@ public class Event {
 	 * @return An array of arguments this event
 	 */
 	public String[] getArgs() {
+		if (args == null)
+			return new String[0];
 		return args;
 	}
 

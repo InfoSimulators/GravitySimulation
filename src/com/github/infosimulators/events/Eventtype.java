@@ -8,6 +8,22 @@ public enum Eventtype {
 	 * 
 	 * args = [int generationNum]
 	 */
-	TRAIN_SIMU_START
+	TRAINER_SIMU_START, 
+	
+	/**
+	 * GeneticTrainer-Event:
+	 * Fires when a generation has been generated.
+	 * 
+	 * args = [int generationNum]
+	 */
+	TRAINER_GEN_GENERATED, 
+	
+	/**
+	 * GeneticTrainer-Event:
+	 * Fires when the first generation has been generated.
+	 * 
+	 * args = []
+	 */
+	TRAINER_GENERATED_FIRST_GEN
 
 }

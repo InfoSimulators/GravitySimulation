@@ -25,7 +25,10 @@ public class EventRegistry {
 	 * @return A list of all fired events that have not yet been handled.
 	 */
 	public static List<Event> getEvents() {
-		return events;
+		// need to create copy to avoid ConcurrentModificationException
+		List<Event> lst = new ArrayList<Event>(events.size());
+		lst.addAll(events);
+		return lst;
 	}
 
 	/**
