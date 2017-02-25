@@ -10,6 +10,7 @@ import java.util.ArrayList;
 public class Simulation {
 
 	protected Space space;
+	public String ID;
 	// /**
 	//  * The rate of new baseobjects spawning. A new Object is spawned every
 	//  * spawnRate turns. If set to -1 no baseobjects will spawn.
@@ -33,6 +34,7 @@ public class Simulation {
 	 */
 	public Simulation(float size) {
 		space = new Space(size);
+		ID = "";
 	}
 
 	public Simulation(ArrayList<PhysicsObject> content) {
@@ -40,6 +42,15 @@ public class Simulation {
 		for (PhysicsObject object : content) {
 			space.registerPhysicsObject(object);
 		}
+		this.ID = "";
+	}
+
+	public Simulation(ArrayList<PhysicsObject> content, String ID) {
+		space = new Space();
+		for (PhysicsObject object : content) {
+			space.registerPhysicsObject(object);
+		}
+		this.ID = ID;
 	}
 
 	public Simulation(ArrayList<PhysicsObject> content, float size) {
@@ -47,6 +58,14 @@ public class Simulation {
 		for (PhysicsObject object : content) {
 			space.registerPhysicsObject(object);
 		}
+	}
+
+	public Simulation(ArrayList<PhysicsObject> content, float size, String ID) {
+		space = new Space(size);
+		for (PhysicsObject object : content) {
+			space.registerPhysicsObject(object);
+		}
+		this.ID = ID;
 	}
 	/*
 	// /**
@@ -95,8 +114,8 @@ public class Simulation {
 	 *
 	 * @return number of planets that left the system
 	 */
-	public int update() {
-		return space.tick();
+	public void update() {
+		space.tick();
 	}
 
 	/**
