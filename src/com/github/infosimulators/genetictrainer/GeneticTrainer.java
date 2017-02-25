@@ -1,7 +1,9 @@
 package com.github.infosimulators.genetictrainer;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import com.github.infosimulators.Simulation;
@@ -23,7 +25,7 @@ public class GeneticTrainer {
 	private float chanceOfCompleteMutation = .04f;
 
 	private float[][] genomes;
-	private ArrayList<List<Event>> evalEvents;
+	private Map<Integer, List<Event>> evalEvents;
 	private ArrayList<Simulation> simulations;
 
 	/**
@@ -282,6 +284,14 @@ public class GeneticTrainer {
 
 		// TODO interpret events
 		List<Event> events = EventRegistry.getEvents();
+		evalEvents = new HashMap<Integer, List<Event>>(genomesPerGeneration);
+
+		for (Event event : events) {
+			int simuID = Integer.getInteger(event.getArgs()[0]);
+			if (!evalEvents.containsKey(simuID))
+				evalEvents.put(simuID, new ArrayList<Event>());
+			evalEvents.get(simuID).add(event);
+		}
 	}
 
 	/**
@@ -296,22 +306,18 @@ public class GeneticTrainer {
 	 */
 	public void startSimulations() {
 		simulations = new ArrayList<Simulation>(genomesPerGeneration);
-		
+
 		for (float[] genome : genomes) {
 			float[][] simuParams = new float[genome.length / paramsPerPlanet][paramsPerPlanet];
-			
+
 			for (int i = 0; i < genome.length; i++) {
 				simuParams[i / 6][i % 6] = genome[i];
 			}
-			
+
 			simulations.add(new Simulation(simuParams));
 		}
 
 		isRunningSimulations = true;
-
-		evalEvents = new ArrayList<List<Event>>(genomesPerGeneration);
-		while (evalEvents.size() < genomesPerGeneration)
-			evalEvents.add(new ArrayList<Event>());
 
 		EventRegistry.fire(new Event(Eventtype.TRAINER_SIMU_START, new String[] { "" + generationCounter }) {
 		});
@@ -321,7 +327,7 @@ public class GeneticTrainer {
 	 * @return A list of lists of events interpretable by the evaluator, sorted
 	 *         by genome.
 	 */
-	public ArrayList<List<Event>> getEvalEvents() {
+	public Map<Integer, List<Event>> getEvalEvents() {
 		return evalEvents;
 	}
 
