@@ -19,7 +19,7 @@ public class Space {
     /**
      * Stores the position of the center point. The outside is calculated on the basis of this point.
      */
-    public Vector3 pointOfOrigin = new Vector3(0, 0, 0);
+    public Vector2 pointOfOrigin = Vector2.zero();
     /**
      * Spaceregister that stores all objects that should be effected by gravity.
      */
@@ -33,11 +33,10 @@ public class Space {
         this.maxDistance = maxDistance;
     }
 
-    public Space(float maxDistance, Vector3 pointOfOrigin) {
+    public Space(float maxDistance, Vector2 pointOfOrigin) {
         this.maxDistance = maxDistance;
         this.pointOfOrigin = pointOfOrigin;
     }
-
 
     /**
      * Adds objects to the space register
@@ -47,6 +46,7 @@ public class Space {
             spaceRegister.add(object);
         }
     }
+
     /**
      * Remove objects from the space register
      */
@@ -55,25 +55,28 @@ public class Space {
             spaceRegister.remove(object);
         }
     }
+
     /**
      * Gets the space register
      * @return the space register (ArrayList<PhysicsObject>)
      */
-    public ArrayList<PhysicsObject> getSpaceRegister(){
+    public ArrayList<PhysicsObject> getSpaceRegister() {
         return spaceRegister;
     }
-    public Vector3 getPositionOnOutside(float angle1, float angle2){
-        return Vector3.fromAngle(angle1,angle2).scale(maxDistance-1f).add(pointOfOrigin);
+
+    public Vector2 getPositionOnOutside(float angle) {
+        return Vector2.radial(angle).scale(maxDistance).add(pointOfOrigin);
     }
 
-    public Vector3 getRandomPositionOnOutside() {
+    public Vector2 getRandomPositionOnOutside() {
         Random r = new Random();
-        return Vector3.fromAngle(r.nextInt(360 + 1),r.nextInt(360 + 1)).scale(maxDistance-1f).add(pointOfOrigin);
+        return Vector2.radial(r.nextInt(361)).scale(maxDistance).add(pointOfOrigin);
     }
 
-    public boolean isInside(Vector3 position){
-        return Vector3.sqrDistance(position, pointOfOrigin) <= maxDistance * maxDistance;
+    public boolean isInside(Vector2 position) {
+        return Vector2.sqrDistance(position, pointOfOrigin) <= maxDistance * maxDistance;
     }
+
     public void addGravitationForces() {
         for (PhysicsObject object : spaceRegister) {
             for (PhysicsObject other : spaceRegister) {
@@ -91,62 +94,71 @@ public class Space {
                 if (object == other)
                     continue;
                 /*If both objects overlap*/
-                if (Vector3.distance(object.position, other.position) < (object.size + other.size)/1.5f ) {
-                    Vector3 gravitationForce = gravitation(object, other);
+                if (Vector2.distance(object.position, other.position) < (object.size + other.size) / 1.5f) {
+                    Vector2 gravitationForce = gravitation(object, other);
                     /*If the gravitation is stronger than velocity*/
-                    if (Vector3.sqrDistance(object.velocity, other.velocity) < gravitationForce.sqrMagnitude()) {
+                    if (Vector2.sqrDistance(object.velocity, other.velocity) < gravitationForce.sqrMagnitude()) {
                         //System.out.println("connection");
                         //Unite Objects and remove old
-                        ArrayList<Vector3> forces = new ArrayList<Vector3>();
+                        ArrayList<Vector2> forces = new ArrayList<Vector2>();
                         forces.addAll(object.forces);
                         forces.addAll(other.forces);
-                        spaceRegister.add(new PhysicsObject(Vector3.lerp(object.position, other.position, other.mass/(object.mass + other.mass)),
-                                Vector3.add(object.velocity, other.velocity).setMag(
-                                    (object.mass * object.velocity.magnitude() + other.mass * other.velocity.magnitude())
-                                    /(object.mass + other.mass)),
-                                     object.mass + other.mass,
-                                (float) Math.cbrt(Math.pow(object.size, 3) + Math.pow(other.size, 3)),
-                                 forces));
+                        spaceRegister.add(new PhysicsObject(
+                                Vector2.lerp(object.position, other.position, other.mass / (object.mass + other.mass)),
+                                Vector2.add(object.velocity, other.velocity)
+                                        .setMag((object.mass * object.velocity.magnitude()
+                                                + other.mass * other.velocity.magnitude())
+                                                / (object.mass + other.mass)),
+                                object.mass + other.mass,
+                                (float) Math.cbrt(Math.pow(object.size, 3) + Math.pow(other.size, 3)), forces));
                         spaceRegister.remove(object);
                         spaceRegister.remove(other);
                         break;
                     } else { /*Else do an elastic collision*/
                         //System.out.println("elatic collision");
                         float v1 = object.velocity.magnitude();
-                        Vector3 v1_vector = object.velocity;
+                        Vector2 v1_vector = object.velocity;
                         float v2 = other.velocity.magnitude();
-                        Vector3 v2_vector = other.velocity;
-                        object.velocity = v2_vector.setMag((object.mass * v1 + other.mass * (2 * v1 - v2)) / (object.mass + other.mass));
-                        other.velocity = v1_vector.setMag((other.mass * v2 + object.mass * (2 * v1 - v2)) / (object.mass + other.mass));
+                        Vector2 v2_vector = other.velocity;
+                        object.velocity = v2_vector
+                                .setMag((object.mass * v1 + other.mass * (2 * v1 - v2)) / (object.mass + other.mass));
+                        other.velocity = v1_vector
+                                .setMag((other.mass * v2 + object.mass * (2 * v1 - v2)) / (object.mass + other.mass));
                     }
                 }
             }
         }
     }
 
-    public void tick() {
+    /**
+     * @return number of planets that left the system
+     */
+    public int tick() {
+            int planetsLeft = 0;
             addGravitationForces();
             for (PhysicsObject object : spaceRegister) {
                 if (!isInside(object.position)){
                     unregisterPhysicsObject(object);
-                    System.out.println("left system");
-                    return;
+                    planetsLeft++;
+                    continue;
                 }
                 object.playoutForces();
                 object.move();
             }
             getCollisions();
+            return planetsLeft;
     }
+
     /**
      * Calculats the force PhysicsObject b acts on PhysicsObject a.
      * Only the force from b to a is returned.
      *
      * @param a PhysicsObject
      * @param b PhysicsObject
-     * @return the reulting force as a Vector3
+     * @return the reulting force as a Vector2
      */
-    public static Vector3 gravitation(PhysicsObject a, PhysicsObject b) {
-        float force = (float) Constants.G * ((a.mass * b.mass) / (Vector3.sqrDistance(a.position, b.position)*1000*1000));
-        return Vector3.subtract(b.position, a.position).setMag(force);
+    public static Vector2 gravitation(PhysicsObject a, PhysicsObject b) {
+        float force = (float) Constants.G * ((a.mass * b.mass) / (Vector2.sqrDistance(a.position, b.position)));
+        return Vector2.subtract(b.position, a.position).setMag(force);
     }
 }
