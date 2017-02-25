@@ -304,7 +304,8 @@ public class GeneticTrainer {
 				simuParams[i / 6][i % 6] = genome[i];
 			}
 			
-			simulations.add(new Simulation(simuParams));
+			// TODO either add real id or remove id
+			simulations.add(new Simulation(simuParams, ""));
 		}
 
 		isRunningSimulations = true;
