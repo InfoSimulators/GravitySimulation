@@ -8,7 +8,7 @@ public class IDRegistry {
 		return current++;
 	}
 	
-	public abstract class IDd {
+	public static abstract class IDd {
 
 		private int id;
 		
