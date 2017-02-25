@@ -57,7 +57,7 @@ public class GeneticTrainer {
 			genomes[i] = generateRandomGenome();
 
 		generationCounter = 1;
-		EventRegistry.fire(new Event(EventType.TRAINER_GENERATED_FIRST_GEN, null));
+		EventRegistry.fire(new Event(EventType.TRAINER_GENERATED_FIRST_GEN));
 		EventRegistry.fire(new Event(EventType.TRAINER_GEN_GENERATED, new String[] { "1" }));
 	}
 
