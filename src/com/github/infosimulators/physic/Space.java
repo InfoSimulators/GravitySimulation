@@ -5,7 +5,7 @@ import java.lang.Math;
 import java.util.Random;
 import com.github.infosimulators.events.EventRegistry;
 import com.github.infosimulators.events.Event;
-import com.github.infosimulators.events.Eventtype;
+import com.github.infosimulators.events.EventType;
 
 /**
  * This class can be seen as a host for objects that should be effected by
@@ -103,12 +103,12 @@ public class Space {
                 /*If both objects overlap*/
                 if (Vector2.distance(object.position, other.position) < (object.size + other.size)) {
                     EventRegistry.fire(
-                            new Event(Eventtype.SIMU_PLANET_COLLISION, new String[] { "" + simulationID, object.ID, other.ID }));
+                            new Event(EventType.SIMU_PLANET_COLLISION, new String[] { "" + simulationID, object.ID, other.ID }));
                     Vector2 gravitationForce = gravitation(object, other);
                     /*If the gravitation is stronger than velocity*/
                     if (Vector2.sqrDistance(object.velocity, other.velocity) < gravitationForce.sqrMagnitude()) {
                         EventRegistry.fire(
-                                new Event(Eventtype.SIMU_PLANET_UNITE, new String[] { "" + simulationID, object.ID, other.ID }));
+                                new Event(EventType.SIMU_PLANET_UNITE, new String[] { "" + simulationID, object.ID, other.ID }));
 
                         //Unite Objects and remove old
                         ArrayList<Vector2> forces = new ArrayList<Vector2>();
@@ -149,7 +149,7 @@ public class Space {
         for (PhysicsObject object : spaceRegister) {
             if (!isInside(object.position)) {
                 unregisterPhysicsObject(object);
-                EventRegistry.fire(new Event(Eventtype.SIMU_PLANET_LEFT, new String[] { "" + simulationID, object.ID }));
+                EventRegistry.fire(new Event(EventType.SIMU_PLANET_LEFT, new String[] { "" + simulationID, object.ID }));
                 continue;
             }
             object.playoutForces();

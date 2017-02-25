@@ -1,6 +1,6 @@
 package com.github.infosimulators.events;
 
-public enum Eventtype {
+public enum EventType {
 
 	/**
 	 * GeneticTrainer-Event: Fires when simulations start for a generation.

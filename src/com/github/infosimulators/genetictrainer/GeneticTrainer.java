@@ -9,7 +9,7 @@ import java.util.Random;
 import com.github.infosimulators.Simulation;
 import com.github.infosimulators.events.Event;
 import com.github.infosimulators.events.EventRegistry;
-import com.github.infosimulators.events.Eventtype;
+import com.github.infosimulators.events.EventType;
 
 public class GeneticTrainer {
 
@@ -57,8 +57,8 @@ public class GeneticTrainer {
 			genomes[i] = generateRandomGenome();
 
 		generationCounter = 1;
-		EventRegistry.fire(new Event(Eventtype.TRAINER_GENERATED_FIRST_GEN, null));
-		EventRegistry.fire(new Event(Eventtype.TRAINER_GEN_GENERATED, new String[] { "1" }));
+		EventRegistry.fire(new Event(EventType.TRAINER_GENERATED_FIRST_GEN, null));
+		EventRegistry.fire(new Event(EventType.TRAINER_GEN_GENERATED, new String[] { "1" }));
 	}
 
 	/**
@@ -103,7 +103,7 @@ public class GeneticTrainer {
 			newGenomes[i] = generateGenomeFromParents(genomes[parentIndices[i][0]], genomes[parentIndices[i][1]]);
 
 		generationCounter++;
-		EventRegistry.fire(new Event(Eventtype.TRAINER_GEN_GENERATED, new String[] { "" + generationCounter }));
+		EventRegistry.fire(new Event(EventType.TRAINER_GEN_GENERATED, new String[] { "" + generationCounter }));
 	}
 
 	/**
@@ -319,7 +319,7 @@ public class GeneticTrainer {
 
 		isRunningSimulations = true;
 
-		EventRegistry.fire(new Event(Eventtype.TRAINER_SIMU_START, new String[] { "" + generationCounter }) {
+		EventRegistry.fire(new Event(EventType.TRAINER_SIMU_START, new String[] { "" + generationCounter }) {
 		});
 	}
 

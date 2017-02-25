@@ -1,8 +1,11 @@
 package com.github.infosimulators.events;
 
+import java.util.List;
+
 public class Event {
 
-	private Eventtype type;
+	private EventType type;
+	private List<EventCategory> categories;
 	private String[] args;
 	private boolean isHandled;
 	private long timeFired;
@@ -13,8 +16,20 @@ public class Event {
 	 * @param type
 	 *            The type of this event.
 	 */
-	public Event(Eventtype type) {
+	public Event(EventType type) {
 		this(type, new String[0]);
+	}
+
+	/**
+	 * Creates a new event of categories.
+	 * 
+	 * @param type
+	 *            The type of this event.
+	 * @param categories
+	 *            The categories of this event.
+	 */
+	public Event(EventType type, List<EventCategory> categories) {
+		this(type, categories, new String[0]);
 	}
 
 	/**
@@ -25,8 +40,23 @@ public class Event {
 	 * @param args
 	 *            The arguments necessary
 	 */
-	public Event(Eventtype type, String[] args) {
+	public Event(EventType type, String[] args) {
+		this(type, null, args);
+	}
+
+	/**
+	 * Creates a new event of type, in categories and with args.
+	 * 
+	 * @param type
+	 *            The type of this event
+	 * @param categories
+	 *            The categories this event is in
+	 * @param args
+	 *            The arguments this event needs
+	 */
+	public Event(EventType type, List<EventCategory> categories, String[] args) {
 		this.type = type;
+		this.categories = categories;
 		this.args = args;
 
 		this.isHandled = false;
@@ -35,7 +65,7 @@ public class Event {
 	/**
 	 * @return The Eventtype of this event
 	 */
-	public Eventtype getType() {
+	public EventType getType() {
 		return type;
 	}
 
@@ -46,6 +76,13 @@ public class Event {
 		if (args == null)
 			return new String[0];
 		return args;
+	}
+	
+	/**
+	 * @return The categories this event is in.
+	 */
+	public List<EventCategory> getCategories() {
+		return categories;
 	}
 
 	/**

@@ -39,7 +39,7 @@ public class EventRegistry {
 	 *            The Eventtype to filter
 	 * @return A list of unhandled events
 	 */
-	public static List<Event> getEventsOfType(Eventtype type) {
+	public static List<Event> getEventsOfType(EventType type) {
 		List<Event> es = new ArrayList<Event>();
 
 		for (Event e : events)
