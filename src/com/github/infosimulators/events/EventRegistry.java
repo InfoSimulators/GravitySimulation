@@ -50,6 +50,24 @@ public class EventRegistry {
 	}
 
 	/**
+	 * A list of all fired events of the given category that have not yet been
+	 * handled.
+	 * 
+	 * @param category
+	 *            The category to filter for.
+	 * @return A list of unhandled events
+	 */
+	public static List<Event> getEventsOfCategory(EventCategory category) {
+		List<Event> es = new ArrayList<Event>();
+
+		for (Event e : events)
+			if (e.getCategories().contains(category))
+				es.add(e);
+
+		return es;
+	}
+
+	/**
 	 * Removes the event from the list of fired events.
 	 * 
 	 * @param event
