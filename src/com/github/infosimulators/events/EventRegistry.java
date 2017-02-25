@@ -1,6 +1,7 @@
 package com.github.infosimulators.events;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class EventRegistry {
@@ -54,7 +55,7 @@ public class EventRegistry {
 	 * handled.
 	 * 
 	 * @param category
-	 *            The category to filter for.
+	 *            The category to filter for
 	 * @return A list of unhandled events
 	 */
 	public static List<Event> getEventsOfCategory(EventCategory category) {
@@ -63,6 +64,29 @@ public class EventRegistry {
 		for (Event e : events)
 			if (e.getCategories().contains(category))
 				es.add(e);
+
+		return es;
+	}
+
+	/**
+	 * A list of all fired events of all given categories that have not yet been
+	 * handled.
+	 * 
+	 * @param categories
+	 *            The categories to filter for (all have to be met)
+	 * @return A list of unhandled events
+	 */
+	public static List<Event> getEventsOfCategories(List<EventCategory> categories) {
+		List<Event> es = new ArrayList<Event>();
+		Iterator<EventCategory> it;
+
+		eventIteration: for (Event e : events) {
+			it = categories.iterator();
+			while (it.hasNext())
+				if (!e.getCategories().contains(it.next()))
+					continue eventIteration; // next event, skip rest
+			es.add(e); // if necessary is jumped over by continue eventIteration
+		}
 
 		return es;
 	}
