@@ -19,7 +19,7 @@ public class Space {
      * Objects further appart are seen lost and will be removed from space register and deleted by GC.
      */
     public float maxDistance = 1000f;
-    public String simulationID;
+    public int simulationID;
     /**
      * Stores the position of the center point. The outside is calculated on the basis of this point.
      */
@@ -33,7 +33,7 @@ public class Space {
     public Space() {
     }
 
-    public Space(String simulationID) {
+    public Space(int simulationID) {
         this.simulationID = simulationID;
     }
 
@@ -41,7 +41,7 @@ public class Space {
         this.maxDistance = maxDistance;
     }
 
-    public Space(float maxDistance, String simulationID) {
+    public Space(float maxDistance, int simulationID) {
         this.maxDistance = maxDistance;
         this.simulationID = simulationID;
     }
@@ -103,12 +103,12 @@ public class Space {
                 /*If both objects overlap*/
                 if (Vector2.distance(object.position, other.position) < (object.size + other.size)) {
                     EventRegistry.fire(
-                            new Event(Eventtype.COLLISION_DETECT, new String[] { simulationID, object.ID, other.ID }));
+                            new Event(Eventtype.COLLISION_DETECT, new String[] { "" + simulationID, object.ID, other.ID }));
                     Vector2 gravitationForce = gravitation(object, other);
                     /*If the gravitation is stronger than velocity*/
                     if (Vector2.sqrDistance(object.velocity, other.velocity) < gravitationForce.sqrMagnitude()) {
                         EventRegistry.fire(
-                                new Event(Eventtype.UNITE_DETECT, new String[] { simulationID, object.ID, other.ID }));
+                                new Event(Eventtype.UNITE_DETECT, new String[] { "" + simulationID, object.ID, other.ID }));
 
                         //Unite Objects and remove old
                         ArrayList<Vector2> forces = new ArrayList<Vector2>();
@@ -149,7 +149,7 @@ public class Space {
         for (PhysicsObject object : spaceRegister) {
             if (!isInside(object.position)) {
                 unregisterPhysicsObject(object);
-                EventRegistry.fire(new Event(Eventtype.EVAL_PLANET_LEFT, new String[] { simulationID, object.ID }));
+                EventRegistry.fire(new Event(Eventtype.EVAL_PLANET_LEFT, new String[] { "" + simulationID, object.ID }));
                 continue;
             }
             object.playoutForces();

@@ -305,7 +305,7 @@ public class GeneticTrainer {
 			}
 			
 			// TODO either add real id or remove id
-			simulations.add(new Simulation(simuParams, ""));
+			simulations.add(new Simulation(simuParams));
 		}
 
 		isRunningSimulations = true;

@@ -1,16 +1,17 @@
 package com.github.infosimulators;
 
-import com.github.infosimulators.physic.Space;
-import com.github.infosimulators.physic.PhysicsObject;
 import java.util.ArrayList;
+
+import com.github.infosimulators.IDRegistry.IDd;
+import com.github.infosimulators.physic.PhysicsObject;
+import com.github.infosimulators.physic.Space;
 
 /**
  * Calculates data on given parameters.
  */
-public class Simulation {
+public class Simulation extends IDd {
 
 	protected Space space;
-	public String ID;
 	// /**
 	//  * The rate of new baseobjects spawning. A new Object is spawned every
 	//  * spawnRate turns. If set to -1 no baseobjects will spawn.
@@ -33,45 +34,30 @@ public class Simulation {
 	 * @param size
 	 */
 	public Simulation(float size) {
+		super();
 		space = new Space(size);
-		ID = "";
 	}
-	public Simulation(float[][] content, String ID){
-		space = new Space(ID);
+	public Simulation(float[][] content){
+		super();
+		space = new Space();
 		for(float[] object : content){
 			space.registerPhysicsObject(new PhysicsObject(object[0], object[1], object[2], object[3], object[4], object[5]));
 		}
-		this.ID = ID;
 	}
 	public Simulation(ArrayList<PhysicsObject> content) {
+		super();
 		space = new Space();
 		for (PhysicsObject object : content) {
 			space.registerPhysicsObject(object);
 		}
-		this.ID = "";
-	}
-
-	public Simulation(ArrayList<PhysicsObject> content, String ID) {
-		space = new Space();
-		for (PhysicsObject object : content) {
-			space.registerPhysicsObject(object);
-		}
-		this.ID = ID;
 	}
 
 	public Simulation(ArrayList<PhysicsObject> content, float size) {
+		super();
 		space = new Space(size);
 		for (PhysicsObject object : content) {
 			space.registerPhysicsObject(object);
 		}
-	}
-
-	public Simulation(ArrayList<PhysicsObject> content, float size, String ID) {
-		space = new Space(size);
-		for (PhysicsObject object : content) {
-			space.registerPhysicsObject(object);
-		}
-		this.ID = ID;
 	}
 	/*
 	// /**
