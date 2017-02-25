@@ -27,30 +27,27 @@ public enum Eventtype {
 	TRAINER_GENERATED_FIRST_GEN,
 
 	/**
-	 * Evaluation-Event
-	 *
-	 * Determines that a planet has left in a simulation of an evaluation.
+	 * Simulation-Event:
+	 * Fired when a planet has left the system in a simulation.
 	 *
 	 * args = [int simulationID, int planetID]
 	 */
-	EVAL_PLANET_LEFT,
+	SIMU_PLANET_LEFT,
 	
 	/**
-	 * COLLISION-Event
-	 *
-	 * Fired when two planets collide
+	 * Simulation-Event:
+	 * Fired when two planets collide in a simulation.
 	 *
 	 * args = [int simulationID, int planetID1, int planetID2]
 	 */
-	COLLISION_DETECT,
+	SIMU_PLANET_COLLISION,
 	
 	/**
-	 * UNITE-Event
-	 *
+	 * Simulation-Event:
 	 * Fired when two planets would unite into one
 	 *
 	 * args = [int simulationID, int planetID1, int planetID2]
 	 */
-	UNITE_DETECT
+	SIMU_PLANET_UNITE
 	
 }
