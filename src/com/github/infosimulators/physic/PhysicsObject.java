@@ -28,11 +28,18 @@ public class PhysicsObject {
 
 	public PhysicsObject() {}
 
-	public PhysicsObject(float distance,float theta, float mass,float radius, float impulsVelocity, float alpha, String ID){
-		this.position =  Vector2.radial(theta, distance);
+	public PhysicsObject(float distance, float theta, float mass, float radius, float impulsVelocity, float alpha) {
+		this.position = Vector2.radial(theta, distance);
 		this.mass = mass;
 		this.size = radius;
-		this.velocity = Vector2.radial(alpha,impulsVelocity);
+		this.velocity = Vector2.radial(alpha, impulsVelocity);
+	}
+
+	public PhysicsObject(float distance, float theta, float mass, float radius, float impulsVelocity, float alpha, String ID) {
+		this.position = Vector2.radial(theta, distance);
+		this.mass = mass;
+		this.size = radius;
+		this.velocity = Vector2.radial(alpha, impulsVelocity);
 		this.ID = ID;
 	}
 

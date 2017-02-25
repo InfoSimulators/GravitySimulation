@@ -36,7 +36,13 @@ public class Simulation {
 		space = new Space(size);
 		ID = "";
 	}
-
+	public Simulation(float[][] content, String ID){
+		space = new Space(ID);
+		for(float[] object : content){
+			space.registerPhysicsObject(new PhysicsObject(object[0], object[1], object[2], object[3], object[4], object[5]));
+		}
+		this.ID = ID;
+	}
 	public Simulation(ArrayList<PhysicsObject> content) {
 		space = new Space();
 		for (PhysicsObject object : content) {
