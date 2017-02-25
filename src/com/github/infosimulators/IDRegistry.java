@@ -5,26 +5,26 @@ public class IDRegistry {
 	/**
 	 * Counter variable to keep track of already given IDs.
 	 */
-	private static int current = 0;
+	private static long current = 0;
 
 	/**
 	 * @return The next available ID
 	 */
-	private static int nextID() {
+	private static long nextID() {
 		return current++;
 	}
 
 	/**
 	 * @return The next ID that will be given out
 	 */
-	public static int getNextID() {
+	public static long getNextID() {
 		return current + 1;
 	}
 
 	/**
 	 * @return The last ID that was given out to an object.
 	 */
-	public static int getLastID() {
+	public static long getLastID() {
 		return current;
 	}
 
@@ -37,7 +37,7 @@ public class IDRegistry {
 		/**
 		 * The unique ID of the object.
 		 */
-		private int id;
+		private long id;
 
 		/**
 		 * Creates a new IDd and registered object. Automatically assigns the
@@ -50,7 +50,7 @@ public class IDRegistry {
 		/**
 		 * @return The unique ID of this object.
 		 */
-		public int getID() {
+		public long getID() {
 			return id;
 		}
 
