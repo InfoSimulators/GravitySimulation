@@ -30,8 +30,6 @@ public class test extends PApplet {
 		s.tick();
 		translate(width / 2, height / 2);
 		for (PhysicsObject var : s.getSpaceRegister()) {
-			// System.out.println(var.mass + " : " + var.position +" : " +
-			// var.velocity);
 			stroke(0);
 			strokeWeight(0);
 			fill(127);

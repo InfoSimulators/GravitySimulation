@@ -1,13 +1,15 @@
 package com.github.infosimulators;
 
-import com.github.infosimulators.physic.Space;
-import com.github.infosimulators.physic.PhysicsObject;
 import java.util.ArrayList;
+
+import com.github.infosimulators.IDRegistry.IDd;
+import com.github.infosimulators.physic.PhysicsObject;
+import com.github.infosimulators.physic.Space;
 
 /**
  * Calculates data on given parameters.
  */
-public class Simulation {
+public class Simulation extends IDd {
 
 	protected Space space;
 	// /**
@@ -32,10 +34,18 @@ public class Simulation {
 	 * @param size
 	 */
 	public Simulation(float size) {
+		super();
 		space = new Space(size);
 	}
-
+	public Simulation(float[][] content){
+		super();
+		space = new Space();
+		for(float[] object : content){
+			space.registerPhysicsObject(new PhysicsObject(object[0], object[1], object[2], object[3], object[4], object[5]));
+		}
+	}
 	public Simulation(ArrayList<PhysicsObject> content) {
+		super();
 		space = new Space();
 		for (PhysicsObject object : content) {
 			space.registerPhysicsObject(object);
@@ -43,6 +53,7 @@ public class Simulation {
 	}
 
 	public Simulation(ArrayList<PhysicsObject> content, float size) {
+		super();
 		space = new Space(size);
 		for (PhysicsObject object : content) {
 			space.registerPhysicsObject(object);
@@ -95,8 +106,8 @@ public class Simulation {
 	 *
 	 * @return number of planets that left the system
 	 */
-	public int update() {
-		return space.tick();
+	public void update() {
+		space.tick();
 	}
 
 	/**

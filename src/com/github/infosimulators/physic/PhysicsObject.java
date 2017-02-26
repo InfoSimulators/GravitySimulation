@@ -14,6 +14,7 @@ public class PhysicsObject {
 	protected ArrayList<Vector2> forces = new ArrayList<Vector2>();
 	public float mass = 1f;
 	public float size = 1f;
+	public String ID;
 
 	@Override
 	public String toString() {
@@ -25,14 +26,21 @@ public class PhysicsObject {
 	 * Constructors
 	 */
 
-	public PhysicsObject() {
-	}
+	public PhysicsObject() {}
 
-	public PhysicsObject(float distance,float theta, float mass,float radius, float impulsVelocity, float alpha){
-		this.position =  Vector2.radial(theta, distance);
+	public PhysicsObject(float distance, float theta, float mass, float radius, float impulsVelocity, float alpha) {
+		this.position = Vector2.radial(theta, distance);
 		this.mass = mass;
 		this.size = radius;
-		this.velocity = Vector2.radial(alpha,impulsVelocity);
+		this.velocity = Vector2.radial(alpha, impulsVelocity);
+	}
+
+	public PhysicsObject(float distance, float theta, float mass, float radius, float impulsVelocity, float alpha, String ID) {
+		this.position = Vector2.radial(theta, distance);
+		this.mass = mass;
+		this.size = radius;
+		this.velocity = Vector2.radial(alpha, impulsVelocity);
+		this.ID = ID;
 	}
 
 	public PhysicsObject(Vector2 position, Vector2 velocity, float mass, float size) {
@@ -41,7 +49,6 @@ public class PhysicsObject {
 		this.mass = mass;
 		this.size = size;
 	}
-
 
 	public PhysicsObject(Vector2 position, Vector2 velocity, float mass, float size, ArrayList<Vector2> forces) {
 		this.forces = forces;

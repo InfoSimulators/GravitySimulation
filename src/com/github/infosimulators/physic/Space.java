@@ -3,6 +3,9 @@ package com.github.infosimulators.physic;
 import java.util.ArrayList;
 import java.lang.Math;
 import java.util.Random;
+import com.github.infosimulators.events.EventRegistry;
+import com.github.infosimulators.events.Event;
+import com.github.infosimulators.events.EventType;
 
 /**
  * This class can be seen as a host for objects that should be effected by
@@ -16,6 +19,7 @@ public class Space {
      * Objects further appart are seen lost and will be removed from space register and deleted by GC.
      */
     public float maxDistance = 1000f;
+    public int simulationID;
     /**
      * Stores the position of the center point. The outside is calculated on the basis of this point.
      */
@@ -29,13 +33,17 @@ public class Space {
     public Space() {
     }
 
+    public Space(int simulationID) {
+        this.simulationID = simulationID;
+    }
+
     public Space(float maxDistance) {
         this.maxDistance = maxDistance;
     }
 
-    public Space(float maxDistance, Vector2 pointOfOrigin) {
+    public Space(float maxDistance, int simulationID) {
         this.maxDistance = maxDistance;
-        this.pointOfOrigin = pointOfOrigin;
+        this.simulationID = simulationID;
     }
 
     /**
@@ -82,7 +90,6 @@ public class Space {
             for (PhysicsObject other : spaceRegister) {
                 if (object == other)
                     continue;
-                //System.out.println("object: "+ object.mass + "other: " + other.mass + " => " + gravitation(object, other));
                 object.appendForce(gravitation(object, other));
             }
         }
@@ -94,16 +101,20 @@ public class Space {
                 if (object == other)
                     continue;
                 /*If both objects overlap*/
-                if (Vector2.distance(object.position, other.position) < (object.size + other.size) / 1.5f) {
+                if (Vector2.distance(object.position, other.position) < (object.size + other.size)) {
+                    EventRegistry.fire(
+                            new Event(EventType.SIMU_PLANET_COLLISION, new String[] { "" + simulationID, object.ID, other.ID }));
                     Vector2 gravitationForce = gravitation(object, other);
                     /*If the gravitation is stronger than velocity*/
                     if (Vector2.sqrDistance(object.velocity, other.velocity) < gravitationForce.sqrMagnitude()) {
-                        //System.out.println("connection");
+                        EventRegistry.fire(
+                                new Event(EventType.SIMU_PLANET_UNITE, new String[] { "" + simulationID, object.ID, other.ID }));
+
                         //Unite Objects and remove old
                         ArrayList<Vector2> forces = new ArrayList<Vector2>();
                         forces.addAll(object.forces);
                         forces.addAll(other.forces);
-                        spaceRegister.add(new PhysicsObject(
+                        registerPhysicsObject(new PhysicsObject(
                                 Vector2.lerp(object.position, other.position, other.mass / (object.mass + other.mass)),
                                 Vector2.add(object.velocity, other.velocity)
                                         .setMag((object.mass * object.velocity.magnitude()
@@ -111,8 +122,8 @@ public class Space {
                                                 / (object.mass + other.mass)),
                                 object.mass + other.mass,
                                 (float) Math.cbrt(Math.pow(object.size, 3) + Math.pow(other.size, 3)), forces));
-                        spaceRegister.remove(object);
-                        spaceRegister.remove(other);
+                        unregisterPhysicsObject(object);
+                        unregisterPhysicsObject(other);
                         break;
                     } else { /*Else do an elastic collision*/
                         //System.out.println("elatic collision");
@@ -131,22 +142,20 @@ public class Space {
     }
 
     /**
-     * @return number of planets that left the system
+     *
      */
-    public int tick() {
-            int planetsLeft = 0;
-            addGravitationForces();
-            for (PhysicsObject object : spaceRegister) {
-                if (!isInside(object.position)){
-                    unregisterPhysicsObject(object);
-                    planetsLeft++;
-                    continue;
-                }
-                object.playoutForces();
-                object.move();
+    public void tick() {
+        addGravitationForces();
+        for (PhysicsObject object : spaceRegister) {
+            if (!isInside(object.position)) {
+                unregisterPhysicsObject(object);
+                EventRegistry.fire(new Event(EventType.SIMU_PLANET_LEFT, new String[] { "" + simulationID, object.ID }));
+                continue;
             }
-            getCollisions();
-            return planetsLeft;
+            object.playoutForces();
+            object.move();
+        }
+        getCollisions();
     }
 
     /**

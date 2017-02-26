@@ -1,24 +1,51 @@
 package com.github.infosimulators.genetictrainer;
 
-import com.github.infosimulators.genetictrainer.ParameterTypes;
+import java.util.List;
+import java.util.Map;
 
-/**
- * Evaluator class
- */
+import com.github.infosimulators.events.Event;
+
 public abstract class Evaluator {
 
-	private ParameterTypes[] format;
+	/**
+	 * Evaluates the given data.
+	 * 
+	 * @param map
+	 *            The ArrayList of Lists of events that were fired in each
+	 *            genome's simulation
+	 * @return The sorted cost/fitness determined by this evaluator.
+	 */
+	public float[] eval(Map<Integer, List<Event>> map) {
+		float[] results = new float[map.size()];
 
-	public Evaluator(ParameterTypes[] format) {
-		setFormat(format);
+		for (int i = 0; i < results.length; i++)
+			results[i] = eval(map.get(i));
+
+		return results;
 	}
 
-	private void setFormat(ParameterTypes[] format) {
-		this.format = format;
-	}
+	/**
+	 * Calculates the cost/fitness for one specific genome by all events that
+	 * affected the simulation it caused.
+	 * 
+	 * @param events
+	 *            All events that appeared in this genome's simulation.
+	 * @return The cost/fitness of this genome.
+	 */
+	protected abstract float eval(List<Event> events);
 
-	public ParameterTypes[] getFormat() {
-		return format;
+	/**
+	 * @return Whether this evaluator is based on a cost function, meaning 0 is
+	 *         ideal and the higher the outcome the worse.
+	 */
+	public abstract boolean isCostFunction();
+
+	/**
+	 * @return Whether this evaluator is based on a fitness function, meaning 0
+	 *         is the worst outcome, but the higher the outcome the better.
+	 */
+	public boolean isFitnessFunction() {
+		return !isCostFunction();
 	}
 
 }
