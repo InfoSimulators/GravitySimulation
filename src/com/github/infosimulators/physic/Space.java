@@ -202,13 +202,14 @@ public class Space extends IDd {
         addGravitationForces();
         Iterator<PhysicsObject> registerIterator = spaceRegister.iterator();
         while (registerIterator.hasNext()) {
-            if (!isInside(registerIterator.next().position)) {
-                unregisterPhysicsObject(registerIterator.next());
+            PhysicsObject object = registerIterator.next();
+            if (!isInside(object.position)) {
+                unregisterPhysicsObject(object);
                 EventRegistry.fire(new Event(EventType.SIMU_PLANET_LEFT));
                 continue;
             }
-            registerIterator.next().playoutForces();
-            registerIterator.next().move();
+            object.playoutForces();
+            object.move();
         }
         handleCollisions();
     }
