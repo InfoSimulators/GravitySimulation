@@ -1,6 +1,7 @@
 package com.github.infosimulators.physic;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 import com.github.infosimulators.events.EventRegistry;
 import com.github.infosimulators.IDRegistry.IDd;
@@ -199,14 +200,15 @@ public class Space extends IDd {
      */
     public void tick() {
         addGravitationForces();
-        for (PhysicsObject object : spaceRegister) {
-            if (!isInside(object.position)) {
-                unregisterPhysicsObject(object);
+        Iterator<PhysicsObject> registerIterator = spaceRegister.iterator();
+        while (registerIterator.hasNext()) {
+            if (!isInside(registerIterator.next().position)) {
+                unregisterPhysicsObject(registerIterator.next());
                 EventRegistry.fire(new Event(EventType.SIMU_PLANET_LEFT));
                 continue;
             }
-            object.playoutForces();
-            object.move();
+            registerIterator.next().playoutForces();
+            registerIterator.next().move();
         }
         handleCollisions();
     }
