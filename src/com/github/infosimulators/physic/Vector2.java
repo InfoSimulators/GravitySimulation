@@ -278,7 +278,6 @@ public class Vector2 {
 		return new Vector2(pvector.x, pvector.y);
 	}
 
-
 	/**
 	 * @param a
 	 * @param b

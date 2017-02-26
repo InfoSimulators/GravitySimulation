@@ -1,75 +1,89 @@
 package com.github.infosimulators.physic;
 
 import java.util.ArrayList;
+import com.github.infosimulators.IDRegistry.IDd;
 
 /**
- * Baseclass for all objects, manipulated by physics. stores position, forces,
- * velocity, mass and Size It is assumed to be a sphere with the radius size
- * with the mass located in the middle
+ * Baseclass for all objects, manipulated by physics.
+ * It stores position, forces,acceleration, velocity, mass and size
+ * It is assumed to be a sphere with the radius size with the mass located in the middle
  */
-public class PhysicsObject {
-	public Vector2 position = Vector2.zero();
-	public Vector2 velocity = Vector2.zero();
+public class PhysicsObject extends IDd {
+
+	/** The position of the object in a Cartesian coordinate system represented as a {@link Vector2} */
+	public Vector2 position;
+
+	/** The velocity of the object in a Cartesian coordinate system represented as a {@link Vector2} */
+	public Vector2 velocity;
+
+	/** The acceleration of the object in a Cartesian coordinate system represented as a {@link Vector2} */
 	public Vector2 acceleration = Vector2.zero();
+
+	/** A list storing all forces applied to the object since the last call of {@link #playoutForces()} as {@link Vector2} */
 	protected ArrayList<Vector2> forces = new ArrayList<Vector2>();
-	public float mass = 1f;
-	public float size = 1f;
-	public String ID;
 
-	@Override
-	public String toString() {
-		return "PhysicsObject:{\n position: '" + position + "',\n velocity: '" + velocity + "',\n mass: '" + mass
-				+ "',\n size: '" + size + "'\n}";
-	}
+	/** stores the mass of the object as Float in kilogramm */
+	public float mass;
 
-	/*
-	 * Constructors
+	/** stores the size of the object as Float in meters */
+	public float size;
+
+	/**
+	 * Constructor.
+	 *
+	 * @param distance The distance the new object should have from the origin.
+	 * @param theta The angle of the position in relation to the origin.
+	 * @param mass The mass of the Object.
+	 * @param radius The radius of the object.
+	 * @param impulsVelocity A float representing the magnitude of the velocity of the object.
+	 * @param alpha The angle of the velocity
 	 */
-
-	public PhysicsObject() {}
-
 	public PhysicsObject(float distance, float theta, float mass, float radius, float impulsVelocity, float alpha) {
+		super();
 		this.position = Vector2.radial(theta, distance);
 		this.mass = mass;
 		this.size = radius;
 		this.velocity = Vector2.radial(alpha, impulsVelocity);
 	}
 
-	public PhysicsObject(float distance, float theta, float mass, float radius, float impulsVelocity, float alpha, String ID) {
-		this.position = Vector2.radial(theta, distance);
+	/**
+	* Constructor.
+	*
+	* @param position The position of the new object.
+	* @param velocity The velocity of the new object.
+	* @param mass The mass of the Object.
+	* @param radius The radius of the object.
+	*/
+	public PhysicsObject(Vector2 position, Vector2 velocity, float mass, float radius) {
+		super();
+		this.position = position;
 		this.mass = mass;
 		this.size = radius;
-		this.velocity = Vector2.radial(alpha, impulsVelocity);
-		this.ID = ID;
-	}
-
-	public PhysicsObject(Vector2 position, Vector2 velocity, float mass, float size) {
-		this.position = position;
 		this.velocity = velocity;
-		this.mass = mass;
-		this.size = size;
 	}
 
-	public PhysicsObject(Vector2 position, Vector2 velocity, float mass, float size, ArrayList<Vector2> forces) {
-		this.forces = forces;
-		this.position = position;
-		this.velocity = velocity;
-		this.mass = mass;
-		this.size = size;
-	}
-
-	/*
-	 * FUNCTIONS
+	/**
+	 * Adds a force to the protected list of forces {@link #forces}.
+	 *
+	 * @param force The force to add to the list.
 	 */
-
 	public void appendForce(Vector2 force) {
 		forces.add(force);
 	}
 
+	/**
+	 * Clears the list of forces.
+	 *
+	 * Use this methode to remove all current forces from an object.
+	 */
 	public void resetForces() {
 		forces.clear();
 	}
 
+	/**
+	 * Updates {@link #acceleration} with the current forces.
+	 * It also resets the {@link #forces}-list and therefore calling it in a row will result in nothing.
+	 */
 	public void playoutForces() {
 		Vector2 sum = new Vector2();
 		for (Vector2 force : forces) {
@@ -79,9 +93,27 @@ public class PhysicsObject {
 		resetForces();
 	}
 
+	/**
+	 * Updates the position based on the velocity and acceleration.
+	 * And updates the velocity based on the acceleration.
+	 */
 	public void move() {
 		position.add(Vector2.scale(acceleration, 0.5f).add(velocity));
 		velocity.add(acceleration);
+	}
+
+	/**
+	 * Unites two PhysicsObjects into one.
+	 *
+	 * @param one The first object.
+	 * @param two The secound object.
+	 */
+	public static PhysicsObject unite(PhysicsObject one, PhysicsObject two) {
+		return new PhysicsObject(Vector2.lerp(one.position, two.position, two.mass / (one.mass + two.mass)),
+				Vector2.add(one.velocity, two.velocity)
+						.setMag((one.mass * one.velocity.magnitude() + two.mass * two.velocity.magnitude())
+								/ (one.mass + two.mass)),
+				one.mass + two.mass, (float) Math.cbrt(Math.pow(one.size, 3) + Math.pow(two.size, 3)));
 	}
 
 }
