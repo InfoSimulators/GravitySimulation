@@ -48,7 +48,7 @@ public enum EventType {
 	 *
 	 * args = [int simulationID, int planetID1, int planetID2]
 	 */
-	SIMU_PLANET_UNITE
+	SIMU_PLANET_UNITE,
 	/**
 	 * Simulation-Event: Fired when two planets would unite into one
 	 *

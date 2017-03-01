@@ -1,12 +1,12 @@
 package com.github.infosimulators.physic;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Random;
 import com.github.infosimulators.events.EventRegistry;
-import com.github.infosimulators.IDRegistry.IDd;
 import com.github.infosimulators.events.Event;
-import com.githu.infosimulators.events.EventCategory;
+import com.github.infosimulators.events.EventCategory;
 import com.github.infosimulators.events.EventType;
 
 /**
@@ -35,6 +35,7 @@ public class Space {
     * Stores the simulationID of the simulation the space belongs to.
     */
     public long simulationID;
+
     // Constructors
     public Space() {
     }
@@ -165,34 +166,39 @@ public class Space {
      * If it is not the case doElasticCollision is called with both objects.
      */
     public void handleCollisions() {
-      ArrayList<PhysicsObject> collided = new ArrayList<PhysicsObject>();
-      Iterator<PhysicsObject> registerIterator1 = spaceRegister.iterator();
-      Iterator<PhysicsObject> registerIterator2 = spaceRegister.iterator();
-      while(registerIterator1.hasNext()){
-          PhysicsObject object = registerIterator1.next();
-          while(registerIterator2.hasNext()){
-            PhysicsObject other = registerIterator2.next();
-            if (object == other)
-                continue;
-            if (areColliding(object, other)) {
-                EventRegistry.fire(new Event(EventType.SIMU_PLANET_OVERLAP,EventCategory.SIMULATION,new String[]{""+simulationID,""+object.id,""+other.id}));
-                if (wouldUnite(object, other)) {
-                    EventRegistry.fire(new Event(EventType.SIMU_PLANET_UNITE,EventCategory.SIMULATION,new String[]{""+simulationID,""+object.id,""+other.id}));
-                    //Unite Objects and remove old
-                    registerPhysicsObject(PhysicsObject.unite(object, other));
-                    iterator.remove(object);
-                    iterator.remove(other);
-                } else { /*Else do an elastic collision*/
-                    if (collided.contains(object) && collided.contains(other))
-                        continue;
-                    EventRegistry.fire(new Event(EventType.SIMU_PLANET_COLLISION,EventCategory.SIMULATION,new String[]{""+simulationID,""+object.id,""+other.id}));
-                    doElasticCollision(object, other);
-                    collided.add(object);
-                    collided.add(other);
+        ArrayList<PhysicsObject> collided = new ArrayList<PhysicsObject>();
+        Iterator<PhysicsObject> registerIterator1 = spaceRegister.iterator();
+        Iterator<PhysicsObject> registerIterator2 = spaceRegister.iterator();
+        while (registerIterator1.hasNext()) {
+            PhysicsObject object = registerIterator1.next();
+            while (registerIterator2.hasNext()) {
+                PhysicsObject other = registerIterator2.next();
+                if (object == other)
+                    continue;
+                if (areColliding(object, other)) {
+                    EventRegistry.fire(new Event(EventType.SIMU_PLANET_OVERLAP, Arrays.asList(EventCategory.SIMULATION),
+                            new String[] { "" + simulationID, "" + object.getID(), "" + other.getID() }));
+                    if (wouldUnite(object, other)) {
+                        EventRegistry
+                                .fire(new Event(EventType.SIMU_PLANET_UNITE, Arrays.asList(EventCategory.SIMULATION),
+                                        new String[] { "" + simulationID, "" + object.getID(), "" + other.getID() }));
+                        //Unite Objects and remove old
+                        registerPhysicsObject(PhysicsObject.unite(object, other));
+                        registerIterator1.remove();
+                        registerIterator2.remove();
+                    } else { /*Else do an elastic collision*/
+                        if (collided.contains(object) && collided.contains(other))
+                            continue;
+                        EventRegistry.fire(
+                                new Event(EventType.SIMU_PLANET_COLLISION, Arrays.asList(EventCategory.SIMULATION),
+                                        new String[] { "" + simulationID, "" + object.getID(), "" + other.getID() }));
+                        doElasticCollision(object, other);
+                        collided.add(object);
+                        collided.add(other);
+                    }
                 }
             }
-          }
-      }
+        }
     }
 
     /**
@@ -205,7 +211,8 @@ public class Space {
             PhysicsObject object = registerIterator.next();
             if (!isInside(object.position)) {
                 registerIterator.remove();
-                EventRegistry.fire(new Event(EventType.SIMU_PLANET_LEFT,EventCategory.SIMULATION,new String[]{""+simulationID,""+object.id}));
+                EventRegistry.fire(new Event(EventType.SIMU_PLANET_LEFT, Arrays.asList(EventCategory.SIMULATION),
+                        new String[] { "" + simulationID, "" + object.getID() }));
                 continue;
             }
             object.playoutForces();
