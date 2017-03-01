@@ -1,9 +1,10 @@
 package com.github.infosimulators.physic;
 
 import java.util.ArrayList;
-import java.lang.Math;
+import java.util.Iterator;
 import java.util.Random;
 import com.github.infosimulators.events.EventRegistry;
+import com.github.infosimulators.IDRegistry.IDd;
 import com.github.infosimulators.events.Event;
 import com.github.infosimulators.events.EventType;
 
@@ -13,15 +14,15 @@ import com.github.infosimulators.events.EventType;
  *
  * @author Julisep
  */
-public class Space {
+public class Space extends IDd {
     /**
      * Stores the maximum distance from the origin
      * Objects further appart are seen lost and will be removed from space register and deleted by GC.
      */
     public float maxDistance = 1000f;
-    public int simulationID;
     /**
-     * Stores the position of the center point. The outside is calculated on the basis of this point.
+     * Stores the position of the center point.
+     * The outside is calculated on the basis of this point.
      */
     public Vector2 pointOfOrigin = Vector2.zero();
     /**
@@ -31,23 +32,12 @@ public class Space {
 
     // Constructors
     public Space() {
-    }
-
-    public Space(int simulationID) {
-        this.simulationID = simulationID;
-    }
-
-    public Space(float maxDistance) {
-        this.maxDistance = maxDistance;
-    }
-
-    public Space(float maxDistance, int simulationID) {
-        this.maxDistance = maxDistance;
-        this.simulationID = simulationID;
+        super();
     }
 
     /**
-     * Adds objects to the space register
+     * Adds objects to the space register.
+     * @param objects The Objects to be added to the register.
      */
     public void registerPhysicsObject(PhysicsObject... objects) {
         for (PhysicsObject object : objects) {
@@ -56,7 +46,8 @@ public class Space {
     }
 
     /**
-     * Remove objects from the space register
+     * Removes objects from the space register.
+     * @param objects The Objects to be removed from the register.
      */
     public void unregisterPhysicsObject(PhysicsObject... objects) {
         for (PhysicsObject object : objects) {
@@ -65,97 +56,162 @@ public class Space {
     }
 
     /**
-     * Gets the space register
-     * @return the space register (ArrayList<PhysicsObject>)
+     * Gets the space register.
+     * @return The space register as ArrayList of {@link PhysicsObject}s.
      */
     public ArrayList<PhysicsObject> getSpaceRegister() {
         return spaceRegister;
     }
 
+    /**
+     * Returns a position on the outside of the space based on the parameter angle.
+     *
+     * @param angle The angle of the position in radians.
+     *
+     * @return A position on the outer rim.
+     */
     public Vector2 getPositionOnOutside(float angle) {
         return Vector2.radial(angle).scale(maxDistance).add(pointOfOrigin);
     }
 
+    /**
+     * Returns a random position on the outside of the space.
+     *
+     * @return A random position on the outer rim.
+     */
     public Vector2 getRandomPositionOnOutside() {
         Random r = new Random();
         return Vector2.radial(r.nextInt(361)).scale(maxDistance).add(pointOfOrigin);
     }
 
+    /**
+     * Checks weather a position is inside the space.
+     *
+     * @param position The position to check.
+     * @return If the position is inside the space.
+     */
     public boolean isInside(Vector2 position) {
         return Vector2.sqrDistance(position, pointOfOrigin) <= maxDistance * maxDistance;
     }
 
+    /**
+     * Adds gravitational forces to each object in the space register.
+     */
     public void addGravitationForces() {
         for (PhysicsObject object : spaceRegister) {
             for (PhysicsObject other : spaceRegister) {
-                if (object == other)
+                if (object == other)//If we calculated the force between one object and itself, the force would be infinite and the simulation would crash.
                     continue;
                 object.appendForce(gravitation(object, other));
             }
         }
     }
 
-    public void getCollisions() {
+    /**
+     * Calculates the new velocities after an elastic collision and sets them for both involved objects.
+     *
+     * The order of both objects is not important.
+     *
+     * @param one The first object to be involved in the collision.
+     * @param two The secound object to be involved in the collision.
+     *
+     */
+    protected void doElasticCollision(PhysicsObject one, PhysicsObject two) {
+        float v1 = one.velocity.magnitude();
+        Vector2 v1_vector = one.velocity;
+        float v2 = two.velocity.magnitude();
+        Vector2 v2_vector = two.velocity;
+        one.velocity = v2_vector.setMag((one.mass * v1 + two.mass * (2 * v1 - v2)) / (one.mass + two.mass));
+        two.velocity = v1_vector.setMag((two.mass * v2 + one.mass * (2 * v1 - v2)) / (one.mass + two.mass));
+    }
+
+    /**
+     * Calculates weather two objects are colliding.
+     *
+     * The order of both objects is not important.
+     *
+     * @param one One {@link PhysicsObject}.
+     * @param two Another {@link PhysicsObject}.
+     */
+    protected boolean areColliding(PhysicsObject one, PhysicsObject two) {
+        return Vector2.distance(one.position, two.position) < (one.size + two.size);
+    }
+
+    /**
+     * Calculates weather two objects would unite if they intersect, by comparing the gravitation to the velocity.
+     *
+     * If the gravitational force has a higher magnitude then the velocity separating both objects, true will be returned.
+     *
+     * Order is not important.
+     *
+     * @param one One Object intersecting the other.
+     * @param two Another Object intersecting the first.
+     *
+     * @return weather both objects will fuse.
+     */
+    protected boolean wouldUnite(PhysicsObject one, PhysicsObject two) {
+        return Vector2.sqrDistance(one.velocity, two.velocity) < gravitation(one, two).sqrMagnitude();
+    }
+
+    /**
+     * Handles collisions.
+     *
+     * If two objects intersect, it is checked weather the gravitation would lead to a higher velocity towardseachother, then the current velocity separating both objects.
+     * If this is the case, then both objects will fuse together.
+     * If it is not the case doElasticCollision is called with both objects.
+     */
+    public void handleCollisions() {
+        ArrayList<PhysicsObject> add = new ArrayList<PhysicsObject>();
+        ArrayList<PhysicsObject> remove = new ArrayList<PhysicsObject>();
+        ArrayList<PhysicsObject> collided = new ArrayList<PhysicsObject>();
         for (PhysicsObject object : spaceRegister) {
             for (PhysicsObject other : spaceRegister) {
                 if (object == other)
                     continue;
+                if (remove.contains(object) || remove.contains(other))
+                    continue;
                 /*If both objects overlap*/
-                if (Vector2.distance(object.position, other.position) < (object.size + other.size)) {
-                    EventRegistry.fire(
-                            new Event(EventType.SIMU_PLANET_COLLISION, new String[] { "" + simulationID, object.ID, other.ID }));
-                    Vector2 gravitationForce = gravitation(object, other);
-                    /*If the gravitation is stronger than velocity*/
-                    if (Vector2.sqrDistance(object.velocity, other.velocity) < gravitationForce.sqrMagnitude()) {
-                        EventRegistry.fire(
-                                new Event(EventType.SIMU_PLANET_UNITE, new String[] { "" + simulationID, object.ID, other.ID }));
-
+                if (areColliding(object, other)) {
+                    EventRegistry.fire(new Event(EventType.SIMU_PLANET_COLLISION));
+                    if (wouldUnite(object, other)) {
+                        EventRegistry.fire(new Event(EventType.SIMU_PLANET_UNITE));
                         //Unite Objects and remove old
-                        ArrayList<Vector2> forces = new ArrayList<Vector2>();
-                        forces.addAll(object.forces);
-                        forces.addAll(other.forces);
-                        registerPhysicsObject(new PhysicsObject(
-                                Vector2.lerp(object.position, other.position, other.mass / (object.mass + other.mass)),
-                                Vector2.add(object.velocity, other.velocity)
-                                        .setMag((object.mass * object.velocity.magnitude()
-                                                + other.mass * other.velocity.magnitude())
-                                                / (object.mass + other.mass)),
-                                object.mass + other.mass,
-                                (float) Math.cbrt(Math.pow(object.size, 3) + Math.pow(other.size, 3)), forces));
-                        unregisterPhysicsObject(object);
-                        unregisterPhysicsObject(other);
-                        break;
+                        add.add(PhysicsObject.unite(object, other));
+                        remove.add(object);
+                        remove.add(other);
                     } else { /*Else do an elastic collision*/
-                        //System.out.println("elatic collision");
-                        float v1 = object.velocity.magnitude();
-                        Vector2 v1_vector = object.velocity;
-                        float v2 = other.velocity.magnitude();
-                        Vector2 v2_vector = other.velocity;
-                        object.velocity = v2_vector
-                                .setMag((object.mass * v1 + other.mass * (2 * v1 - v2)) / (object.mass + other.mass));
-                        other.velocity = v1_vector
-                                .setMag((other.mass * v2 + object.mass * (2 * v1 - v2)) / (object.mass + other.mass));
+                        if (collided.contains(object) && collided.contains(other))
+                            continue;
+                        doElasticCollision(object, other);
+                        collided.add(object);
+                        collided.add(other);
                     }
                 }
             }
         }
+        for (PhysicsObject object : remove)
+            unregisterPhysicsObject(object);
+        for (PhysicsObject object : add)
+            registerPhysicsObject(object);
     }
 
     /**
-     *
+     *  Called on every frame.
      */
     public void tick() {
         addGravitationForces();
-        for (PhysicsObject object : spaceRegister) {
+        Iterator<PhysicsObject> registerIterator = spaceRegister.iterator();
+        while (registerIterator.hasNext()) {
+            PhysicsObject object = registerIterator.next();
             if (!isInside(object.position)) {
                 unregisterPhysicsObject(object);
-                EventRegistry.fire(new Event(EventType.SIMU_PLANET_LEFT, new String[] { "" + simulationID, object.ID }));
+                EventRegistry.fire(new Event(EventType.SIMU_PLANET_LEFT));
                 continue;
             }
             object.playoutForces();
             object.move();
         }
-        getCollisions();
+        handleCollisions();
     }
 
     /**
