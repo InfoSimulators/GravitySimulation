@@ -3,6 +3,7 @@ package com.github.infosimulators;
 import java.util.List;
 
 import com.github.infosimulators.events.Event;
+import com.github.infosimulators.events.EventCategory;
 import com.github.infosimulators.events.EventRegistry;
 import com.github.infosimulators.genetictrainer.Evaluator;
 import com.github.infosimulators.genetictrainer.GeneticTrainer;
@@ -91,8 +92,16 @@ public class Main {
 		System.out.println("----------------------------------");
 		System.out.println("EVENT OCCURED");
 		System.out.println("Type: " + event.getType().toString());
-		for (String arg : event.getArgs())
-			System.out.println("> " + arg);
+		if (event.getCategories() != null && !event.getCategories().isEmpty()) {
+			System.out.println("Categories:");
+			for (EventCategory cat : event.getCategories())
+				System.out.println("> " + cat.toString());
+		}
+		if (event.getArgs() != null && event.getArgs().length != 0) {
+			System.out.println("Args:");
+			for (String arg : event.getArgs())
+				System.out.println("> " + arg);
+		}
 		event.setHandled();
 	}
 

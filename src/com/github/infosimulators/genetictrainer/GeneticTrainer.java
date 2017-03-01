@@ -8,6 +8,7 @@ import java.util.Random;
 
 import com.github.infosimulators.Simulation;
 import com.github.infosimulators.events.Event;
+import com.github.infosimulators.events.EventCategory;
 import com.github.infosimulators.events.EventRegistry;
 import com.github.infosimulators.events.EventType;
 
@@ -278,15 +279,14 @@ public class GeneticTrainer {
 	 * Updates all running simulations and sorts and interprets some events.
 	 */
 	public void step() {
-		// TODO simulation step
 		for (Simulation simulation : simulations)
 			simulation.update();
 
 		// TODO interpret events
-		List<Event> events = EventRegistry.getEvents();
+		List<Event> simuEvents = EventRegistry.getEventsOfCategory(EventCategory.SIMULATION);
 		evalEvents = new HashMap<Integer, List<Event>>(genomesPerGeneration);
 
-		for (Event event : events) {
+		for (Event event : simuEvents) {
 			int simuID = Integer.getInteger(event.getArgs()[0]);
 			if (!evalEvents.containsKey(simuID))
 				evalEvents.put(simuID, new ArrayList<Event>());
