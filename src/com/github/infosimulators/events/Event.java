@@ -1,5 +1,6 @@
 package com.github.infosimulators.events;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Event {
@@ -56,6 +57,8 @@ public class Event {
 	 */
 	public Event(EventType type, List<EventCategory> categories, String[] args) {
 		this.type = type;
+		if (categories == null)
+			categories = new ArrayList<EventCategory>();
 		this.categories = categories;
 		this.args = args;
 
