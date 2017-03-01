@@ -49,6 +49,7 @@ public class Simulation extends IDd {
 			space.registerPhysicsObject(
 					new PhysicsObject(object[0], object[1], object[2], object[3], object[4], object[5]));
 		}
+		space.simulationID = getID();
 	}
 
 	/**
