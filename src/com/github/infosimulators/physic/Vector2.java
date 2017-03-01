@@ -432,7 +432,16 @@ public class Vector2 {
 	static public Vector2 radial(float theta, float magnitude) {
 		return Vector2.scale(new Vector2((float) Math.cos(theta), (float) Math.sin(theta)), magnitude);
 	}
-	static public Vector2 reflect(Vector2 v, Vector2 n){
-		return Vector2.scale(v,3f); // TODO
+	
+	/**
+	* returns one vector reflected to the normal vector
+	*
+	* @param inDirection The vector to be reflected
+	* @param inNormal The normal vector.
+	*
+	* @return The reflected vector.
+	*/
+	static public Vector2 reflect(Vector2 inDirection, Vector2 inNormal){
+		return Vector2.add(Vector2.scale(inNormal,-2f*Vector2.dot(inDirection,inNormal)),inDirection);
 	}
 }

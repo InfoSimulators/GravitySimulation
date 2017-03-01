@@ -4,21 +4,21 @@ public enum EventType {
 
 	/**
 	 * GeneticTrainer-Event: Fires when simulations start for a generation.
-	 * 
+	 *
 	 * args = [int generationNum]
 	 */
 	TRAINER_SIMU_START,
 
 	/**
 	 * GeneticTrainer-Event: Fires when a generation has been generated.
-	 * 
+	 *
 	 * args = [int generationNum]
 	 */
 	TRAINER_GEN_GENERATED,
 
 	/**
 	 * GeneticTrainer-Event: Fires when the first generation has been generated.
-	 * 
+	 *
 	 * args = []
 	 */
 	TRAINER_GENERATED_FIRST_GEN,
@@ -41,7 +41,7 @@ public enum EventType {
 	 *
 	 * args = [int simulationID, int planetID1, int planetID2]
 	 */
-	SIMU_PLANET_COLLISION,
+	SIMU_PLANET_OVERLAP,
 
 	/**
 	 * Simulation-Event: Fired when two planets would unite into one
@@ -49,5 +49,11 @@ public enum EventType {
 	 * args = [int simulationID, int planetID1, int planetID2]
 	 */
 	SIMU_PLANET_UNITE
+	/**
+	 * Simulation-Event: Fired when two planets would unite into one
+	 *
+	 * args = [int simulationID, int planetID1, int planetID2]
+	 */
+	SIMU_PLANET_COLLISION
 
 }
