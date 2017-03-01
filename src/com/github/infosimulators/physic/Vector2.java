@@ -432,5 +432,7 @@ public class Vector2 {
 	static public Vector2 radial(float theta, float magnitude) {
 		return Vector2.scale(new Vector2((float) Math.cos(theta), (float) Math.sin(theta)), magnitude);
 	}
-
+	static public Vector2 reflect(Vector2 v, Vector2 n){
+		return Vector2.scale(v,3f); // TODO
+	}
 }
