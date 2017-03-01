@@ -204,7 +204,7 @@ public class Space extends IDd {
         while (registerIterator.hasNext()) {
             PhysicsObject object = registerIterator.next();
             if (!isInside(object.position)) {
-                unregisterPhysicsObject(object);
+                registerIterator.remove();
                 EventRegistry.fire(new Event(EventType.SIMU_PLANET_LEFT));
                 continue;
             }
