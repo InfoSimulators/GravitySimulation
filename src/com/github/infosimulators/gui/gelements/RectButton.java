@@ -12,15 +12,15 @@ public class RectButton extends GElement{
 	
 	private String ID;
 	
-	public RectButton(String ID, PApplet p, float x, float y, float xSize, float ySize){
-		super(p, x, y, xSize, ySize);
+	public RectButton(String ID, float x, float y, float xSize, float ySize){
+		super(x, y, xSize, ySize);
 		this.ID = ID;
 		
 		pressedLast = false;
 		//hovered = false;
 	}
 	
-	public void update(){
+	public void update(PApplet p){
 		p.stroke(color1[0], color1[1], color1[2]);
 		p.rect(x, y, xSize, ySize);
 		

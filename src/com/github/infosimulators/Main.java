@@ -5,6 +5,8 @@ import com.github.infosimulators.genetictrainer.GeneticTrainer;
 import com.github.infosimulators.genetictrainer.ParameterTypes;
 import com.github.infosimulators.gui.GUI;
 
+//TODO: Add States to main
+
 /**
  * Main class, handling program in general.
  */

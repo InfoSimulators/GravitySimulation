@@ -2,25 +2,44 @@ package com.github.infosimulators.gui;
 
 import processing.core.PApplet;
 
-public abstract class State {
+import java.util.ArrayList;
+import java.util.List;
 
-	//State-manager
-	private static State currentState = null;
+import com.github.infosimulators.gui.gelements.GElement;
+
+public class State {
+	
+	private List<GElement> elements;
+	private int color1, color2, color3;
 		
-	public static void setState(State state){
-		currentState = state;
-	}
+	public State(int color1, int color2, int color3){
+		elements = new ArrayList<GElement>();
 		
-	public static State getState(){
-		return currentState;
+		this.color1 = color1;
+		this.color2 = color2;
+		this.color3 = color3;
 	}
 	
-	//actual Class	
-	protected PApplet p;
+	public State(){
+		elements = new ArrayList<GElement>();
 		
-	public State(PApplet p){
-		this.p = p;
+		this.color1 = GUI.getInstance().getGUIColor1();
+		this.color2 = GUI.getInstance().getGUIColor2();
+		this.color3 = GUI.getInstance().getGUIColor3();
 	}
 		
-	public abstract void update();
+	public void update(PApplet p){
+		p.background(color1);
+		
+		for(GElement element: elements){
+			element.update(p);
+		}
+	}
+	
+	public void addElement(GElement g){
+		g.setColor1(color1);
+		g.setColor2(color2);
+		g.setColor3(color3);
+		elements.add(g);
+	}
 }

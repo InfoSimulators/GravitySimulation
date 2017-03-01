@@ -1,7 +1,5 @@
 package com.github.infosimulators.gui;
 
-import com.github.infosimulators.gui.states.*;
-
 import processing.core.PApplet;
 
 /**
@@ -19,12 +17,13 @@ public class GUI extends PApplet {
 	/**
 	 * States
 	 */
-	private State mainMenuState;
+	private State currentState;
+	//private List<State> states;
 
 	/**
 	 * GUI Colors
 	 */
-	private int[] GUIColor1, GUIColor2, GUIColor3;
+	private int GUIColor1 = 0x000000, GUIColor2 = 0x00ffff, GUIColor3 = 0xffffff;
 	
 	/**
 	 * Constructor, to be called automatically. Do not call manually. Use
@@ -45,25 +44,17 @@ public class GUI extends PApplet {
 	 * Called once after startup
 	 */
 	public void setup() {
-		colorSetup();
 		
 		textFont(loadFont("Helvetica-Bold-96.vlw"), 96);
 		
-		if(mainMenuState == null){
-			System.out.println("Creation");
-			if(instance == null){
-				System.out.println("instance null - creation");
-			}
-			mainMenuState = new MainMenuState(instance);
-		}
-		State.setState(mainMenuState);
+		currentState = new State();
 	}
 
 	/**
 	 * Called each frame
 	 */
 	public void draw() {
-		State.getState().update();
+		currentState.update(instance);
 	}
 
 	/**
@@ -78,43 +69,46 @@ public class GUI extends PApplet {
 		}
 		return instance;
 	}
-	
+
 	/**
-	 * Setting values for the GUI colors
+	 * @return the gUIColor1
 	 */
-	private void colorSetup(){
-		//Base color
-		GUIColor1 = new int[3];
-		GUIColor1[0] = 50;
-		GUIColor1[1] = 50;
-		GUIColor1[2] = 150;
-		
-		//2nd color
-		GUIColor2 = new int[3];
-		GUIColor2[0] = 50;
-		GUIColor2[1] = 50;
-		GUIColor2[2] = 50;
-		
-		//Accent color
-		GUIColor3 = new int[3];
-		GUIColor3[0] = 255;
-		GUIColor3[1] = 255;
-		GUIColor3[2] = 255;
-	}
-	
-	/**
-	 * Getters and setters
-	 */
-	
-	public int[] getGUIColor1(){
+	public int getGUIColor1() {
 		return GUIColor1;
 	}
-	
-	public int[] getGUIColor2(){
+
+	/**
+	 * @param gUIColor1 the gUIColor1 to set
+	 */
+	public void setGUIColor1(int gUIColor1) {
+		GUIColor1 = gUIColor1;
+	}
+
+	/**
+	 * @return the gUIColor2
+	 */
+	public int getGUIColor2() {
 		return GUIColor2;
 	}
-	
-	public int[] getGUIColor3(){
+
+	/**
+	 * @param gUIColor2 the gUIColor2 to set
+	 */
+	public void setGUIColor2(int gUIColor2) {
+		GUIColor2 = gUIColor2;
+	}
+
+	/**
+	 * @return the gUIColor3
+	 */
+	public int getGUIColor3() {
 		return GUIColor3;
+	}
+
+	/**
+	 * @param gUIColor3 the gUIColor3 to set
+	 */
+	public void setGUIColor3(int gUIColor3) {
+		GUIColor3 = gUIColor3;
 	}
 }
