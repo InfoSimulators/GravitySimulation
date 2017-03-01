@@ -279,7 +279,6 @@ public class GeneticTrainer {
 	 * Updates all running simulations and sorts and interprets some events.
 	 */
 	public void step() {
-		// TODO simulation step
 		for (Simulation simulation : simulations)
 			simulation.update();
 
