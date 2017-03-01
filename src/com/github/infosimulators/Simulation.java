@@ -24,6 +24,7 @@ public class Simulation extends IDd {
 		super();
 		space = new Space();
 		space.maxDistance = size;
+		space.simulationID = id;
 	}
 
 	/**
