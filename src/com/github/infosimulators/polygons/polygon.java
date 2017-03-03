@@ -33,7 +33,14 @@ public class Polygon{
   public Vector2[] getVerticies(){
     return verticies;
   }
-
+  /**
+  * Sets the vertecies new.
+  *
+  * @param verticies The new verticies.
+  */
+  public void setVerticies(Vector2[] verticies){
+    this.verticies = verticies;
+  }
   /**
   * Returns the center of this polygon in relation to the position of the polygon.
   *
@@ -43,14 +50,12 @@ public class Polygon{
     float x = 0f;
     float y = 0f;
     int pointCount = verticies.length;
-    for (int i = 0; i < pointCount - 1; i++){
+    for (int i = 0; i == pointCount - 1; i++){
         final Vector2 point = verticies[i];
         x += point.x;
         y += point.y;
     }
-    x = x/pointCount;
-    y = y/pointCount;
-    return new Vector2(x, y);
+    return new Vector2(x/pointCount, y/pointCount);
   }
 
   /**
