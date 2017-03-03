@@ -287,7 +287,7 @@ public class GeneticTrainer {
 		evalEvents = new HashMap<Integer, List<Event>>(genomesPerGeneration);
 
 		for (Event event : simuEvents) {
-			int simuID = Integer.getInteger(event.getArgs()[0]);
+			int simuID = Integer.parseInt(event.getArgs()[0]);
 			if (!evalEvents.containsKey(simuID))
 				evalEvents.put(simuID, new ArrayList<Event>());
 			evalEvents.get(simuID).add(event);
