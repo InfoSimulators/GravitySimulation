@@ -50,6 +50,16 @@ public class Vector2 {
 	}
 
 	/**
+	 * @return The angle between this vector and Vector2.right()
+	 */
+	public float angle(){
+		float sin = x * 0 - 1 * y;
+		float cos = x * 1 + y * 0;
+
+		return (float) Math.atan2(sin, cos);
+	}
+
+	/**
 	 * @return a normalized version of this vector. The vector is not changed.
 	 */
 	public Vector2 normalized() {
@@ -182,6 +192,15 @@ public class Vector2 {
 		return this;
 	}
 
+	/**
+	* method to get the dot product (scalar product) of this and anoher vector;
+	*
+	* @param a Another Vector2.
+	* @return the dot product
+	*/
+	public float dot(Vector2 a) {
+		return x * a.x + y * a.y;
+	}
 	/**
 	 * normalizes this vector. The vector IS changed.
 	 *
@@ -432,7 +451,7 @@ public class Vector2 {
 	static public Vector2 radial(float theta, float magnitude) {
 		return Vector2.scale(new Vector2((float) Math.cos(theta), (float) Math.sin(theta)), magnitude);
 	}
-	
+
 	/**
 	* returns one vector reflected to the normal vector
 	*
