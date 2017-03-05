@@ -1,6 +1,7 @@
-package com.github.infosimulators.polygons;
+package com.github.infosimulators.polygons.collider;
 
 import com.github.infosimulators.physic.Vector2;
+import com.github.infosimulators.polygons.PolygonCollider;
 
 public class OctagonCollider extends PolygonCollider {
 

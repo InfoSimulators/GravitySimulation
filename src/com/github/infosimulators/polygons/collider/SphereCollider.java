@@ -1,4 +1,4 @@
-package com.github.infosimulators.polygons;
+package com.github.infosimulators.polygons.collider;
 
 import com.github.infosimulators.physic.Vector2;
 
