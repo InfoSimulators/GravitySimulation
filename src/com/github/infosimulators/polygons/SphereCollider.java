@@ -2,7 +2,7 @@ package com.github.infosimulators.polygons;
 
 import com.github.infosimulators.physic.Vector2;
 
-public class SphereCollider extends Collider {
+public class SphereCollider extends PolygonCollider {
     public final static int NUMBER_OF_POLYGONS_IN_SPHERE = 50;
 
     /**
@@ -18,7 +18,7 @@ public class SphereCollider extends Collider {
     * @param offset The offset towards the origin.
     */
     public SphereCollider(Vector2 offset) {
-        super(offset);
+        super(NUMBER_OF_POLYGONS_IN_SPHERE,offset);
     }
 
     /**
@@ -28,16 +28,6 @@ public class SphereCollider extends Collider {
     * @param size The size of the Collider.
     */
     public SphereCollider(Vector2 offset, float size) {
-        super(offset, size);
-    }
-
-    /**
-     * Converts this sphere into a polygon with
-     *
-     * @return This sphere as {@link PolygonCollider}.
-     */
-    @Override
-    public PolygonCollider toPolygonCollider() {
-        return new PolygonCollider(NUMBER_OF_POLYGONS_IN_SPHERE, offset, size);
+        super(NUMBER_OF_POLYGONS_IN_SPHERE,offset, size);
     }
 }

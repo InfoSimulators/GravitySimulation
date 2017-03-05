@@ -8,7 +8,7 @@ import com.github.infosimulators.events.EventRegistry;
 import com.github.infosimulators.events.Event;
 import com.github.infosimulators.events.EventCategory;
 import com.github.infosimulators.events.EventType;
-import com.github.infosimulators.polygons.Collider;
+import com.github.infosimulators.polygons.PolygonCollider;
 
 /**
  * This class can be seen as a host for objects that should be effected by
@@ -127,8 +127,8 @@ public class Space {
         Vector2 v1_vector = one.velocity;
         float v2 = two.velocity.magnitude();
         Vector2 v2_vector = two.velocity;
-        one.velocity = v2_vector.setMag((one.mass * v1 + two.mass * (2 * v1 - v2)) / (one.mass + two.mass));
-        two.velocity = v1_vector.setMag((two.mass * v2 + one.mass * (2 * v1 - v2)) / (one.mass + two.mass));
+        one.velocity = v2_vector.setMag((one.getMass() * v1 + two.getMass() * (2 * v1 - v2)) / (one.getMass() + two.getMass()));
+        two.velocity = v1_vector.setMag((two.getMass() * v2 + one.getMass() * (2 * v1 - v2)) / (one.getMass() + two.getMass()));
     }
 
     /**
@@ -140,7 +140,7 @@ public class Space {
      * @param two Another {@link PhysicsObject}.
      */
     protected boolean areColliding(PhysicsObject one, PhysicsObject two) {
-        return Collider.intersect(one.collider, two.collider);
+        return PolygonCollider.intersect(one.collider, two.collider);
     }
 
     /**
@@ -210,7 +210,7 @@ public class Space {
         Iterator<PhysicsObject> registerIterator = spaceRegister.iterator();
         while (registerIterator.hasNext()) {
             PhysicsObject object = registerIterator.next();
-            if (!isInside(object.position)) {
+            if (!isInside(object.getPosition())) {
                 registerIterator.remove();
                 EventRegistry.fire(new Event(EventType.SIMU_PLANET_LEFT, Arrays.asList(EventCategory.SIMULATION),
                         new String[] { "" + simulationID, "" + object.getID() }));
@@ -231,7 +231,7 @@ public class Space {
      * @return the reulting force as a Vector2
      */
     public static Vector2 gravitation(PhysicsObject a, PhysicsObject b) {
-        float force = (float) Constants.G * ((a.mass * b.mass) / (Vector2.sqrDistance(a.position, b.position)));
-        return Vector2.subtract(b.position, a.position).setMag(force);
+        float force = (float) Constants.G * ((a.getMass() * b.getMass()) / (Vector2.sqrDistance(a.getPosition(), b.getPosition())));
+        return Vector2.subtract(b.getPosition(), a.getPosition()).setMag(force);
     }
 }

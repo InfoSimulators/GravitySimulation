@@ -2,8 +2,7 @@ package com.github.infosimulators.physic;
 
 import java.util.ArrayList;
 import com.github.infosimulators.IDRegistry.IDd;
-import com.github.infosimulators.polygons.Collider;
-import com.github.infosimulators.polygons.SphereCollider;
+import com.github.infosimulators.polygons.PolygonCollider;
 
 /**
  * Baseclass for all objects, manipulated by physics.
@@ -13,7 +12,7 @@ import com.github.infosimulators.polygons.SphereCollider;
 public class PhysicsObject extends IDd {
 
 	/** The position of the object in a Cartesian coordinate system represented as a {@link Vector2} */
-	public Vector2 position;
+	protected Vector2 position;
 
 	/** The velocity of the object in a Cartesian coordinate system represented as a {@link Vector2} */
 	public Vector2 velocity;
@@ -24,10 +23,11 @@ public class PhysicsObject extends IDd {
 	/** A list storing all forces applied to the object since the last call of {@link #playoutForces()} as {@link Vector2} */
 	protected ArrayList<Vector2> forces = new ArrayList<Vector2>();
 
-	/** stores the mass of the object as Float in kilogramm */
-	public float mass;
+	/** stores the mass of the object as float in kilogramm */
+	protected float mass;
 
-	public Collider collider;
+	public PolygonCollider collider;
+
 	/**
 	 * Constructor.
 	 *
@@ -43,7 +43,7 @@ public class PhysicsObject extends IDd {
 		this.position = Vector2.radial(theta, distance);
 		this.mass = mass;
 		this.velocity = Vector2.radial(alpha, impulsVelocity);
-		this.collider = new SphereCollider();
+		this.collider = new PolygonCollider(50);
 		this.collider.setSize(radius);
 	}
 
@@ -61,6 +61,36 @@ public class PhysicsObject extends IDd {
 		this.mass = mass;
 		this.collider.setSize(radius);
 		this.velocity = velocity;
+	}
+
+	/**
+	 * @return {@link PhysicsObject.mass}.
+	 */
+	public Vector2 getPosition() {
+		return position;
+	}
+
+	/**
+	* Sets {@link PhysicsObject.position}.
+	*/
+	public void setPosition(Vector2 position) {
+		this.position = position;
+		this.collider.setOffset(position);
+	}
+
+	/**
+	* @return {@link PhysicsObject.mass}.
+	*/
+	public float getMass() {
+		return mass;
+	}
+
+	/**
+	* Sets {@link PhysicsObject.mass}.
+	*/
+	public void setMass(float mass) {
+		this.mass = mass;
+		this.collider.setMass(mass);
 	}
 
 	/**
@@ -111,11 +141,12 @@ public class PhysicsObject extends IDd {
 	 * @param two The secound object.
 	 */
 	public static PhysicsObject unite(PhysicsObject one, PhysicsObject two) {
-		return new PhysicsObject(Vector2.lerp(one.position, two.position, two.mass / (one.mass + two.mass)),
+		return new PhysicsObject(Vector2.lerp(one.getPosition(), two.getPosition(), two.mass / (one.mass + two.mass)),
 				Vector2.add(one.velocity, two.velocity)
 						.setMag((one.mass * one.velocity.magnitude() + two.mass * two.velocity.magnitude())
 								/ (one.mass + two.mass)),
-				one.mass + two.mass, (float) Math.cbrt(Math.pow(one.collider.getSize(), 3) + Math.pow(two.collider.getSize(), 3)));
+				one.mass + two.mass,
+				(float) Math.cbrt(Math.pow(one.collider.getSize(), 3) + Math.pow(two.collider.getSize(), 3)));
 	}
 
 }
