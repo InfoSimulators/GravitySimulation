@@ -18,7 +18,7 @@ public abstract class Collider {
     /**
     * Constructor.
     *
-    * @param verticies The verticies of the PolygonCollider.
+    * @param offset The offset towards the origin.
     */
     public Collider(Vector2 offset) {
         this.offset = offset;
@@ -27,20 +27,21 @@ public abstract class Collider {
     /**
     * Constructor.
     *
-    * @param verticies The verticies of the PolygonCollider.
     * @param offset The offset towards the origin.
+    * @param size The size of this collider.
     */
     public Collider(Vector2 offset, float size) {
         this.size = size;
         this.offset = offset;
     }
+
     /**
      * @return This Collider as a {@link PolygonCollider}.
      */
     public abstract PolygonCollider toPolygonCollider();
 
     /**
-     * Returns the offset.
+     * @returns {@link Collider.offset}.
      */
     public Vector2 getOffset() {
         return offset;
@@ -65,7 +66,7 @@ public abstract class Collider {
     }
 
     /**
-    * @return The size of the Collider.
+    * @returns {@link Collider.size}.
     */
     public float getSize() {
         return size;
@@ -85,6 +86,7 @@ public abstract class Collider {
      *
      * @param a One PolygonCollider.
      * @param b Another PolygonCollider.
+     * @return If two collliders intersect.
      */
     public static boolean intersect(Collider a, Collider b) {
         PolygonCollider one = a.toPolygonCollider();

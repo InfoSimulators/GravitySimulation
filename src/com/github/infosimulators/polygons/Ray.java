@@ -4,13 +4,15 @@ import com.github.infosimulators.physic.Vector2;
 
 /**
  * A class to store information about lines in space.
+ *
+ * It is kind of a superset for {@link Vector2}.
  */
 public class Ray {
     /**
      * Enum to store position relative to the line.
      */
     public enum RelativePoisition {
-        ABOVE, UNDER, ON
+        ABOVE, UNDER, ON, NEXT_TO
     };
 
     /**
@@ -95,7 +97,9 @@ public class Ray {
             return RelativePoisition.UNDER;
         else if (angle > 0 && angle < (float) Math.PI)
             return RelativePoisition.ABOVE;
-        // else if (angle == 0 || angle == (float) Math.PI)
+        else if(angle == (float) Math.PI || angle == 0 )
+            return RelativePoisition.NEXT_TO;
+        // SHOULD NEVER BE REACHED WITH VALID ARGUMENTS
         return RelativePoisition.ON;
     }
 

@@ -3,7 +3,7 @@ package com.github.infosimulators.physic;
 import java.util.ArrayList;
 import com.github.infosimulators.IDRegistry.IDd;
 import com.github.infosimulators.polygons.Collider;
-import com.github.infosimulators.polygons.PolygonCollider;
+import com.github.infosimulators.polygons.SphereCollider;
 
 /**
  * Baseclass for all objects, manipulated by physics.
@@ -43,7 +43,7 @@ public class PhysicsObject extends IDd {
 		this.position = Vector2.radial(theta, distance);
 		this.mass = mass;
 		this.velocity = Vector2.radial(alpha, impulsVelocity);
-		this.collider = new PolygonCollider(3);
+		this.collider = new SphereCollider();
 		this.collider.setSize(radius);
 	}
 
