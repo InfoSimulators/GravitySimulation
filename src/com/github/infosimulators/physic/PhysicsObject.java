@@ -2,6 +2,8 @@ package com.github.infosimulators.physic;
 
 import java.util.ArrayList;
 import com.github.infosimulators.IDRegistry.IDd;
+import com.github.infosimulators.polygons.Collider;
+import com.github.infosimulators.polygons.PolygonCollider;
 
 /**
  * Baseclass for all objects, manipulated by physics.
@@ -25,9 +27,7 @@ public class PhysicsObject extends IDd {
 	/** stores the mass of the object as Float in kilogramm */
 	public float mass;
 
-	/** stores the size of the object as Float in meters */
-	public float size;
-
+	public Collider collider;
 	/**
 	 * Constructor.
 	 *
@@ -38,12 +38,13 @@ public class PhysicsObject extends IDd {
 	 * @param impulsVelocity A float representing the magnitude of the velocity of the object.
 	 * @param alpha The angle of the velocity
 	 */
-	public PhysicsObject(float distance, float theta, float mass, float radius, float impulsVelocity, float alpha) {
+	public PhysicsObject(float distance, float theta, float mass, float impulsVelocity, float alpha, float radius) {
 		super();
 		this.position = Vector2.radial(theta, distance);
 		this.mass = mass;
-		this.size = radius;
 		this.velocity = Vector2.radial(alpha, impulsVelocity);
+		this.collider = new PolygonCollider(3);
+		this.collider.setSize(radius);
 	}
 
 	/**
@@ -58,7 +59,7 @@ public class PhysicsObject extends IDd {
 		super();
 		this.position = position;
 		this.mass = mass;
-		this.size = radius;
+		this.collider.setSize(radius);
 		this.velocity = velocity;
 	}
 
@@ -100,6 +101,7 @@ public class PhysicsObject extends IDd {
 	public void move() {
 		position.add(Vector2.scale(acceleration, 0.5f).add(velocity));
 		velocity.add(acceleration);
+		collider.setOffset(position);
 	}
 
 	/**
@@ -113,7 +115,7 @@ public class PhysicsObject extends IDd {
 				Vector2.add(one.velocity, two.velocity)
 						.setMag((one.mass * one.velocity.magnitude() + two.mass * two.velocity.magnitude())
 								/ (one.mass + two.mass)),
-				one.mass + two.mass, (float) Math.cbrt(Math.pow(one.size, 3) + Math.pow(two.size, 3)));
+				one.mass + two.mass, (float) Math.cbrt(Math.pow(one.collider.getSize(), 3) + Math.pow(two.collider.getSize(), 3)));
 	}
 
 }

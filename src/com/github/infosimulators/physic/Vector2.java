@@ -52,7 +52,7 @@ public class Vector2 {
 	/**
 	 * @return The angle between this vector and Vector2.right()
 	 */
-	public float angle(){
+	public float angle() {
 		float sin = x * 0 - 1 * y;
 		float cos = x * 1 + y * 0;
 
@@ -157,7 +157,7 @@ public class Vector2 {
 	 *            first float
 	 * @param y
 	 *            second float
-	 * @return this vector changed
+	 * @return This vector changed.
 	 */
 	public Vector2 subtract(float x, float y) {
 		this.x -= x;
@@ -170,11 +170,24 @@ public class Vector2 {
 	 *
 	 * @param r
 	 *            the number to multiply with the vector
-	 * @return this vector changed
+	 * @return This vector changed.
 	 */
 	public Vector2 scale(float r) {
 		this.x *= r;
 		this.y *= r;
+		return this;
+	}
+
+	/**
+	* Multiplies a vectors components with the ones another vector provides.
+	*
+	* @param r
+	*            the vector those parts to multiply with the vectors corrosponding parts individually.
+	* @return This vector changed.
+	*/
+	public Vector2 scaleIndividual(Vector2 r) {
+		this.x *= r.x;
+		this.y *= r.y;
 		return this;
 	}
 
@@ -184,7 +197,7 @@ public class Vector2 {
 	 *
 	 * @param r
 	 *            the number by which to divide the vector
-	 * @return this vector changed
+	 * @return This vector changed.
 	 */
 	public Vector2 div(float r) {
 		x /= r;
@@ -193,7 +206,20 @@ public class Vector2 {
 	}
 
 	/**
-	* method to get the dot product (scalar product) of this and anoher vector;
+	* Divides a vectors components by the ones another vector provides.
+	*
+	* @param r
+	*            the vector by which parts to divide the vectors corrosponding parts individually.
+	* @return This vector changed.
+	*/
+	public Vector2 divIndividual(Vector2 r) {
+		this.x /= r.x;
+		this.y /= r.y;
+		return this;
+	}
+
+	/**
+	* Method to get the dot product (scalar product) of this and anoher vector;
 	*
 	* @param a Another Vector2.
 	* @return the dot product
@@ -201,10 +227,11 @@ public class Vector2 {
 	public float dot(Vector2 a) {
 		return x * a.x + y * a.y;
 	}
+
 	/**
 	 * normalizes this vector. The vector IS changed.
 	 *
-	 * @return this vector changed
+	 * @return This vector changed.
 	 */
 	public Vector2 normalize() {
 		float magnitude = magnitude();
@@ -222,7 +249,7 @@ public class Vector2 {
 	 *
 	 * @param len
 	 *            the new length for this vector
-	 * @return this vector changed
+	 * @return This vector changed.
 	 */
 	public Vector2 setMag(float len) {
 		normalize();
@@ -240,7 +267,7 @@ public class Vector2 {
 	 *            The amount of interpolation; some value between 0.0 (old
 	 *            vector) and 1.0 (new vector). 0.1 is very near the old vector;
 	 *            0.5 is halfway in between.
-	 * @return this vector changed
+	 * @return This vector changed.
 	 */
 	public Vector2 lerp(Vector2 v, float amt) {
 		x = x + (v.x - x) * amt;
@@ -254,7 +281,7 @@ public class Vector2 {
 	 *
 	 * @param theta
 	 *            the angle of rotation
-	 * @return this vector changed
+	 * @return This vector changed.
 	 */
 	public Vector2 rotate(float theta) {
 		float temp = x;
@@ -287,11 +314,15 @@ public class Vector2 {
 		return new Vector2(1, 0);
 	}
 
+	public static final Vector2 one() {
+		return new Vector2(1, 1);
+	}
+
 	/**
 	 * Converts PVector (Vectorclass form Processing) to Vector2
 	 *
 	 * @param pvector
-	 * @return transformed vector
+	 * @return Collidered vector
 	 */
 	public static Vector2 fromPVector(PVector pvector) {
 		return new Vector2(pvector.x, pvector.y);
@@ -331,7 +362,20 @@ public class Vector2 {
 	}
 
 	/**
+	* Multiplies a vectors components with the ones another vector provides.
+	* Equals new {@link Vector2}(v.x*r.x, v.y*r.y).
+	*
+	* @param v One vector.
+	* @param r Another vector.
+	* @return This vector changed.
+	*/
+	public Vector2 scaleIndividual(Vector2 v, Vector2 r) {
+		return new Vector2(v.x * r.x, v.y * r.y);
+	}
+
+	/**
 	 * Divide a vector by a scalar and return the result in a new vector.
+	 * Equals new {@link Vector2}(v.x/r, v.y/r).
 	 *
 	 * @param v
 	 *            the vector to divide by the scalar
@@ -341,6 +385,18 @@ public class Vector2 {
 	 */
 	public static Vector2 div(Vector2 v, float r) {
 		return new Vector2(v.x / r, v.y / r);
+	}
+
+	/**
+	* Divides a vectors components by the ones another vector provides.
+	* Equals new {@link Vector2}(v.x/r, v.y/r).
+	*
+	* @param v One vector.
+	* @param r Another vector.
+	* @return This vector changed.
+	*/
+	public Vector2 divIndividual(Vector2 v, Vector2 r) {
+		return new Vector2(v.x / r.x, v.y / r.y);
 	}
 
 	/**
@@ -460,7 +516,7 @@ public class Vector2 {
 	*
 	* @return The reflected vector.
 	*/
-	static public Vector2 reflect(Vector2 inDirection, Vector2 inNormal){
-		return Vector2.add(Vector2.scale(inNormal,-2f*Vector2.dot(inDirection,inNormal)),inDirection);
+	static public Vector2 reflect(Vector2 inDirection, Vector2 inNormal) {
+		return Vector2.add(Vector2.scale(inNormal, -2f * Vector2.dot(inDirection, inNormal)), inDirection);
 	}
 }

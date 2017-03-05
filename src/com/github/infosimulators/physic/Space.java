@@ -8,6 +8,7 @@ import com.github.infosimulators.events.EventRegistry;
 import com.github.infosimulators.events.Event;
 import com.github.infosimulators.events.EventCategory;
 import com.github.infosimulators.events.EventType;
+import com.github.infosimulators.polygons.Collider;
 
 /**
  * This class can be seen as a host for objects that should be effected by
@@ -139,7 +140,7 @@ public class Space {
      * @param two Another {@link PhysicsObject}.
      */
     protected boolean areColliding(PhysicsObject one, PhysicsObject two) {
-        return Vector2.distance(one.position, two.position) < (one.size + two.size);
+        return Collider.intersect(one.collider, two.collider);
     }
 
     /**
