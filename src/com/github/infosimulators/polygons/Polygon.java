@@ -51,8 +51,8 @@ public class Polygon {
         ArrayList<Vector2> verticies = new ArrayList<Vector2>();
         double theta = 2 * Math.PI / N;
         for (int i = 0; i < N; ++i) {
-            float x = (float) Math.cos(theta * i);
-            float y = (float) Math.sin(theta * i);
+            float x = (float) Math.cos(theta * -i + Math.PI * 3 / 4);
+            float y = (float) Math.sin(theta * -i + Math.PI * 3 / 4);
             verticies.add(new Vector2(x, y));
         }
         this.verticies = verticies.toArray(new Vector2[verticies.size()]);
@@ -69,8 +69,8 @@ public class Polygon {
         ArrayList<Vector2> verticies = new ArrayList<Vector2>();
         double theta = 2 * Math.PI / N;
         for (int i = 0; i < N; ++i) {
-            float x = (float) Math.cos(theta * i);
-            float y = (float) Math.sin(theta * i);
+            float x = (float) Math.cos(theta * -i + Math.PI * 3 / 4);
+            float y = (float) Math.sin(theta * -i + Math.PI * 3 / 4);
             verticies.add(new Vector2(x, y));
         }
         this.verticies = verticies.toArray(new Vector2[verticies.size()]);
@@ -89,8 +89,8 @@ public class Polygon {
         ArrayList<Vector2> verticies = new ArrayList<Vector2>();
         double theta = 2 * Math.PI / N;
         for (int i = 0; i < N; ++i) {
-            float x = (float) Math.cos(theta * i);
-            float y = (float) Math.sin(theta * i);
+            float x = (float) Math.cos(theta * -i + Math.PI * 3 / 4);
+            float y = (float) Math.sin(theta * -i + Math.PI * 3 / 4);
             verticies.add(new Vector2(x, y));
         }
         this.verticies = verticies.toArray(new Vector2[verticies.size()]);
@@ -99,7 +99,7 @@ public class Polygon {
     /**
     * @return The center of mass of this polygon.
     */
-    public Vector2 center(){
+    public Vector2 center() {
         return offset;
     }
 
@@ -205,25 +205,6 @@ public class Polygon {
         return edges.toArray(new Vector2[edges.size()]);
     }
 
-    /**
-     * @returns the mass center in ralation to the origin.
-     */
-    /**
-    * Generates a regular Polygon
-    *
-    * @param numberOfVertices The number of verticies.
-    * @return A regular Polygon with "numberOfVertices" verticies.
-    */
-    public static Polygon regularPolygon(int numberOfVertices) {
-        ArrayList<Vector2> verticies = new ArrayList<Vector2>();
-        double theta = 2 * Math.PI / numberOfVertices;
-        for (int i = 0; i < numberOfVertices; ++i) {
-            float x = (float) Math.cos(theta * i);
-            float y = (float) Math.sin(theta * i);
-            verticies.add(new Vector2(x, y));
-        }
-        return new Polygon(verticies.toArray(new Vector2[verticies.size()]));
-    }
 
     /**
     * Checks if two Polygon intersect.
