@@ -1,15 +1,15 @@
-package com.github.infosimulators.polygons.collider;
+package com.github.infosimulators.polygons.regular;
 
 import com.github.infosimulators.physic.Vector2;
-import com.github.infosimulators.polygons.PolygonCollider;
+import com.github.infosimulators.polygons.Polygon;
 
-public class SphereCollider extends PolygonCollider {
+public class Sphere extends Polygon {
     public final static int NUMBER_OF_POLYGONS_IN_SPHERE = 50;
 
     /**
     * Constructor.
     */
-    public SphereCollider() {
+    public Sphere() {
         super();
     }
 
@@ -18,7 +18,7 @@ public class SphereCollider extends PolygonCollider {
     *
     * @param offset The offset towards the origin.
     */
-    public SphereCollider(Vector2 offset) {
+    public Sphere(Vector2 offset) {
         super(NUMBER_OF_POLYGONS_IN_SPHERE,offset);
     }
 
@@ -28,7 +28,7 @@ public class SphereCollider extends PolygonCollider {
     * @param offset The offset towards the origin.
     * @param size The size of the Collider.
     */
-    public SphereCollider(Vector2 offset, float size) {
+    public Sphere(Vector2 offset, float size) {
         super(NUMBER_OF_POLYGONS_IN_SPHERE,offset, size);
     }
 }

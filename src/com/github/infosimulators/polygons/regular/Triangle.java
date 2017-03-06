@@ -1,13 +1,13 @@
-package com.github.infosimulators.polygons.collider;
+package com.github.infosimulators.polygons.regular;
 
 import com.github.infosimulators.physic.Vector2;
-import com.github.infosimulators.polygons.PolygonCollider;
+import com.github.infosimulators.polygons.Polygon;
 
-public class TriangleCollider extends PolygonCollider {
+public class Triangle extends Polygon {
     /**
     * Constructor.
     */
-    public TriangleCollider() {
+    public Triangle() {
         super();
     }
 
@@ -16,7 +16,7 @@ public class TriangleCollider extends PolygonCollider {
     *
     * @param offset The offset towards the origin.
     */
-    public TriangleCollider(Vector2 offset) {
+    public Triangle(Vector2 offset) {
         super(3, offset);
     }
 
@@ -26,7 +26,7 @@ public class TriangleCollider extends PolygonCollider {
     * @param offset The offset towards the origin.
     * @param size The size of the Collider.
     */
-    public TriangleCollider(Vector2 offset, float size) {
+    public Triangle(Vector2 offset, float size) {
         super(3, offset, size);
     }
 }

@@ -8,26 +8,26 @@ import com.github.infosimulators.physic.Vector2;
  * Class for building more complex polygons.
  * TODO
  */
-public class PolygonGroupCollider extends PolygonCollider {
+public class PolygonGroup extends Polygon {
     public enum faces{
         NORTH,SOUTH,EAST,WEST
     }
-    protected ArrayList<PolygonCollider> polygons;
+    protected ArrayList<Polygon> polygons;
 
     /**
     * Constructor.
     */
-    public PolygonGroupCollider() {
+    public PolygonGroup() {
         super();
     }
 
     /**
-     * @return The summed mass of all subPolygonCollider.
+     * @return The summed mass of all subPolygon.
      */
     @Override
     public float getMass() {
         float temp = 0f;
-        for (PolygonCollider poly : polygons) {
+        for (Polygon poly : polygons) {
             temp += poly.getMass();
         }
         return temp;
@@ -35,7 +35,7 @@ public class PolygonGroupCollider extends PolygonCollider {
 
     /**
      * Sets the mass of the overall polygon new.
-     * The new mass of every subPolygonCollider is calculated as.
+     * The new mass of every subPolygon is calculated as.
      * sPC.massNew = sPC.massNew * (this.massOld/this.massNew)
      *
      * @param newMass The new mass of the PolygonGroupCollider.
@@ -43,7 +43,7 @@ public class PolygonGroupCollider extends PolygonCollider {
     @Override
     public void setMass(float newMass) {
         float oldMass = getMass();
-        for (PolygonCollider poly : polygons) {
+        for (Polygon poly : polygons) {
             poly.setMass(poly.getMass() * (oldMass / newMass));
         }
     }
@@ -54,7 +54,7 @@ public class PolygonGroupCollider extends PolygonCollider {
     @Override
     public Vector2[] getVerticies() {
         ArrayList<Vector2> temp = new ArrayList<Vector2>();
-        for (PolygonCollider poly : polygons) {
+        for (Polygon poly : polygons) {
             for (Vector2 v : poly.getVerticies()) {
                 if (!temp.contains(v))
                     temp.add(v);

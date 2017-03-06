@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import com.github.infosimulators.physic.Vector2;
 import com.github.infosimulators.polygons.Ray.RelativePoisition;
 
-public class PolygonCollider {
+public class Polygon {
     /** points on the outside */
     protected Vector2[] verticies;
     private float mass = 1f;
@@ -17,36 +17,36 @@ public class PolygonCollider {
     * Constructor.
     *
     */
-    public PolygonCollider() {
+    public Polygon() {
         verticies = new Vector2[] {};
     }
 
     /**
     * Constructor.
     *
-    * @param verticies The verticies of the PolygonCollider.
+    * @param verticies The verticies of the Polygon.
     */
-    public PolygonCollider(Vector2[] verticies) {
+    public Polygon(Vector2[] verticies) {
         this.verticies = verticies;
     }
 
     /**
     * Constructor.
     *
-    * @param verticies The verticies of the PolygonCollider.
+    * @param verticies The verticies of the Polygon.
     * @param offset The offset towards the origin.
     */
-    public PolygonCollider(Vector2[] verticies, Vector2 offset) {
+    public Polygon(Vector2[] verticies, Vector2 offset) {
         this.offset = offset;
         this.verticies = verticies;
     }
 
     /**
-    * Constructor. Generates a new regular N-PolygonCollider
+    * Constructor. Generates a new regular N-Polygon
     *
-    * @param N The number verticies of thi PolygonCollider.
+    * @param N The number verticies of thi Polygon.
     */
-    public PolygonCollider(float N) {
+    public Polygon(float N) {
         super();
         ArrayList<Vector2> verticies = new ArrayList<Vector2>();
         double theta = 2 * Math.PI / N;
@@ -59,12 +59,12 @@ public class PolygonCollider {
     }
 
     /**
-    * Constructor. Generates a new regular N-PolygonCollider
+    * Constructor. Generates a new regular N-Polygon
     *
-    * @param N The number verticies of thi PolygonCollider.
+    * @param N The number verticies of thi Polygon.
     * @param offset The offset towards the origin.
     */
-    public PolygonCollider(float N, Vector2 offset) {
+    public Polygon(float N, Vector2 offset) {
         this.offset = offset;
         ArrayList<Vector2> verticies = new ArrayList<Vector2>();
         double theta = 2 * Math.PI / N;
@@ -77,13 +77,13 @@ public class PolygonCollider {
     }
 
     /**
-    * Constructor. Generates a new regular N-PolygonCollider
+    * Constructor. Generates a new regular N-Polygon
     *
-    * @param N The number verticies of thi PolygonCollider.
+    * @param N The number verticies of thi Polygon.
     * @param offset The offset towards the origin.
     * @param size THe size of this object.
     */
-    public PolygonCollider(float N, Vector2 offset, float size) {
+    public Polygon(float N, Vector2 offset, float size) {
         this.offset = offset;
         this.size = size;
         ArrayList<Vector2> verticies = new ArrayList<Vector2>();
@@ -97,7 +97,7 @@ public class PolygonCollider {
     }
 
     /**
-     * @returns {@link PolygonCollider.offset}.
+     * @returns {@link Polygon.offset}.
      */
     public Vector2 getOffset() {
         return offset;
@@ -122,7 +122,7 @@ public class PolygonCollider {
     }
 
     /**
-    * @returns {@link PolygonCollider.size}.
+    * @returns {@link Polygon.size}.
     */
     public float getSize() {
         return size;
@@ -138,7 +138,7 @@ public class PolygonCollider {
     }
 
     /**
-    * @returns {@link PolygonCollider.mass}.
+    * @returns {@link Polygon.mass}.
     */
     public float getMass() {
         return mass;
@@ -181,8 +181,8 @@ public class PolygonCollider {
     }
 
     /**
-     * Returns an array with all edges this PolygonCollider has.
-     * @return An array with all edges of this PolygonCollider.
+     * Returns an array with all edges this Polygon has.
+     * @return An array with all edges of this Polygon.
      */
     public Vector2[] allEdges() {
         ArrayList<Vector2> edges = new ArrayList<Vector2>();
@@ -202,12 +202,12 @@ public class PolygonCollider {
      * @returns the mass center in ralation to the origin.
      */
     /**
-    * Generates a regular PolygonCollider
+    * Generates a regular Polygon
     *
     * @param numberOfVertices The number of verticies.
-    * @return A regular PolygonCollider with "numberOfVertices" verticies.
+    * @return A regular Polygon with "numberOfVertices" verticies.
     */
-    public static PolygonCollider regularPolygonCollider(int numberOfVertices) {
+    public static Polygon regularPolygon(int numberOfVertices) {
         ArrayList<Vector2> verticies = new ArrayList<Vector2>();
         double theta = 2 * Math.PI / numberOfVertices;
         for (int i = 0; i < numberOfVertices; ++i) {
@@ -215,16 +215,16 @@ public class PolygonCollider {
             float y = (float) Math.sin(theta * i);
             verticies.add(new Vector2(x, y));
         }
-        return new PolygonCollider(verticies.toArray(new Vector2[verticies.size()]));
+        return new Polygon(verticies.toArray(new Vector2[verticies.size()]));
     }
 
     /**
-    * Checks if two PolygonCollider intersect.
-    * @param a One PolygonCollider.
-    * @param b Another PolygonCollider.
+    * Checks if two Polygon intersect.
+    * @param a One Polygon.
+    * @param b Another Polygon.
     * @return If two collliders intersect.
     */
-    public static boolean intersect(PolygonCollider one, PolygonCollider two) {
+    public static boolean intersect(Polygon one, Polygon two) {
         if (one == two)
             return true;
         for (Vector2 vertice1 : one.getVerticies()) {

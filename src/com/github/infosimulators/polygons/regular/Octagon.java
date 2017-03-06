@@ -1,14 +1,14 @@
-package com.github.infosimulators.polygons.collider;
+package com.github.infosimulators.polygons.regular;
 
 import com.github.infosimulators.physic.Vector2;
-import com.github.infosimulators.polygons.PolygonCollider;
+import com.github.infosimulators.polygons.Polygon;
 
-public class OctagonCollider extends PolygonCollider {
+public class Octagon extends Polygon {
 
     /**
     * Constructor.
     */
-    public OctagonCollider() {
+    public Octagon() {
         super();
     }
 
@@ -17,7 +17,7 @@ public class OctagonCollider extends PolygonCollider {
     *
     * @param offset The offset towards the origin.
     */
-    public OctagonCollider(Vector2 offset) {
+    public Octagon(Vector2 offset) {
         super(8, offset);
     }
 
@@ -27,7 +27,7 @@ public class OctagonCollider extends PolygonCollider {
     * @param offset The offset towards the origin.
     * @param size The size of the Collider.
     */
-    public OctagonCollider(Vector2 offset, float size) {
+    public Octagon(Vector2 offset, float size) {
         super(8, offset, size);
     }
 }
