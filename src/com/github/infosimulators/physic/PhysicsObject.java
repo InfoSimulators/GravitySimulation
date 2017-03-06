@@ -61,6 +61,7 @@ public class PhysicsObject extends IDd {
 		this.position = position;
 		this.mass = mass;
 		this.collider = new Sphere();
+		this.collider.setOffset(position);
 		this.collider.setSize(radius);
 		this.velocity = velocity;
 	}
