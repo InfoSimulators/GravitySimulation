@@ -97,6 +97,13 @@ public class Polygon {
     }
 
     /**
+    * @return The center of mass of this polygon.
+    */
+    public Vector2 center(){
+        return offset;
+    }
+
+    /**
      * @returns {@link Polygon.offset}.
      */
     public Vector2 getOffset() {

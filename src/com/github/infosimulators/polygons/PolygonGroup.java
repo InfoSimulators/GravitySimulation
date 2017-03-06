@@ -32,6 +32,22 @@ public class PolygonGroup extends Polygon {
         }
         return temp;
     }
+    /**
+     * @return The center of mass of this polygon.
+     */
+    @Override
+    public Vector2 center(){
+        float offsetToCenterX = 0f;
+        float offsetToCenterY = 0f;
+        for (Polygon poly : polygons){
+            offsetToCenterX += poly.getOffset().x*poly.getMass();
+            offsetToCenterY += poly.getOffset().y * poly.getMass();
+        }
+        offsetToCenterX /= getMass();
+        offsetToCenterY /= getMass();
+
+        return new Vector2(offsetToCenterX + getOffset().x, offsetToCenterY + getOffset().y);
+    }
 
     /**
      * Sets the mass of the overall polygon new.
