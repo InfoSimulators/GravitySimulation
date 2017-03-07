@@ -181,6 +181,20 @@ public class Polygon {
     }
 
     /**
+    * Adds a vertecies.
+    *
+    * @param vertex The new verticies.
+    */
+    public void addVertex(Vector2 vertex) {
+        Vector2[] temp = new Vector2[verticies.length+1];
+        for(int i =0; i<verticies.length;i++){
+            temp[i] = verticies[i];
+        }
+        temp[-1] =vertex;
+        this.verticies = temp;
+
+    }
+    /**
      * Gets the number of verticies.
      */
     public int getVerticiesCount() {
