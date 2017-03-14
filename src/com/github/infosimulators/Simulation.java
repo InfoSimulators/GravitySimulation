@@ -38,9 +38,9 @@ public class Simulation extends IDd {
 	 * 		content[n][0] The distance form the origin.
 	 * 		content[n][1] The angle from the origin.
 	 * 		content[n][2] Tee mass of the object.
-	 * 		content[n][3] The radius of the object.
-	 * 		content[n][4] Tee magnitude of the velocity.
-	 * 		content[n][5] The angle of the velocity.
+	 * 		content[n][3] Tee magnitude of the velocity.
+	 * 		content[n][4] The angle of the velocity.
+	 * 	 	content[n][5] The radius of the object.
 	 */
 	public Simulation(float[][] content) {
 		super();
