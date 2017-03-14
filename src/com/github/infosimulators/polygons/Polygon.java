@@ -223,7 +223,7 @@ public class Polygon {
         return true;
     }
 
-    private Vector2[] getVerticiesOnCircle(float N) {
+    public static Vector2[] getVerticiesOnCircle(float N) {
         ArrayList<Vector2> verticies = new ArrayList<Vector2>();
         double theta = 2 * Math.PI / N;
         for (int i = 0; i < N; ++i) {
