@@ -4,6 +4,10 @@ import com.github.infosimulators.gui.GUI;
 
 import processing.core.PApplet;
 
+/**
+ * Abstract class containing methods and variables used by all GElements.
+ *
+ */
 public abstract class GElement {
 	
 	protected String ID;

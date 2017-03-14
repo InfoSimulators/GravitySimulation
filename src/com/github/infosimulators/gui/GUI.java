@@ -19,10 +19,9 @@ public class GUI extends PApplet {
 	private static GUI instance;
 	
 	/**
-	 * States
+	 * Current State to be displayed.
 	 */
 	private State currentState;
-	//private List<State> states;
 
 	/**
 	 * GUI Colors
@@ -46,6 +45,7 @@ public class GUI extends PApplet {
 
 	/**
 	 * Called once after startup
+	 * Sets basic options of the GUI.
 	 */
 	public void setup() {
 		
@@ -55,8 +55,6 @@ public class GUI extends PApplet {
 		GUIColor1 = 0;//0x000000;
 		GUIColor2 = 120;//0x00000f;
 		GUIColor3 = 255;//0x0000ff;
-		
-		
 		
 		strokeCap(ROUND);
 		strokeJoin(ROUND);
@@ -72,10 +70,17 @@ public class GUI extends PApplet {
 		removeEvents();
 	}
 
+	
+	/**
+	 * Equivalent to the Key-Listener when using awt.
+	 */
 	public void keyReleased(){
 		EventRegistry.fire(new Event(Eventtype.KEY_RELEASED, new String[]{Character.toString(key)}));
 	}
 	
+	/**
+	 * Some types of events need to be removed, if unused for a frame.
+	 */
 	private void removeEvents(){
 		for (Event event: EventRegistry.getEventsOfType(Eventtype.KEY_RELEASED)){
 			event.setHandled();

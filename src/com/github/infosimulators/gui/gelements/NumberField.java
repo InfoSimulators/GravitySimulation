@@ -6,6 +6,10 @@ import com.github.infosimulators.events.Eventtype;
 
 import processing.core.PApplet;
 
+/**
+ * GElement able to store numbers and get Input from the Keyboard.
+ *
+ */
 public class NumberField extends GElement{
 
 	private int value, max;

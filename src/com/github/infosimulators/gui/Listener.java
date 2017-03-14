@@ -1,5 +1,9 @@
 package com.github.infosimulators.gui;
 
+/**
+ * Simple class matching an ID (activation name) and a Runnable.
+ *
+ */
 public class Listener {
 	
 	private String ID;

@@ -14,7 +14,6 @@ import com.github.infosimulators.gui.gelements.RectButton;
 
 import processing.core.PApplet;
 
-//TODO: Add States to main
 
 /**
  * Main class, handling program in general.
@@ -36,6 +35,27 @@ public class Main {
 		// creates and runs processing sketch
 		gui = GUI.getInstance();
 		
+		functionalityTest();
+		
+
+		ParameterTypes[] format = new ParameterTypes[] { ParameterTypes.BOOLEAN, ParameterTypes.INT,
+				ParameterTypes.DOUBLE };
+		Evaluator evaluator = new Evaluator(format) {
+		};
+		GeneticTrainer trainer = new GeneticTrainer(evaluator, 50);
+
+		for (int i = 0; i < 10; i++) {
+			trainer.evaluateCurrent();
+			trainer.generateNextGeneration();
+		}
+
+	}
+	
+	
+	/**
+	 * Test code to show the basic functionality of the GUI.
+	 */
+	private static void functionalityTest(){
 		State mainMenuState = new State(0, 120, 255);
 		mainMenuState.addElement(new RectButton("TestButton", 40, 40, 100, 100));
 		mainMenuState.addListener(new Listener("TestButton", new Runnable(){
@@ -66,30 +86,6 @@ public class Main {
 		mainMenuState.addElement(new NumberField("TestCounter", 6, 40, 150, 110, 30));
 		
 		gui.setState(mainMenuState);
-
-		/*
-		 * Some ideas for GUI-Objects:
-		 *
-		 * Panel panel = gui.createPanel(); Graph graph = panel.createGraph();
-		 * graph.setType(GRAPH_TYPE); graph.setData(DATA); Slider slider =
-		 * panel.createSlider(); Listener listener = new Listener();
-		 * slider.addListener(listener); World world = gui.getWorld(); // the
-		 * world objects are in WorldObject object = world.addObject(x, y,
-		 * radius, color); obj.move(deltaX, deltaY);
-		 *
-		 */
-
-		ParameterTypes[] format = new ParameterTypes[] { ParameterTypes.BOOLEAN, ParameterTypes.INT,
-				ParameterTypes.DOUBLE };
-		Evaluator evaluator = new Evaluator(format) {
-		};
-		GeneticTrainer trainer = new GeneticTrainer(evaluator, 50);
-
-		for (int i = 0; i < 10; i++) {
-			trainer.evaluateCurrent();
-			trainer.generateNextGeneration();
-		}
-
 	}
 
 	/**

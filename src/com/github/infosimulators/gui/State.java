@@ -11,6 +11,10 @@ import com.github.infosimulators.events.EventRegistry;
 import com.github.infosimulators.events.Eventtype;
 import com.github.infosimulators.gui.gelements.GElement;
 
+/**
+ * Saves currently needed GElements and Listeners.
+ * Update function updates all saves Elements.
+ */
 public class State {
 	
 	private List<GElement> elements;

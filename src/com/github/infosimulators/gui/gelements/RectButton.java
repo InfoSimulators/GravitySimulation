@@ -6,6 +6,10 @@ import com.github.infosimulators.events.Eventtype;
 
 import processing.core.PApplet;
 
+/**
+ * Basic GElement. Rectangular Button.
+ * Events are fired, if Button is pressed or hovered.
+ */
 public class RectButton extends GElement{
 
 	private boolean pressedLast, hovered;
