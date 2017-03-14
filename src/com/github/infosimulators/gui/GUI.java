@@ -1,5 +1,9 @@
 package com.github.infosimulators.gui;
 
+import com.github.infosimulators.events.Event;
+import com.github.infosimulators.events.EventRegistry;
+import com.github.infosimulators.events.Eventtype;
+
 import processing.core.PApplet;
 
 /**
@@ -23,7 +27,7 @@ public class GUI extends PApplet {
 	/**
 	 * GUI Colors
 	 */
-	private int GUIColor1 = 0x000000, GUIColor2 = 0x00ffff, GUIColor3 = 0xffffff;
+	private int GUIColor1, GUIColor2, GUIColor3;
 	
 	/**
 	 * Constructor, to be called automatically. Do not call manually. Use
@@ -47,7 +51,16 @@ public class GUI extends PApplet {
 		
 		textFont(loadFont("Helvetica-Bold-96.vlw"), 96);
 		
-		currentState = new State();
+		colorMode(RGB, 255, 255, 255);
+		GUIColor1 = 0;//0x000000;
+		GUIColor2 = 120;//0x00000f;
+		GUIColor3 = 255;//0x0000ff;
+		
+		
+		
+		strokeCap(ROUND);
+		strokeJoin(ROUND);
+	
 	}
 
 	/**
@@ -55,8 +68,20 @@ public class GUI extends PApplet {
 	 */
 	public void draw() {
 		currentState.update(instance);
+		
+		removeEvents();
 	}
 
+	public void keyReleased(){
+		EventRegistry.fire(new Event(Eventtype.KEY_RELEASED, new String[]{Character.toString(key)}));
+	}
+	
+	private void removeEvents(){
+		for (Event event: EventRegistry.getEventsOfType(Eventtype.KEY_RELEASED)){
+			event.setHandled();
+		}
+	}
+	
 	/**
 	 * Configures this class as main processing class. Use instead of
 	 * constructor.
@@ -71,14 +96,28 @@ public class GUI extends PApplet {
 	}
 
 	/**
-	 * @return the gUIColor1
+	 * @return the currentState
+	 */
+	public State getState() {
+		return currentState;
+	}
+
+	/**
+	 * @param State the State to set
+	 */
+	public void setState(State State) {
+		this.currentState = State;
+	}
+
+	/**
+	 * @return the GUIColor1
 	 */
 	public int getGUIColor1() {
 		return GUIColor1;
 	}
 
 	/**
-	 * @param gUIColor1 the gUIColor1 to set
+	 * @param gUIColor1 the color to set
 	 */
 	public void setGUIColor1(int gUIColor1) {
 		GUIColor1 = gUIColor1;
@@ -92,7 +131,7 @@ public class GUI extends PApplet {
 	}
 
 	/**
-	 * @param gUIColor2 the gUIColor2 to set
+	 * @param gUIColor2 the color to set
 	 */
 	public void setGUIColor2(int gUIColor2) {
 		GUIColor2 = gUIColor2;
@@ -106,7 +145,7 @@ public class GUI extends PApplet {
 	}
 
 	/**
-	 * @param gUIColor3 the gUIColor3 to set
+	 * @param gUIColor3 the color to set
 	 */
 	public void setGUIColor3(int gUIColor3) {
 		GUIColor3 = gUIColor3;

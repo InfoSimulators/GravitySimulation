@@ -7,10 +7,39 @@ public enum Eventtype {
 	 *
 	 * Determines that a button was pressed.
 	 *
-	 * args = [int buttonID]
+	 * args = [String buttonID]
 	 */
 	GUI_BUTTON_PRESSED,
+	
+	/**
+	 * GUI-Event
+	 *
+	 * Determines if a button is hovered.
+	 *
+	 * args = [String buttonID]
+	 */
+	GUI_BUTTON_HOVERED,
+	
+	/**
+	 * GUI-Event
+	 *
+	 * Determines the value of a number field.
+	 *
+	 * args = [String numberFieldID, int value]
+	 */
+	GUI_NUMBERFIELD_VALUE,
 
+	// ----------------------------------------------------------------------
+	
+	/**
+	 * Key-Event
+	 *
+	 * Determines that a key has been released
+	 *
+	 * args = [char key]
+	 */
+	KEY_RELEASED,
+	
 	// ----------------------------------------------------------------------
 
 	/**

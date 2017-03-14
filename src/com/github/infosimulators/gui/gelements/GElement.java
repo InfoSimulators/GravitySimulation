@@ -5,12 +5,16 @@ import com.github.infosimulators.gui.GUI;
 import processing.core.PApplet;
 
 public abstract class GElement {
+	
+	protected String ID;
 
 	protected float x, y, xSize, ySize;
 	
 	protected int color1, color2, color3;
 	
-	protected GElement(float x, float y, float xSize, float ySize, int color1, int color2, int color3){
+	protected GElement(String ID, float x, float y, float xSize, float ySize, int color1, int color2, int color3){
+		
+		this.ID = ID;
 		
 		this.x = x;
 		this.y = y;
@@ -22,7 +26,9 @@ public abstract class GElement {
 		this.color3 = color3;
 	}
 	
-	protected GElement(float x, float y, float xSize, float ySize){
+	protected GElement(String ID, float x, float y, float xSize, float ySize){
+		
+		this.ID = ID;
 		
 		this.x = x;
 		this.y = y;
