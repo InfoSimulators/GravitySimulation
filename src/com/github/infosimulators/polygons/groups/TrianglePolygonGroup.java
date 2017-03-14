@@ -7,7 +7,8 @@ import com.github.infosimulators.polygons.Polygon;
 import com.github.infosimulators.polygons.PolygonGroup;
 
 /**
- * Class for building more complex polygons. Made out of Triangles
+ * WIP
+ * Class for building more complex polygons made out of Triangles.
  */
 public class TrianglePolygonGroup extends PolygonGroup {
     /**
@@ -15,6 +16,7 @@ public class TrianglePolygonGroup extends PolygonGroup {
     */
     public TrianglePolygonGroup(int N) {
         super();
+
     }
 
     /**
