@@ -48,14 +48,7 @@ public class Polygon {
     */
     public Polygon(float N) {
         super();
-        ArrayList<Vector2> verticies = new ArrayList<Vector2>();
-        double theta = 2 * Math.PI / N;
-        for (int i = 0; i < N; ++i) {
-            float x = (float) Math.cos(theta * -i + Math.PI * 3 / 4);
-            float y = (float) Math.sin(theta * -i + Math.PI * 3 / 4);
-            verticies.add(new Vector2(x, y));
-        }
-        this.verticies = verticies.toArray(new Vector2[verticies.size()]);
+        this.verticies = getVerticiesOnCircle(N);
     }
 
     /**
@@ -66,34 +59,20 @@ public class Polygon {
     */
     public Polygon(float N, Vector2 offset) {
         this.offset = offset;
-        ArrayList<Vector2> verticies = new ArrayList<Vector2>();
-        double theta = 2 * Math.PI / N;
-        for (int i = 0; i < N; ++i) {
-            float x = (float) Math.cos(theta * -i + Math.PI * 3 / 4);
-            float y = (float) Math.sin(theta * -i + Math.PI * 3 / 4);
-            verticies.add(new Vector2(x, y));
-        }
-        this.verticies = verticies.toArray(new Vector2[verticies.size()]);
+        this.verticies = getVerticiesOnCircle(N);
     }
 
     /**
     * Constructor. Generates a new regular N-Polygon
     *
-    * @param N The number verticies of thi Polygon.
+    * @param N The number verticies of this Polygon.
     * @param offset The offset towards the origin.
-    * @param size THe size of this object.
+    * @param size The size of this object.
     */
     public Polygon(float N, Vector2 offset, float size) {
         this.offset = offset;
         this.size = size;
-        ArrayList<Vector2> verticies = new ArrayList<Vector2>();
-        double theta = 2 * Math.PI / N;
-        for (int i = 0; i < N; ++i) {
-            float x = (float) Math.cos(theta * -i + Math.PI * 3 / 4);
-            float y = (float) Math.sin(theta * -i + Math.PI * 3 / 4);
-            verticies.add(new Vector2(x, y));
-        }
-        this.verticies = verticies.toArray(new Vector2[verticies.size()]);
+        this.verticies = getVerticiesOnCircle(N);
     }
 
     /**
@@ -186,14 +165,15 @@ public class Polygon {
     * @param vertex The new verticies.
     */
     public void addVertex(Vector2 vertex) {
-        Vector2[] temp = new Vector2[verticies.length+1];
-        for(int i =0; i<verticies.length;i++){
+        Vector2[] temp = new Vector2[verticies.length + 1];
+        for (int i = 0; i < verticies.length; i++) {
             temp[i] = verticies[i];
         }
-        temp[-1] =vertex;
+        temp[-1] = vertex;
         this.verticies = temp;
 
     }
+
     /**
      * Gets the number of verticies.
      */
@@ -219,7 +199,6 @@ public class Polygon {
         return edges.toArray(new Vector2[edges.size()]);
     }
 
-
     /**
     * Checks if two Polygon intersect.
     * @param a One Polygon.
@@ -242,5 +221,16 @@ public class Polygon {
             }
         }
         return true;
+    }
+
+    public static Vector2[] getVerticiesOnCircle(float N) {
+        ArrayList<Vector2> verticies = new ArrayList<Vector2>();
+        double theta = 2 * Math.PI / N;
+        for (int i = 0; i < N; ++i) {
+            float x = (float) Math.cos(theta * -i + Math.PI * 3 / 4);
+            float y = (float) Math.sin(theta * -i + Math.PI * 3 / 4);
+            verticies.add(new Vector2(x, y));
+        }
+        return verticies.toArray(new Vector2[verticies.size()]);
     }
 }

@@ -27,7 +27,7 @@ public class PhysicsObject extends IDd {
 	/** stores the mass of the object as float in kilogramm */
 	protected float mass;
 
-	public Polygon collider;
+	public Polygon collider = new Sphere();
 
 	/**
 	 * Constructor.
@@ -42,10 +42,9 @@ public class PhysicsObject extends IDd {
 	public PhysicsObject(float distance, float theta, float mass, float impulsVelocity, float alpha, float radius) {
 		super();
 		this.position = Vector2.radial(theta, distance);
-		this.mass = mass;
 		this.velocity = Vector2.radial(alpha, impulsVelocity);
-		this.collider = new Polygon(50);
-		this.collider.setSize(radius);
+		this.collider = new Sphere(position, radius);
+		setMass(mass);
 	}
 
 	/**
@@ -59,10 +58,8 @@ public class PhysicsObject extends IDd {
 	public PhysicsObject(Vector2 position, Vector2 velocity, float mass, float radius) {
 		super();
 		this.position = position;
-		this.mass = mass;
-		this.collider = new Sphere();
-		this.collider.setOffset(position);
-		this.collider.setSize(radius);
+		this.collider = new Sphere(position, radius);
+		setMass(mass);
 		this.velocity = velocity;
 	}
 
