@@ -50,7 +50,7 @@ public class Polygon {
     /**
     * Constructor. Generates a new regular N-Polygon
     *
-    * @param N The number verticies of thi Polygon.
+    * @param N The number verticies of this polygon.
     */
     public Polygon(float N) {
         super();
@@ -60,7 +60,7 @@ public class Polygon {
     /**
     * Constructor. Generates a new regular N-Polygon
     *
-    * @param N The number verticies of thi Polygon.
+    * @param N The number verticies of this polygon.
     * @param offset The offset towards the origin.
     */
     public Polygon(float N, Vector2 offset) {
@@ -71,7 +71,7 @@ public class Polygon {
     /**
     * Constructor. Generates a new regular N-Polygon
     *
-    * @param N The number verticies of this Polygon.
+    * @param N The number verticies of this polygon.
     * @param offset The offset towards the origin.
     * @param size The size of this object.
     */
@@ -159,18 +159,14 @@ public class Polygon {
     /**
     * @return A list of all points relative to local space.
     */
-    public Vector2[] getLocalVerticies() {
-        Vector2[] temp = new Vector2[verticies.length];
-        for (int i = 0; i < temp.length; i++) {
-            temp[i] = verticies[i].toCartesian();
-        }
-        return temp;
+    public PolarVector2[] getLocalVerticies() {
+        return verticies;
     }
 
     /**
-    * Sets the vertecies new. Use with caution.
+    * Sets the vertecies new. <b>Use with caution</b>.
     *
-    * @param verticies The new verticies relative to local space.
+    * @param verticies The new verticies relative to local space as {@link PolarVector2}.
     */
     public void setVerticies(PolarVector2[] verticies) {
         this.verticies = verticies;
