@@ -10,7 +10,10 @@ import com.github.infosimulators.genetictrainer.Evaluator;
 import com.github.infosimulators.genetictrainer.GeneticTrainer;
 import com.github.infosimulators.gui.*;
 import com.github.infosimulators.gui.gelements.NumberField;
+import com.github.infosimulators.gui.gelements.Panel;
 import com.github.infosimulators.gui.gelements.RectButton;
+import com.github.infosimulators.gui.gelements.Text;
+import com.github.infosimulators.gui.gelements.TextField;
 
 import processing.core.PApplet;
 
@@ -35,15 +38,15 @@ public class Main {
 		gui = GUI.getInstance();
 		functionalityTest();
 
-		int numPlanets = 3;
-		int paramsPerPlanet = 6;
-		int genomesPerGeneration = 50;
-		trainer = new GeneticTrainer(numPlanets, paramsPerPlanet, genomesPerGeneration);
-		evaluator = new ExampleEvaluator();
+		//int numPlanets = 3;
+		//int paramsPerPlanet = 6;
+		//int genomesPerGeneration = 50;
+		//trainer = new GeneticTrainer(numPlanets, paramsPerPlanet, genomesPerGeneration);
+		//evaluator = new ExampleEvaluator();
 
 		// TODO replace this loop with gui-functionality
-		for (int i = 0; i < 3; i++)
-			mainLoop();
+		//for (int i = 0; i < 3; i++)
+			//mainLoop();
 	}
 
 	public static void mainLoop() {
@@ -100,8 +103,8 @@ public class Main {
 
 			@Override
 			public void run() {
-				for (Event event : EventRegistry.getEventsOfType(EventType.GUI_NUMBERFIELD_VALUE)) {
-					if (event.getArgs()[0] == "TestCounter") {
+				for (Event event : EventRegistry.getEventsOfType(EventType.GUI_TEXTFIELD_VALUE)) {
+					if (event.getArgs()[0] == "TestTextField") {
 						System.out.println(event.getArgs()[1]);
 					}
 				}
@@ -109,7 +112,7 @@ public class Main {
 			}
 
 		}));
-		mainMenuState.addListener(new Listener("TestButton - hovered", new Runnable() {
+		mainMenuState.addListener(new Listener("TestPanel - hovered", new Runnable() {
 
 			@Override
 			public void run() {
@@ -121,8 +124,17 @@ public class Main {
 			}
 
 		}));
-		mainMenuState.addElement(new NumberField("TestCounter", 6, 40, 150, 110, 30));
+		mainMenuState.addElement(new TextField("TestTextField", 6, 40, 150, 110, 30));
 
+		mainMenuState.addElement(new Text("TestText", "TestNumberField", 16, 40, 215, 110, 30));
+		
+		mainMenuState.addElement(new NumberField("TestNumberField", 6, 40, 230, 110, 30));
+		
+		Panel panel = new Panel("TestPanel", 255, 40, 280, 110, 110);
+		panel.addElement(new RectButton("TestPanelButton", 5, 5, 100, 20));
+		
+		mainMenuState.addElement(panel);
+		
 		gui.setState(mainMenuState);
 	}
 	public static void handleEvents() {

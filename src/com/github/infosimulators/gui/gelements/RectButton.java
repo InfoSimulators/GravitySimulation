@@ -12,13 +12,12 @@ import processing.core.PApplet;
  */
 public class RectButton extends GElement {
 
-    private boolean pressedLast, hovered;
+    private boolean pressedLast;
 
     public RectButton(String ID, float x, float y, float xSize, float ySize) {
         super(ID, x, y, xSize, ySize);
 
         pressedLast = false;
-        setHovered(false);
     }
 
     public void update(PApplet p) {
@@ -28,39 +27,25 @@ public class RectButton extends GElement {
             pressedLast = false;
         }
 
-        if (x <= p.mouseX && x + xSize >= p.mouseX && y <= p.mouseY && y + ySize >= p.mouseY) {
+        if (hovered(p)) {
             if (p.mousePressed) {
                 pressedLast = true;
                 p.fill(color3);
             } else {
-                EventRegistry.fire(new Event(EventType.GUI_BUTTON_HOVERED, new String[] { ID + " - hovered" }));
-                setHovered(true);
                 p.fill(color2);
             }
+            EventRegistry.fire(new Event(EventType.GUI_ELEMENT_HOVERED, new String[] { ID + " - hovered" }));
         } else {
             pressedLast = false;
-            setHovered(false);
-            for (Event event : EventRegistry.getEventsOfType(EventType.GUI_BUTTON_HOVERED)) {
-                event.setHandled();
+            for (Event event : EventRegistry.getEventsOfType(EventType.GUI_ELEMENT_HOVERED)) {
+                if(event.getArgs()[0] == ID + " - hovered"){
+                	event.setHandled();
+                }
             }
             p.noFill();
         }
 
         p.stroke(color2);
         p.rect(x, y, xSize, ySize);
-    }
-
-    /**
-     * @return the hovered
-     */
-    public boolean isHovered() {
-        return hovered;
-    }
-
-    /**
-     * @param hovered the hovered to set
-     */
-    public void setHovered(boolean hovered) {
-        this.hovered = hovered;
     }
 }
