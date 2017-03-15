@@ -43,18 +43,14 @@ public class Ray {
     }
 
     /**
-     * Returns the vector resulting from inserting r.
-     *
      * @param r The parameter to insert.
-     * @return The resulting {@link Vector2}.
+     * @return The {@link Vector2} resulting from inserting r.
      */
     public Vector2 insert(float r) {
         return Vector2.add(a, Vector2.scale(v, r));
     }
 
     /**
-    * Returns if point is part of the ray.
-    *
     * @param point The point to check.
     * @return If the point is on this ray.
     */
@@ -66,11 +62,9 @@ public class Ray {
     }
 
     /**
-     * Returns the closest way between a point and the ray.
-     * Returns Vector2(0,0) if the point is on the ray.
+     * @return The closest way between a point and the ray as {@link Vector2} or Vector2(0,0) if the point is on the ray.
      *
      * @param point The point from which the way is searched.
-     * @return The shortest way as {@link Vector2}.
      */
     public Vector2 getShortestWay(Vector2 point) {
         if (isPointOnRay(point))
@@ -78,6 +72,20 @@ public class Ray {
         point = Vector2.subtract(point, a);
         float b = Vector2.dot(point, v) / Vector2.dot(v, v);
         return insert(b);
+    }
+
+    /**
+     * @return The first normal.
+     */
+    public Vector2 getNormal1() {
+        return new Vector2(-v.y, v.x);
+    }
+
+    /**
+     * @return The second normal.
+     */
+    public Vector2 getNormal2() {
+        return new Vector2(v.y, -v.x);
     }
 
     /**
@@ -93,11 +101,11 @@ public class Ray {
         if (closest == Vector2.zero())
             return RelativePoisition.ON;
         float angle = closest.angle();
-        if (angle > (float) Math.PI % (float) Math.PI)
+        if (angle > (float) Math.PI && angle < (float) 2 * Math.PI)
             return RelativePoisition.UNDER;
         else if (angle > 0 && angle < (float) Math.PI)
             return RelativePoisition.ABOVE;
-        else if(angle == (float) Math.PI || angle == 0 )
+        else if (angle == (float) Math.PI || angle == 0)
             return RelativePoisition.NEXT_TO;
         // SHOULD NEVER BE REACHED WITH VALID ARGUMENTS
         return RelativePoisition.ON;

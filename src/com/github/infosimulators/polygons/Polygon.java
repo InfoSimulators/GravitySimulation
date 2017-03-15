@@ -5,13 +5,14 @@ import java.util.ArrayList;
 
 import com.github.infosimulators.physic.Vector2;
 import com.github.infosimulators.polygons.Ray.RelativePoisition;
+import com.github.infosimulators.polygons.regular.Sphere;
 
 public class Polygon {
     /** points on the outside */
     protected Vector2[] verticies;
     private float mass = 1f;
-    protected Vector2 offset = Vector2.zero();
-    protected float size = 1f;
+    private Vector2 offset = Vector2.zero();
+    private float size = 1f;
 
     /**
     * Constructor.
@@ -140,12 +141,23 @@ public class Polygon {
     }
 
     /**
-    * @return A list of all points.
+    * @return A list of all points relative to world space (with size and offest applied).
     */
     public Vector2[] getVerticies() {
-        Vector2[] temp = verticies;
-        for (Vector2 i : temp) {
-            i.scale(size).add(offset);
+        Vector2[] temp = new Vector2[verticies.length];
+        for (int i = 0; i < temp.length; i++) {
+            temp[i] = verticies[i].copy().scale(size).add(offset);
+        }
+        return temp;
+    }
+
+    /**
+    * @return A list of all points relative to local space.
+    */
+    public Vector2[] getLocalVerticies() {
+        Vector2[] temp = new Vector2[verticies.length];
+        for (int i = 0; i < temp.length; i++) {
+            temp[i] = verticies[i].copy();
         }
         return temp;
     }
@@ -153,16 +165,16 @@ public class Polygon {
     /**
     * Sets the vertecies new.
     *
-    * @param verticies The new verticies.
+    * @param verticies The new verticies relative to local space.
     */
     public void setVerticies(Vector2[] verticies) {
         this.verticies = verticies;
     }
 
     /**
-    * Adds a vertecies.
+    * Adds a vertex.
     *
-    * @param vertex The new verticies.
+    * @param vertex The new vertex relative to local space.
     */
     public void addVertex(Vector2 vertex) {
         Vector2[] temp = new Vector2[verticies.length + 1];
@@ -187,6 +199,7 @@ public class Polygon {
      */
     public Vector2[] allEdges() {
         ArrayList<Vector2> edges = new ArrayList<Vector2>();
+        Vector2[] verticies = getVerticies();
         for (int i = 0; i < verticies.length; i++) {
             if (i == 0) {
                 continue;
@@ -221,6 +234,112 @@ public class Polygon {
             }
         }
         return true;
+    }
+
+    /**
+    * Checks if two polygons intersect with the seperating axis theorem.
+    * @param a One Polygon.
+    * @param b Another Polygon.
+    * @return If two polygons intersect.
+     */
+    public static boolean intersectSAT(Polygon p1, Polygon p2) {
+
+        if (p1 instanceof Sphere && p2 instanceof Sphere) {
+            if (p1.getSize() + p2.getSize() >= Vector2.distance(p1.getOffset(), p2.getOffset()))
+                return false;
+        } else if (p1 instanceof Sphere || p2 instanceof Sphere) {
+
+            Polygon sphere = p1 instanceof Sphere ? p1 : p2;
+            Polygon polygon = p1 instanceof Sphere ? p2 : p1;
+            Vector2 closest = Vector2.zero();
+            float min_distance = Float.NEGATIVE_INFINITY;
+            for (int i = 0; i < polygon.getVerticiesCount(); i++)
+                if (Vector2.distance(polygon.getVerticies()[i], sphere.getOffset()) > min_distance) {
+                    min_distance = Vector2.distance(polygon.getVerticies()[i], sphere.getOffset());
+                    closest = polygon.getVerticies()[i];
+                }
+
+            Vector2 axis = Vector2.subtract(sphere.getOffset(), closest);
+            ArrayList<Float> projectedPoints = new ArrayList<Float>();
+            for (int i = 0; i < polygon.getVerticiesCount(); i++)
+                projectedPoints.add(polygon.getVerticies()[i].copy().dot(axis));
+
+            float min1 = getMin(projectedPoints);
+            float max1 = getMax(projectedPoints);
+            float min2 = sphere.getOffset().dot(axis);
+            float max2 = sphere.getOffset().dot(axis);
+            if (max1 < min2 || max2 < min1)
+                return false;
+
+        } else {
+            ArrayList<Vector2> normals = new ArrayList<Vector2>();
+            //recover normal vectors for p1 and p2
+            for (int i = 0; i < p1.getVerticiesCount(); i++) {
+                if (i < p1.getVerticiesCount() - 1) {
+                    float x = p1.getVerticies()[i + 1].x - p1.getVerticies()[i].x;
+                    float y = p1.getVerticies()[i + 1].y - p1.getVerticies()[i].y;
+                    normals.add(new Vector2(x, y).getNormal1());
+                } else {
+                    float x = p1.getVerticies()[0].x - p1.getVerticies()[i].x;
+                    float y = p1.getVerticies()[0].y - p1.getVerticies()[i].y;
+                    normals.add(new Vector2(x, y).getNormal1());
+                }
+            }
+
+            for (int i = 0; i < p2.getVerticiesCount(); i++) {
+                if (i < p2.getVerticiesCount() - 1) {
+                    float x = p2.getVerticies()[i + 1].x - p2.getVerticies()[i].x;
+                    float y = p2.getVerticies()[i + 1].y - p2.getVerticies()[i].y;
+                    normals.add(new Vector2(x, y).getNormal1());
+                } else {
+                    float x = p2.getVerticies()[0].x - p2.getVerticies()[i].x;
+                    float y = p2.getVerticies()[0].y - p2.getVerticies()[i].y;
+                    normals.add(new Vector2(x, y).getNormal1());
+                }
+            }
+
+            //project points of p1 and p2 on each normal vector until a gap is found
+
+            for (int n = 0; n < normals.size(); n++) {
+                ArrayList<Float> projectedPoints1 = new ArrayList<Float>();
+                ArrayList<Float> projectedPoints2 = new ArrayList<Float>();
+
+                for (int i = 0; i < p1.getVerticiesCount(); i++)
+                    projectedPoints1
+                            .add(new Vector2(p1.getVerticies()[i].x, p1.getVerticies()[i].y).dot(normals.get(n)));
+
+                for (int i = 0; i < p2.getVerticiesCount(); i++)
+                    projectedPoints2
+                            .add(new Vector2(p2.getVerticies()[i].x, p2.getVerticies()[i].y).dot(normals.get(n)));
+
+                float min1 = getMin(projectedPoints1);
+                float max1 = getMax(projectedPoints1);
+                float min2 = getMin(projectedPoints2);
+                float max2 = getMax(projectedPoints2);
+
+                System.out.println(normals.get(n));
+                System.out.println(min1 + " " + max1);
+                System.out.println(min2 + " " + max2);
+                System.out.println((max1 - min1) + " " + (max2 - min1));
+                if (max1 < min2 || max2 < min1)
+                    return false;
+            }
+        }
+        return true;
+    }
+
+    private static float getMin(ArrayList<Float> list) {
+        float min = list.get(0);
+        for (float f : list)
+            min = f < min ? f : min;
+        return min;
+    }
+
+    private static float getMax(ArrayList<Float> list) {
+        float max = list.get(0);
+        for (float f : list)
+            max = f > max ? f : max;
+        return max;
     }
 
     public static Vector2[] getVerticiesOnCircle(float N) {

@@ -73,6 +73,20 @@ public class Vector2 {
 	}
 
 	/**
+	* @return The first normal.
+	*/
+	public Vector2 getNormal1() {
+		return new Vector2(-y, x);
+	}
+
+	/**
+	 * @return The second normal.
+	 */
+	public Vector2 getNormal2() {
+		return new Vector2(y, -x);
+	}
+
+	/**
 	 * @return a copy of this vector
 	 */
 	public Vector2 copy() {
@@ -225,7 +239,8 @@ public class Vector2 {
 	* @return the dot product
 	*/
 	public float dot(Vector2 a) {
-		return x * a.x + y * a.y;
+		//return (x * a.x + y * a.y) * (float) Math.cos(angleBetween(this, a));
+		return (x * a.x + y * a.y);
 	}
 
 	/**
@@ -440,7 +455,8 @@ public class Vector2 {
 	 * @return the dot product
 	 */
 	public static float dot(Vector2 a, Vector2 b) {
-		return a.x * b.x + a.y * b.y;
+		//return (a.x * b.x + a.y * b.y) * (float) Math.cos(angleBetween(a, b));
+		return (a.x * b.x + a.y * b.y);
 	}
 
 	/**
