@@ -16,10 +16,10 @@ public class TrianglePolygonGroup extends PolygonGroup {
     */
     public TrianglePolygonGroup(int N) {
         super();
-        // ArrayList<Vector2> verticies = new ArrayList<Vector2>();
         // Vector2[] corners = getVerticiesOnCircle(N);
-        // for(Vector2 corner : corners){
-        //   //  polygons.add(new Polygon(new Vector2[]{corner}, offset))
+        // for (int i = 0; i < corners.length - 1; i++) {
+        //     Polygon p = new Polygon(new Vector2[] { corners[i], corners[(i + 1) % corners.length], Vector2.zero() });
+        //     polygons.add(p);
         // }
     }
 

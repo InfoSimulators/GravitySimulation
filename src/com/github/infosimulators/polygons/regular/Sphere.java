@@ -10,7 +10,7 @@ public class Sphere extends Polygon {
     * Constructor.
     */
     public Sphere() {
-        super();
+        super(NUMBER_OF_POLYGONS_IN_SPHERE);
     }
 
     /**
@@ -19,7 +19,8 @@ public class Sphere extends Polygon {
     * @param offset The offset towards the origin.
     */
     public Sphere(Vector2 offset) {
-        super(NUMBER_OF_POLYGONS_IN_SPHERE,offset);
+        super(NUMBER_OF_POLYGONS_IN_SPHERE, offset);
+
     }
 
     /**
@@ -29,6 +30,6 @@ public class Sphere extends Polygon {
     * @param size The size of the Collider.
     */
     public Sphere(Vector2 offset, float size) {
-        super(NUMBER_OF_POLYGONS_IN_SPHERE,offset, size);
+        super(NUMBER_OF_POLYGONS_IN_SPHERE, offset, size);
     }
 }
