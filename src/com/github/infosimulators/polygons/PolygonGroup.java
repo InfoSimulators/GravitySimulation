@@ -23,36 +23,6 @@ public class PolygonGroup extends Polygon {
         polygons = new ArrayList<Polygon>();
     }
 
-    // public void addPolygon(Polygon newPolygon, Faces face) {
-    //     Vector2 goal = Vector2.zero();
-    //     switch (face) {
-    //     case NORTH:
-    //         goal = Vector2.up();
-    //         break;
-    //     case EAST:
-    //         goal = Vector2.right();
-    //         break;
-    //     case SOUTH:
-    //         goal = Vector2.down();
-    //         break;
-    //     case WEST:
-    //         goal = Vector2.left();
-    //         break;
-    //     }
-    //     Polygon maxVertex = polygons.get(0);
-    //     float minDifferenceFromGoalsqr = Vector2.subtract(Vector2.add(maxVertex.getOffset(), offset).normalize(), goal)
-    //             .sqrMagnitude();
-    //     for (Polygon poly : polygons) {
-    //         float curDifferenceFromGoalsqr = Vector2.subtract(Vector2.add(poly.getOffset(), offset).normalize(), goal)
-    //                 .sqrMagnitude();
-    //         if (curDifferenceFromGoalsqr < minDifferenceFromGoalsqr) {
-    //             minDifferenceFromGoalsqr = curDifferenceFromGoalsqr;
-    //             maxVertex = poly;
-    //         }
-    //     }
-    //     polygons.add(polygons.indexOf(maxVertex), newPolygon);
-    // }
-
     /**
      * @return The summed mass of all subPolygon.
      */
@@ -99,6 +69,7 @@ public class PolygonGroup extends Polygon {
 
     /**
      * @return the outer verticies
+     * TODO
      */
     @Override
     public Vector2[] getVerticies() {

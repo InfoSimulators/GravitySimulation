@@ -23,6 +23,11 @@ public class PolarVector2 {
 		this.r = r;
 	}
 
+	public PolarVector2(float theta) {
+		this.theta = theta;
+		this.r = 1;
+	}
+
 	public PolarVector2() {
 	}
 
