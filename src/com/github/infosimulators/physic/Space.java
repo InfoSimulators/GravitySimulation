@@ -3,7 +3,6 @@ package com.github.infosimulators.physic;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
-import java.util.Random;
 import com.github.infosimulators.events.EventRegistry;
 import com.github.infosimulators.events.Event;
 import com.github.infosimulators.events.EventCategory;
@@ -43,7 +42,7 @@ public class Space {
 
     /**
      * Adds objects to the space register.
-     * @param objects The Objects to be added to the register.
+     * @param objects The objects to be added to the register.
      */
     public void registerPhysicsObject(PhysicsObject... objects) {
         for (PhysicsObject object : objects) {
@@ -67,27 +66,6 @@ public class Space {
      */
     public ArrayList<PhysicsObject> getSpaceRegister() {
         return spaceRegister;
-    }
-
-    /**
-     * Returns a position on the outside of the space based on the parameter angle.
-     *
-     * @param angle The angle of the position in radians.
-     *
-     * @return A position on the outer rim.
-     */
-    public Vector2 getPositionOnOutside(float angle) {
-        return Vector2.radial(angle).scale(maxDistance).add(pointOfOrigin);
-    }
-
-    /**
-     * Returns a random position on the outside of the space.
-     *
-     * @return A random position on the outer rim.
-     */
-    public Vector2 getRandomPositionOnOutside() {
-        Random r = new Random();
-        return Vector2.radial(r.nextInt(361)).scale(maxDistance).add(pointOfOrigin);
     }
 
     /**

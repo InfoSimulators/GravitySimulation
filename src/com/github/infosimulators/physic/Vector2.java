@@ -87,6 +87,13 @@ public class Vector2 {
 	}
 
 	/**
+	* @return A new {@link PolarVector2} based on this {@link Vector2}.
+	*/
+	public PolarVector2 toRadial() {
+		return new PolarVector2(angle(), magnitude());
+	}
+
+	/**
 	 * @return a copy of this vector
 	 */
 	public Vector2 copy() {
@@ -100,9 +107,9 @@ public class Vector2 {
 	* Sets the x and y components.
 	*
 	* @param x
-	*            new xcomponent
+	*            The new x component.
 	* @param y
-	*            new y component
+	*            The new y component.
 	* @return this
 	*/
 	public Vector2 set(float x, float y) {
@@ -112,10 +119,10 @@ public class Vector2 {
 	}
 
 	/**
-	 * Sets the x and y components to the ones of another Vector2.
+	 * Sets the x and y components to the ones of the {@link Vector2} v.
 	 *
 	 * @param v
-	 *            another Vector2
+	 *            Another {@link Vector2}.
 	 * @return this
 	 */
 	public Vector2 set(Vector2 v) {
@@ -125,11 +132,11 @@ public class Vector2 {
 	}
 
 	/**
-	 * method to add a Vector3D to this Vector3D;
+	 * Add a {@link Vector2} to this {@link Vector2};
 	 *
 	 * @param v
-	 *            to add
-	 * @return this Vector2
+	 *            The {@link Vector2} to add.
+	 * @return this
 	 */
 	public Vector2 add(Vector2 v) {
 		this.x += v.x;
@@ -138,13 +145,13 @@ public class Vector2 {
 	}
 
 	/**
-	 * method to add floats to this vector;
+	 * Adds floats to this vector.
 	 *
 	 * @param x
-	 *            first float
+	 *            First float.
 	 * @param y
-	 *            second float
-	 * @return this vector
+	 *            Second float.
+	 * @return this
 	 */
 	public Vector2 add(float x, float y) {
 		this.x += x;
@@ -156,7 +163,7 @@ public class Vector2 {
 	 * method to subtract a vector to this vector;
 	 *
 	 * @param v
-	 * @return this Vector2 changed
+	 * @return this
 	 */
 	public Vector2 subtract(Vector2 v) {
 		this.x -= v.x;
@@ -165,13 +172,13 @@ public class Vector2 {
 	}
 
 	/**
-	 * method to subtract floats from this vector;
+	 * Subtracts floats from this vector.
 	 *
 	 * @param x
-	 *            first float
+	 *            First float.
 	 * @param y
-	 *            second float
-	 * @return This vector changed.
+	 *            Second float.
+	 * @return this
 	 */
 	public Vector2 subtract(float x, float y) {
 		this.x -= x;
@@ -183,8 +190,8 @@ public class Vector2 {
 	 * Multiplies a vector by a scalar.
 	 *
 	 * @param r
-	 *            the number to multiply with the vector
-	 * @return This vector changed.
+	 *            The number to multiply with the vector.
+	 * @return this
 	 */
 	public Vector2 scale(float r) {
 		this.x *= r;
@@ -196,8 +203,8 @@ public class Vector2 {
 	* Multiplies a vectors components with the ones another vector provides.
 	*
 	* @param r
-	*            the vector those parts to multiply with the vectors corrosponding parts individually.
-	* @return This vector changed.
+	*            The vector those parts to multiply with the vectors corrosponding parts individually.
+	* @return this
 	*/
 	public Vector2 scaleIndividual(Vector2 r) {
 		this.x *= r.x;
@@ -210,8 +217,8 @@ public class Vector2 {
 	 * Divides a vector by a scalar.
 	 *
 	 * @param r
-	 *            the number by which to divide the vector
-	 * @return This vector changed.
+	 *            The number by which to divide the vector.
+	 * @return this
 	 */
 	public Vector2 div(float r) {
 		x /= r;
@@ -223,8 +230,8 @@ public class Vector2 {
 	* Divides a vectors components by the ones another vector provides.
 	*
 	* @param r
-	*            the vector by which parts to divide the vectors corrosponding parts individually.
-	* @return This vector changed.
+	*            The vector by which parts to divide the vectors corrosponding parts individually.
+	* @return this
 	*/
 	public Vector2 divIndividual(Vector2 r) {
 		this.x /= r.x;
@@ -233,10 +240,8 @@ public class Vector2 {
 	}
 
 	/**
-	* Method to get the dot product (scalar product) of this and anoher vector;
-	*
 	* @param a Another Vector2.
-	* @return the dot product
+	* @return The dot product (scalar product) of this and anoher {@link Vector2}.
 	*/
 	public float dot(Vector2 a) {
 		//return (x * a.x + y * a.y) * (float) Math.cos(angleBetween(this, a));
@@ -244,9 +249,9 @@ public class Vector2 {
 	}
 
 	/**
-	 * normalizes this vector. The vector IS changed.
+	 * Normalizes this vector. The vector IS changed.
 	 *
-	 * @return This vector changed.
+	 * @return this
 	 */
 	public Vector2 normalize() {
 		float magnitude = magnitude();
@@ -263,8 +268,8 @@ public class Vector2 {
 	 * parameter.
 	 *
 	 * @param len
-	 *            the new length for this vector
-	 * @return This vector changed.
+	 *            The new length for this vector.
+	 * @return this
 	 */
 	public Vector2 setMag(float len) {
 		normalize();
@@ -274,7 +279,7 @@ public class Vector2 {
 
 	/**
 	 *
-	 * Linear interpolate the vector to another vector
+	 * Linear interpolate the vector to another vector.
 	 *
 	 * @param v
 	 *            the vector to lerp to
@@ -282,7 +287,7 @@ public class Vector2 {
 	 *            The amount of interpolation; some value between 0.0 (old
 	 *            vector) and 1.0 (new vector). 0.1 is very near the old vector;
 	 *            0.5 is halfway in between.
-	 * @return This vector changed.
+	 * @return this
 	 */
 	public Vector2 lerp(Vector2 v, float amt) {
 		x = x + (v.x - x) * amt;
@@ -295,8 +300,8 @@ public class Vector2 {
 	 * Rotate the vector by an angle, magnitude remains the same
 	 *
 	 * @param theta
-	 *            the angle of rotation
-	 * @return This vector changed.
+	 *            The angle of rotation.
+	 * @return this
 	 */
 	public Vector2 rotate(float theta) {
 		float temp = x;
@@ -334,10 +339,10 @@ public class Vector2 {
 	}
 
 	/**
-	 * Converts PVector (Vectorclass form Processing) to Vector2
+	 * Converts {@link PVector} (Vectorclass form Processing) to {@link Vector2}
 	 *
 	 * @param pvector
-	 * @return Collidered vector
+	 * @return {@link Vector2}
 	 */
 	public static Vector2 fromPVector(PVector pvector) {
 		return new Vector2(pvector.x, pvector.y);
@@ -346,7 +351,7 @@ public class Vector2 {
 	/**
 	 * @param a
 	 * @param b
-	 * @return the sum of 2 vectors as new Vector;
+	 * @return The sum of 2 vectors as new {@link Vector2}.
 	 */
 	public static Vector2 add(Vector2 a, Vector2 b) {
 		return new Vector2(a.x + b.x, a.y + b.y);
@@ -355,9 +360,9 @@ public class Vector2 {
 	/**
 	 * @return the difference of two vectors as new Vector
 	 * @param a
-	 *            any variable of type Vector2
+	 *            Any variable of type {@link Vector2}.
 	 * @param b
-	 *            any variable of type Vector2
+	 *            Any variable of type {@link Vector2}.
 	 */
 	public static Vector2 subtract(Vector2 a, Vector2 b) {
 		return new Vector2(a.x - b.x, a.y - b.y);
@@ -367,9 +372,9 @@ public class Vector2 {
 	 * Multiplies a vector by a scalar.
 	 *
 	 * @param v
-	 *            the vector to multiply by the scalar
+	 *            The vector to multiply by the scalar.
 	 * @param r
-	 *            the number to multiply with the vector
+	 *            The number to multiply with the vector.
 	 * @return a new vector that is v * r
 	 */
 	public static Vector2 scale(Vector2 v, float r) {
@@ -382,9 +387,9 @@ public class Vector2 {
 	*
 	* @param v One vector.
 	* @param r Another vector.
-	* @return This vector changed.
+	* @return this
 	*/
-	public Vector2 scaleIndividual(Vector2 v, Vector2 r) {
+	public static Vector2 scaleIndividual(Vector2 v, Vector2 r) {
 		return new Vector2(v.x * r.x, v.y * r.y);
 	}
 
@@ -408,9 +413,9 @@ public class Vector2 {
 	*
 	* @param v One vector.
 	* @param r Another vector.
-	* @return This vector changed.
+	* @return this
 	*/
-	public Vector2 divIndividual(Vector2 v, Vector2 r) {
+	public static Vector2 divIndividual(Vector2 v, Vector2 r) {
 		return new Vector2(v.x / r.x, v.y / r.y);
 	}
 
@@ -436,10 +441,10 @@ public class Vector2 {
 	 * as a Vector3D object).
 	 *
 	 * @param v1
-	 *            any variable of type Vector3D
+	 *            Any variable of type {@link Vector2}.
 	 * @param v2
-	 *            any variable of type Vector3D
-	 * @return squared Euclidean distance between v1 and v2
+	 *            Any variable of type {@link Vector2}.
+	 * @return The squared Euclidean distance between v1 and v2.
 	 */
 	static public float sqrDistance(Vector2 v1, Vector2 v2) {
 		float dx = v1.x - v2.x;
@@ -452,7 +457,7 @@ public class Vector2 {
 	 *
 	 * @param a
 	 * @param b
-	 * @return the dot product
+	 * @return The dot product.
 	 */
 	public static float dot(Vector2 a, Vector2 b) {
 		//return (a.x * b.x + a.y * b.y) * (float) Math.cos(angleBetween(a, b));
@@ -461,9 +466,9 @@ public class Vector2 {
 
 	/**
 	 * @param v1
-	 *            any variable of type Vector2
+	 *            Any variable of type {@link Vector2}.
 	 * @param v2
-	 *            any variable of type Vector2
+	 *            Any variable of type {@link Vector2}.
 	 * @return null
 	 * @deprecated
 	 */
@@ -472,14 +477,14 @@ public class Vector2 {
 	}
 
 	/**
-	 * Linear interpolate between two vectors (@return a new Vector2 object)
+	 * Linear interpolate between two {@link Vector2}.
 	 *
 	 * @param v1
-	 *            the vector to start from
+	 *            The vector to start from.
 	 * @param v2
-	 *            the vector to lerp to
-	 * @param amt
-	 * @return
+	 *            The vector to lerp to.
+	 * @param amt The amount of lerping.
+	 * @return The interpolated {@link Vector2}.
 	 */
 	public static Vector2 lerp(Vector2 v1, Vector2 v2, float amt) {
 		Vector2 v = v1.copy();
@@ -491,8 +496,10 @@ public class Vector2 {
 	 * Calculates the angle between two vectors in radiants
 	 *
 	 * @param vector1
+	 *           Any variable of type {@link Vector2}.
 	 * @param vector2
-	 * @return angle between two vectors in radiants
+	 *           Any variable of type {@link Vector2}.
+	 * @return The angle between two vectors in radiants.
 	 */
 	public static float angleBetween(Vector2 vector1, Vector2 vector2) {
 		float sin = vector1.x * vector2.y - vector2.x * vector1.y;
@@ -502,26 +509,12 @@ public class Vector2 {
 	}
 
 	/**
-	 * generates a new vector based on the radial system
-	 *
-	 * @param theta
-	 *
-	 * @return a new Vector2
-	 */
-	static public Vector2 radial(float theta) {
-		return new Vector2((float) Math.cos(theta), (float) Math.sin(theta));
-	}
-
-	/**
-	 * generates a new vector based on the radial system
-	 *
-	 * @param theta
-	 * @param magnitude
-	 *
-	 * @return a new Vector2
-	 */
-	static public Vector2 radial(float theta, float magnitude) {
-		return Vector2.scale(new Vector2((float) Math.cos(theta), (float) Math.sin(theta)), magnitude);
+	* @param v A {@link Vector2}.
+	*
+	* @return A new {@link PolarVector2} based on the given {@link Vector2}.
+	*/
+	public static PolarVector2 toRadial(Vector2 v) {
+		return new PolarVector2(v.angle(), v.magnitude());
 	}
 
 	/**

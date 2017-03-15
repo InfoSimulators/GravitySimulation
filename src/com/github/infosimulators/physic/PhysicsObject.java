@@ -41,8 +41,8 @@ public class PhysicsObject extends IDd {
 	 */
 	public PhysicsObject(float distance, float theta, float mass, float impulsVelocity, float alpha, float radius) {
 		super();
-		this.position = Vector2.radial(theta, distance);
-		this.velocity = Vector2.radial(alpha, impulsVelocity);
+		this.position = new PolarVector2(theta, distance).toCartesian();
+		this.velocity = new PolarVector2(alpha, impulsVelocity).toCartesian();
 		this.collider = new Sphere(position, radius);
 		setMass(mass);
 	}
