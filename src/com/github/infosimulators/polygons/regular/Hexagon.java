@@ -9,7 +9,7 @@ public class Hexagon extends Polygon {
     * Constructor.
     */
     public Hexagon() {
-        super();
+        super(6);
     }
 
     /**

@@ -7,9 +7,13 @@ import com.github.infosimulators.physic.Vector2;
 import com.github.infosimulators.polygons.Ray.RelativePoisition;
 import com.github.infosimulators.polygons.regular.Sphere;
 
+/**
+ * A class to store simple convex polygons.
+ */
 public class Polygon {
     /** points on the outside */
     protected Vector2[] verticies;
+    /** The mass of this polygon. Included to specify a density in polygongroups */
     private float mass = 1f;
     private Vector2 offset = Vector2.zero();
     private float size = 1f;
@@ -163,7 +167,7 @@ public class Polygon {
     }
 
     /**
-    * Sets the vertecies new.
+    * Sets the vertecies new. Use with caution.
     *
     * @param verticies The new verticies relative to local space.
     */
@@ -190,12 +194,12 @@ public class Polygon {
      * Gets the number of verticies.
      */
     public int getVerticiesCount() {
-        return verticies.length;
+        return getVerticies().length;
     }
 
     /**
-     * Returns an array with all edges this Polygon has.
-     * @return An array with all edges of this Polygon.
+     * Returns an array with all edges this polygon has.
+     * @return An array with all edges of this polygon.
      */
     public Vector2[] allEdges() {
         ArrayList<Vector2> edges = new ArrayList<Vector2>();

@@ -43,7 +43,7 @@ public class Space {
 
     /**
      * Adds objects to the space register.
-     * @param objects The Objects to be added to the register.
+     * @param objects The objects to be added to the register.
      */
     public void registerPhysicsObject(PhysicsObject... objects) {
         for (PhysicsObject object : objects) {
