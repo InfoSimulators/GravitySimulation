@@ -1,6 +1,12 @@
 package com.github.infosimulators.physic;
 
 import java.lang.Math;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
 import processing.core.PVector;
 
 /**
@@ -10,6 +16,9 @@ import processing.core.PVector;
  * @author Julisep
  */
 public class PolarVector2 {
+	private static Comparator<PolarVector2> comparator = (PolarVector2 a, PolarVector2 b) -> {
+		return (a.theta > b.theta ? -1 : 1);
+	};
 	/** The rotation around the z-axis */
 	public float theta;
 	/** The length of this {@link PolarVector2} */
@@ -373,5 +382,30 @@ public class PolarVector2 {
 	*/
 	public static Vector2 toCartesian(PolarVector2 v) {
 		return new Vector2((float) Math.cos(v.theta), (float) Math.sin(v.theta)).scale(v.r);
+	}
+
+	/**
+	 * Orders the {@link PolarVector2}s from the array in counterclockwise direction.
+	 * @param unsorted The array with unsorted {@link PolarVector2}s.
+	 * @return An array with sorted {@link PolarVector2}s.
+	 */
+	public static PolarVector2[] order(PolarVector2[] unsorted) {
+		List<PolarVector2> list = Arrays.asList(unsorted);
+		Collections.sort(list, comparator);
+		PolarVector2[] sorted = new PolarVector2[list.size()];
+		list.toArray(sorted);
+		return sorted;
+	}
+
+	/**
+	 * Orders the {@link PolarVector2}s from the array in counterclockwise direction.
+	 * @param unsorted The List with unsorted {@link PolarVector2}s.
+	 * @return An array with sorted {@link PolarVector2}s.
+	 */
+	public static PolarVector2[] order(List<PolarVector2> unsorted) {
+		Collections.sort(unsorted, comparator);
+		PolarVector2[] sorted = new PolarVector2[unsorted.size()];
+		unsorted.toArray(sorted);
+		return sorted;
 	}
 }
