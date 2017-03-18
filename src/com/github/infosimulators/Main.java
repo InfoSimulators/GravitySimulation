@@ -45,7 +45,7 @@ public class Main {
 		//evaluator = new ExampleEvaluator();
 
 		// TODO replace this loop with gui-functionality
-		//for (int i = 0; i < 3; i++)
+		for (int i = 0; i < 3; i++){}
 			//mainLoop();
 	}
 

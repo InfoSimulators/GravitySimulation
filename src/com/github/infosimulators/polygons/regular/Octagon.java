@@ -9,7 +9,7 @@ public class Octagon extends Polygon {
     * Constructor.
     */
     public Octagon() {
-        super();
+        super(8);
     }
 
     /**

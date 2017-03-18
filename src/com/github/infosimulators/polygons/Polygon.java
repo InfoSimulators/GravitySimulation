@@ -4,12 +4,17 @@ import java.lang.Math;
 import java.util.ArrayList;
 
 import com.github.infosimulators.physic.Vector2;
+import com.github.infosimulators.physic.PolarVector2;
 import com.github.infosimulators.polygons.Ray.RelativePoisition;
 import com.github.infosimulators.polygons.regular.Sphere;
 
+/**
+ * A class to store simple convex polygons.
+ */
 public class Polygon {
     /** points on the outside */
-    protected Vector2[] verticies;
+    protected PolarVector2[] verticies;
+    /** The mass of this polygon. Included to specify a density in polygongroups */
     private float mass = 1f;
     private Vector2 offset = Vector2.zero();
     private float size = 1f;
@@ -19,7 +24,7 @@ public class Polygon {
     *
     */
     public Polygon() {
-        verticies = new Vector2[] {};
+        verticies = new PolarVector2[] {};
     }
 
     /**
@@ -27,7 +32,7 @@ public class Polygon {
     *
     * @param verticies The verticies of the Polygon.
     */
-    public Polygon(Vector2[] verticies) {
+    public Polygon(PolarVector2[] verticies) {
         this.verticies = verticies;
     }
 
@@ -37,7 +42,7 @@ public class Polygon {
     * @param verticies The verticies of the Polygon.
     * @param offset The offset towards the origin.
     */
-    public Polygon(Vector2[] verticies, Vector2 offset) {
+    public Polygon(PolarVector2[] verticies, Vector2 offset) {
         this.offset = offset;
         this.verticies = verticies;
     }
@@ -45,7 +50,7 @@ public class Polygon {
     /**
     * Constructor. Generates a new regular N-Polygon
     *
-    * @param N The number verticies of thi Polygon.
+    * @param N The number verticies of this polygon.
     */
     public Polygon(float N) {
         super();
@@ -55,7 +60,7 @@ public class Polygon {
     /**
     * Constructor. Generates a new regular N-Polygon
     *
-    * @param N The number verticies of thi Polygon.
+    * @param N The number verticies of this polygon.
     * @param offset The offset towards the origin.
     */
     public Polygon(float N, Vector2 offset) {
@@ -66,7 +71,7 @@ public class Polygon {
     /**
     * Constructor. Generates a new regular N-Polygon
     *
-    * @param N The number verticies of this Polygon.
+    * @param N The number verticies of this polygon.
     * @param offset The offset towards the origin.
     * @param size The size of this object.
     */
@@ -146,7 +151,7 @@ public class Polygon {
     public Vector2[] getVerticies() {
         Vector2[] temp = new Vector2[verticies.length];
         for (int i = 0; i < temp.length; i++) {
-            temp[i] = verticies[i].copy().scale(size).add(offset);
+            temp[i] = verticies[i].toCartesian().scale(size).add(offset);
         }
         return temp;
     }
@@ -154,30 +159,26 @@ public class Polygon {
     /**
     * @return A list of all points relative to local space.
     */
-    public Vector2[] getLocalVerticies() {
-        Vector2[] temp = new Vector2[verticies.length];
-        for (int i = 0; i < temp.length; i++) {
-            temp[i] = verticies[i].copy();
-        }
-        return temp;
+    public PolarVector2[] getLocalVerticies() {
+        return verticies;
     }
 
     /**
-    * Sets the vertecies new.
+    * Sets the vertecies new. <b>Use with caution</b>.
     *
-    * @param verticies The new verticies relative to local space.
+    * @param verticies The new verticies relative to local space as {@link PolarVector2}.
     */
-    public void setVerticies(Vector2[] verticies) {
+    public void setVerticies(PolarVector2[] verticies) {
         this.verticies = verticies;
     }
 
     /**
     * Adds a vertex.
-    *
+    *   TODO
     * @param vertex The new vertex relative to local space.
     */
-    public void addVertex(Vector2 vertex) {
-        Vector2[] temp = new Vector2[verticies.length + 1];
+    public void addVertex(PolarVector2 vertex) {
+        PolarVector2[] temp = new PolarVector2[verticies.length + 1];
         for (int i = 0; i < verticies.length; i++) {
             temp[i] = verticies[i];
         }
@@ -190,12 +191,12 @@ public class Polygon {
      * Gets the number of verticies.
      */
     public int getVerticiesCount() {
-        return verticies.length;
+        return getVerticies().length;
     }
 
     /**
-     * Returns an array with all edges this Polygon has.
-     * @return An array with all edges of this Polygon.
+     * Returns an array with all edges this polygon has.
+     * @return An array with all edges of this polygon.
      */
     public Vector2[] allEdges() {
         ArrayList<Vector2> edges = new ArrayList<Vector2>();
@@ -342,14 +343,12 @@ public class Polygon {
         return max;
     }
 
-    public static Vector2[] getVerticiesOnCircle(float N) {
-        ArrayList<Vector2> verticies = new ArrayList<Vector2>();
+    public static PolarVector2[] getVerticiesOnCircle(float N) {
+        ArrayList<PolarVector2> verticies = new ArrayList<PolarVector2>();
         double theta = 2 * Math.PI / N;
         for (int i = 0; i < N; ++i) {
-            float x = (float) Math.cos(theta * -i + Math.PI * 3 / 4);
-            float y = (float) Math.sin(theta * -i + Math.PI * 3 / 4);
-            verticies.add(new Vector2(x, y));
+            verticies.add(new PolarVector2((float) theta * i));
         }
-        return verticies.toArray(new Vector2[verticies.size()]);
+        return verticies.toArray(new PolarVector2[verticies.size()]);
     }
 }
