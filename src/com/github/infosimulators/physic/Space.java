@@ -20,7 +20,7 @@ public class Space {
      * Stores the maximum distance from the origin
      * Objects further appart are seen lost and will be removed from space register and deleted by GC.
      */
-    public float observedRange = 1000f;
+    public float observedRange = 10e15f;
     /**
      * Stores the position of the center point.
      * The outside is calculated on the basis of this point.
@@ -149,7 +149,7 @@ public class Space {
                         new String[] { "" + simulationID, "" + object.getID() }));
                 continue;
             }
-            if (!willLeave(object)) {
+            if (willLeave(object)) {
                 registerIterator.remove();
                 EventRegistry.fire(new Event(EventType.SIMU_PLANET_LEFT, Arrays.asList(EventCategory.SIMULATION),
                         new String[] { "" + simulationID, "" + object.getID() }));
