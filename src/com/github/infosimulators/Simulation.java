@@ -23,7 +23,7 @@ public class Simulation extends IDd {
 	public Simulation(float size) {
 		super();
 		space = new Space();
-		space.maxDistance = size;
+		space.observedRange = size;
 		space.simulationID = getID();
 	}
 
