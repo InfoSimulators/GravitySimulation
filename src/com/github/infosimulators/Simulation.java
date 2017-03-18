@@ -33,12 +33,12 @@ public class Simulation extends IDd {
 	 *
 	 * @param content
 	 * 		The properties of the objects the space should be filled with.
-	 * 		The first dimension defines the object. The secound dimension the properties.
+	 * 		The first dimension defines the object. The second dimension the properties.
 	 * 		This list is structured like this:
 	 * 		content[n][0] The distance form the origin.
 	 * 		content[n][1] The angle from the origin.
-	 * 		content[n][2] Tee mass of the object.
-	 * 		content[n][3] Tee magnitude of the velocity.
+	 * 		content[n][2] The mass of the object.
+	 * 		content[n][3] The magnitude of the velocity.
 	 * 		content[n][4] The angle of the velocity.
 	 * 	 	content[n][5] The radius of the object.
 	 */
