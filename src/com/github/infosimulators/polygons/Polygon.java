@@ -182,7 +182,7 @@ public class Polygon {
         for (int i = 0; i < verticies.length; i++) {
             temp[i] = verticies[i];
         }
-        temp[-1] = vertex;
+        temp[temp.length - 1] = vertex;
         this.verticies = PolarVector2.order(temp);
     }
 
