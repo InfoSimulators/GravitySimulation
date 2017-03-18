@@ -95,7 +95,10 @@ public class Main {
 		for (Event e : events)
 			handleEvent(e);
 	}
-
+	public static Simulation workingExample(){
+		Simulation x  = new Simulation(new float[][]{{50000f,(float) Math.PI,2e3f,0f,0f,200f},{0f,0f,2e5f,0f,0f,1000f}});
+		return x;
+	}
 	public static void handleEvent(Event event) {
 		System.out.println("----------------------------------");
 		System.out.println("EVENT OCCURED");
