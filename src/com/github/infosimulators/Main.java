@@ -10,7 +10,10 @@ import com.github.infosimulators.genetictrainer.Evaluator;
 import com.github.infosimulators.genetictrainer.GeneticTrainer;
 import com.github.infosimulators.gui.*;
 import com.github.infosimulators.gui.gelements.NumberField;
+import com.github.infosimulators.gui.gelements.Panel;
 import com.github.infosimulators.gui.gelements.RectButton;
+import com.github.infosimulators.gui.gelements.Text;
+import com.github.infosimulators.gui.gelements.TextField;
 
 import processing.core.PApplet;
 
@@ -33,18 +36,17 @@ public class Main {
 	public static void main(String[] args) {
 		// creates and runs processing sketch
 		gui = GUI.getInstance();
-		functionalityTest();
+		mainMenu();
 
-		int numPlanets = 3;
-		int paramsPerPlanet = 6;
-		int genomesPerGeneration = 50;
-		trainer = new GeneticTrainer(numPlanets, paramsPerPlanet, genomesPerGeneration);
-		evaluator = new ExampleEvaluator();
+		//int numPlanets = 3;
+		//int paramsPerPlanet = 6;
+		//int genomesPerGeneration = 50;
+		//trainer = new GeneticTrainer(numPlanets, paramsPerPlanet, genomesPerGeneration);
+		//evaluator = new ExampleEvaluator();
 
 		// TODO replace this loop with gui-functionality
 		for (int i = 0; i < 3; i++){}
 			//mainLoop();
-			
 	}
 
 	public static void mainLoop() {
@@ -94,36 +96,87 @@ public class Main {
 	/**
 	* Test code to show the basic functionality of the GUI.
 	*/
-	private static void functionalityTest() {
+	private static void mainMenu() {
 		State mainMenuState = new State(0, 120, 255);
-		mainMenuState.addElement(new RectButton("TestButton", 40, 40, 100, 100));
-		mainMenuState.addListener(new Listener("TestButton", new Runnable() {
+		
+		mainMenuState.addElement(new Text("GravitySimulationText", "Gravity Simulation", 50, PApplet.CENTER, 0, 60, 600, 60));
+		
+		mainMenuState.addElement(new RectButton("ClassicModeButton", "Classic Mode", 190, 170, 220, 40));
+		mainMenuState.addElement(new RectButton("RandomModeButton", "Random Mode", 190, 250, 220, 40));
+		mainMenuState.addElement(new RectButton("AutoModeButton", "Training Mode", 190, 330, 220, 40));
+		mainMenuState.addElement(new RectButton("LoadStartButton", "Load Start", 190, 410, 220, 40));
+		
+		mainMenuState.addListener(new Listener("GravitySimulationText - hovered", new Runnable(){
 
 			@Override
 			public void run() {
-				for (Event event : EventRegistry.getEventsOfType(EventType.GUI_NUMBERFIELD_VALUE)) {
-					if (event.getArgs()[0] == "TestCounter") {
-						System.out.println(event.getArgs()[1]);
-					}
-				}
-
+				gui.stroke(0, 255, 255);
+				gui.fill(0, 200, 200);
+				gui.textSize(16);
+				gui.textAlign(PApplet.CENTER, PApplet.TOP);
+				gui.text("A customizable and optimizable simulation of Gravity.", gui.width/2, 120);
+				gui.text("Hover over the buttons to learn more!", gui.width/2, 133);
 			}
-
+			
 		}));
-		mainMenuState.addListener(new Listener("TestButton - hovered", new Runnable() {
+		
+		mainMenuState.addListener(new Listener("ClassicModeButton - hovered", new Runnable(){
 
 			@Override
 			public void run() {
-				//System.out.println("TestButton hovered");
-				gui.textSize(12);
-				gui.fill(gui.getGUIColor3());
-				gui.textAlign(PApplet.LEFT);
-				gui.text("Info: This is a test, so lets test you tester", gui.mouseX, gui.mouseY);
+				gui.stroke(0, 255, 255);
+				gui.fill(0, 200, 200);
+				gui.textSize(16);
+				gui.textAlign(PApplet.CENTER, PApplet.TOP);
+				gui.text("Pick everything yourself!", gui.width/2, 215);
+				gui.text("You decide on the asteroids attributes.", gui.width/2, 234);
 			}
-
+			
 		}));
-		mainMenuState.addElement(new NumberField("TestCounter", 6, 40, 150, 110, 30));
+		
+		mainMenuState.addListener(new Listener("RandomModeButton - hovered", new Runnable(){
 
+			@Override
+			public void run() {
+				gui.stroke(0, 255, 255);
+				gui.fill(0, 200, 200);
+				gui.textSize(16);
+				gui.textAlign(PApplet.CENTER, PApplet.TOP);
+				gui.text("Let RNG do your work!", gui.width/2, 295);
+				gui.text("The asteroids attributes are chosen randomly.", gui.width/2, 314);
+			}
+			
+		}));
+		
+		mainMenuState.addListener(new Listener("AutoModeButton - hovered", new Runnable(){
+
+			@Override
+			public void run() {
+				gui.stroke(0, 255, 255);
+				gui.fill(0, 200, 200);
+				gui.textSize(16);
+				gui.textAlign(PApplet.CENTER, PApplet.TOP);
+				gui.text("Let evolution do your work!", gui.width/2, 375);
+				gui.text("A genetic algorithm will learn about interesting starting situations.", gui.width/2, 394);
+			}
+			
+		}));
+		
+		mainMenuState.addListener(new Listener("LoadStartButton - hovered", new Runnable(){
+
+			@Override
+			public void run() {
+				gui.stroke(0, 255, 255);
+				gui.fill(0, 200, 200);
+				gui.textSize(16);
+				gui.textAlign(PApplet.CENTER, PApplet.TOP);
+				gui.text("Your work was already done!", gui.width/2, 455);
+				gui.text("Load a previously saved starting situation.", gui.width/2, 474);
+			}
+			
+		}));
+		
+		
 		gui.setState(mainMenuState);
 	}
 	public static void handleEvents() {
