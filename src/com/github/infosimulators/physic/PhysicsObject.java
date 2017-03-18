@@ -39,11 +39,11 @@ public class PhysicsObject extends IDd {
 	 * @param impulsVelocity A float representing the magnitude of the velocity of the object.
 	 * @param alpha The angle of the velocity
 	 */
-	public PhysicsObject(float distance, float theta, float mass, float impulsVelocity, float alpha, float radius) {
+	public PhysicsObject(float distance, float theta, float mass, float impulsVelocity, float alpha, float size) {
 		super();
 		this.position = new PolarVector2(theta, distance).toCartesian();
 		this.velocity = new PolarVector2(alpha, impulsVelocity).toCartesian();
-		this.collider = new Sphere(position, radius);
+		this.collider = new Sphere(position, size);
 		setMass(mass);
 	}
 
@@ -59,6 +59,22 @@ public class PhysicsObject extends IDd {
 		super();
 		this.position = position;
 		this.collider = new Sphere(position, radius);
+		setMass(mass);
+		this.velocity = velocity;
+	}
+
+	/**
+	* Constructor.
+	*
+	* @param position The position of the new object.
+	* @param velocity The velocity of the new object.
+	* @param mass The mass of the Object.
+	* @param radius The radius of the object.
+	*/
+	public PhysicsObject(Vector2 position, Vector2 velocity, float mass, Polygon collider) {
+		super();
+		this.collider = collider;
+		setPosition(position);
 		setMass(mass);
 		this.velocity = velocity;
 	}
@@ -141,12 +157,23 @@ public class PhysicsObject extends IDd {
 	 * @param two The secound object.
 	 */
 	public static PhysicsObject unite(PhysicsObject one, PhysicsObject two) {
+		Polygon united = new Polygon();
+		float angel = Vector2.subtract(one.getPosition(), two.getPosition()).angle();
+		for(PolarVector2 v : one.collider.getLocalVerticies()){
+			if(Math.abs(angel-v.theta)<=Math.PI)
+				united.addVertex(v);
+		}
+		for (PolarVector2 v : two.collider.getLocalVerticies()) {
+			if (Math.abs(angel - v.theta) > Math.PI)
+				united.addVertex(v);
+		}
+		united.setSize((float) Math.cbrt(Math.pow(one.collider.getSize(), 2) + Math.pow(two.collider.getSize(), 2)));
 		return new PhysicsObject(Vector2.lerp(one.getPosition(), two.getPosition(), two.mass / (one.mass + two.mass)),
 				Vector2.add(one.velocity, two.velocity)
 						.setMag((one.mass * one.velocity.magnitude() + two.mass * two.velocity.magnitude())
 								/ (one.mass + two.mass)),
 				one.mass + two.mass,
-				(float) Math.cbrt(Math.pow(one.collider.getSize(), 3) + Math.pow(two.collider.getSize(), 3)));
+				 united);
 	}
 
 }

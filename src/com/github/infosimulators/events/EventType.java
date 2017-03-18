@@ -105,6 +105,12 @@ public enum EventType {
 	 *
 	 * args = [int simulationID, int planetID1, int planetID2]
 	 */
-	SIMU_PLANET_COLLISION
+	SIMU_PLANET_COLLISION,
+	/**
+	 * Simulation-Event: Fired when a planet has a to high desity
+	 *
+	 * args = [int simulationID, int planetID1,]
+	 */
+	SIMU_PLANET_BECOMES_BLACK_HOLE
 
 }
