@@ -173,8 +173,7 @@ public class Polygon {
     }
 
     /**
-    * Adds a vertex.
-    *   TODO
+    * Adds a vertex. May not work on inherting classes
     * @param vertex The new vertex relative to local space.
     */
     public void addVertex(PolarVector2 vertex) {
@@ -187,14 +186,13 @@ public class Polygon {
     }
 
     /**
-     * Gets the number of verticies.
+     * @return The number of verticies.
      */
     public int getVerticiesCount() {
         return getVerticies().length;
     }
 
     /**
-     * Returns an array with all edges this polygon has.
      * @return An array with all edges of this polygon.
      */
     public Vector2[] allEdges() {
