@@ -11,11 +11,14 @@ public class Text extends GElement{
 	private String text;
 	
 	private float textSize;
+	
+	private int textAlign;
 
-	public Text(String ID, String text, float textSize, float x, float y, float xSize, float ySize) {
+	public Text(String ID, String text, float textSize, int textAlign, float x, float y, float xSize, float ySize) {
 		super(ID, x, y, xSize, ySize);
 		this.text = text;
 		this.textSize = textSize;
+		this.textAlign = textAlign;
 	}
 
 	@Override
@@ -29,10 +32,10 @@ public class Text extends GElement{
                 }
             }
 		}
-		p.stroke(color2);
-		p.fill(color2);
+		p.stroke(color3);
+		p.fill(color3);
 		p.textSize(textSize);
-		p.textAlign(PApplet.LEFT);
+		p.textAlign(textAlign);
 		p.text(text, x, y, x + xSize, y + ySize);
 	}
 

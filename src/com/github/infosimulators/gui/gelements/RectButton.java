@@ -14,9 +14,13 @@ public class RectButton extends GElement {
 
     private boolean pressedLast;
 
-    public RectButton(String ID, float x, float y, float xSize, float ySize) {
+    private String title;
+    
+    public RectButton(String ID, String title, float x, float y, float xSize, float ySize) {
         super(ID, x, y, xSize, ySize);
 
+        this.title = title;
+        
         pressedLast = false;
     }
 
@@ -47,5 +51,10 @@ public class RectButton extends GElement {
 
         p.stroke(color2);
         p.rect(x, y, xSize, ySize);
+        p.textSize(ySize - 10);
+        p.textAlign(PApplet.CENTER, PApplet.CENTER);
+        p.fill(color3);
+        p.stroke(color3);
+        p.text(title, x + xSize/2, y + ySize/2);
     }
 }
