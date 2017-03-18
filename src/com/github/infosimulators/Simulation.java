@@ -33,7 +33,7 @@ public class Simulation extends IDd {
 	 *
 	 * @param content
 	 * 		The properties of the objects the space should be filled with.
-	 * 		The first dimension defines the object. The secound dimension the properties.
+	 * 		The first dimension defines the object. The second dimension the properties.
 	 * 		This list is structured like this:
 	 * 		content[n][0] The distance form the origin.
 	 * 		content[n][1] The angle from the origin.
@@ -45,10 +45,12 @@ public class Simulation extends IDd {
 	public Simulation(float[][] content) {
 		super();
 		space = new Space();
+		space.simulationID = getID();
 		for (float[] object : content) {
 			space.registerPhysicsObject(
 					new PhysicsObject(object[0], object[1], object[2], object[3], object[4], object[5]));
 		}
+		space.simulationID = getID();
 	}
 
 	/**

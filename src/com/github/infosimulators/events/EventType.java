@@ -22,6 +22,8 @@ public enum EventType {
 	 * args = []
 	 */
 	TRAINER_GENERATED_FIRST_GEN,
+	
+	// ----------------------------------------------------------------------
 
 	/**
 	* GUI-Event
@@ -31,15 +33,15 @@ public enum EventType {
 	* args = [String buttonID]
 	*/
 	GUI_BUTTON_PRESSED,
-
+	
 	/**
 	 * GUI-Event
 	 *
-	 * Determines if a button is hovered.
+	 * Determines if a GElement is hovered.
 	 *
-	 * args = [String buttonID]
+	 * args = [String ID + " - hovered"]
 	 */
-	GUI_BUTTON_HOVERED,
+	GUI_ELEMENT_HOVERED,
 
 	/**
 	 * GUI-Event
@@ -49,6 +51,15 @@ public enum EventType {
 	 * args = [String numberFieldID, int value]
 	 */
 	GUI_NUMBERFIELD_VALUE,
+	
+	/**
+	 * GUI-Event
+	 *
+	 * Determines the value of a text field.
+	 *
+	 * args = [String textFieldID, String value]
+	 */
+	GUI_TEXTFIELD_VALUE,
 
 	// ----------------------------------------------------------------------
 
@@ -60,6 +71,9 @@ public enum EventType {
 	 * args = [char key]
 	 */
 	KEY_RELEASED,
+	
+	// ----------------------------------------------------------------------
+
 	/*
 	 * Simulation-Events below. Make sure the simulation's id comes always
 	 * first.

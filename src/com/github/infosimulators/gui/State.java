@@ -56,8 +56,9 @@ public class State {
         }
 
         for (com.github.infosimulators.events.Event event : EventRegistry
-                .getEventsOfType(EventType.GUI_BUTTON_HOVERED)) {
+                .getEventsOfType(EventType.GUI_ELEMENT_HOVERED)) {
             events.add(event.getArgs()[0]);
+            event.setHandled();
         }
 
         for (Listener listener : listeners) {
@@ -65,7 +66,6 @@ public class State {
                 listener.getAction().run();
             }
         }
-
     }
 
     public void addElement(GElement g) {

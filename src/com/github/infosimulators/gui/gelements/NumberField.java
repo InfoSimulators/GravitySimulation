@@ -14,7 +14,7 @@ public class NumberField extends GElement {
 
     private int value, max;
 
-    private boolean active, hovered;
+    private boolean active;
 
     public NumberField(String ID, float x, float y, float xSize, float ySize) {
         super(ID, x, y, xSize, ySize);
@@ -23,7 +23,6 @@ public class NumberField extends GElement {
         max = 8;
 
         active = false;
-        hovered = false;
     }
 
     public NumberField(String ID, int max, float x, float y, float xSize, float ySize) {
@@ -33,20 +32,23 @@ public class NumberField extends GElement {
         this.max = max;
 
         active = false;
-        hovered = false;
     }
 
     @Override
     public void update(PApplet p) {
-        if (p.mouseX > x && p.mouseY > y && p.mouseX < x + xSize && p.mouseY < y + ySize) {
-            hovered = true;
+        if (hovered(p)) {
             if (!active) {
                 active = p.mousePressed ? true : false;
             }
+            EventRegistry.fire(new Event(EventType.GUI_ELEMENT_HOVERED, new String[] { ID + " - hovered" }));
         } else {
-            hovered = false;
             if (active) {
                 active = p.mousePressed ? false : true;
+            }
+            for (Event event : EventRegistry.getEventsOfType(EventType.GUI_ELEMENT_HOVERED)) {
+                if(event.getArgs()[0] == ID + " hovered"){
+                	event.setHandled();
+                }
             }
         }
 
@@ -134,13 +136,6 @@ public class NumberField extends GElement {
      */
     public void setActive(boolean active) {
         this.active = active;
-    }
-
-    /**
-     * @return the hovered
-     */
-    public boolean isHovered() {
-        return hovered;
     }
 
     public void modifyValue(int value) {

@@ -14,7 +14,35 @@ public abstract class GElement {
 
     protected float x, y, xSize, ySize;
 
-    protected int color1, color2, color3;
+    /**
+	 * @return the x
+	 */
+	public float getX() {
+		return x;
+	}
+
+	/**
+	 * @param x the x to set
+	 */
+	public void modifyX(float x) {
+		this.x += x;
+	}
+
+	/**
+	 * @return the y
+	 */
+	public float getY() {
+		return y;
+	}
+
+	/**
+	 * @param y the y to set
+	 */
+	public void modifyY(float y) {
+		this.y += y;
+	}
+
+	protected int color1, color2, color3;
 
     protected GElement(String ID, float x, float y, float xSize, float ySize, int color1, int color2, int color3) {
 
@@ -44,6 +72,14 @@ public abstract class GElement {
         this.color3 = GUI.getInstance().getGUIColor3();
     }
 
+    protected boolean hovered(PApplet p){
+    	if (x <= p.mouseX && x + xSize >= p.mouseX && y <= p.mouseY && y + ySize >= p.mouseY) {
+            return true;    
+        } else {
+            return false;
+        }
+    }
+    
     public abstract void update(PApplet p);
 
     /**
