@@ -5,15 +5,12 @@ import java.util.List;
 import com.github.infosimulators.events.Event;
 import com.github.infosimulators.events.EventCategory;
 import com.github.infosimulators.events.EventRegistry;
-import com.github.infosimulators.events.EventType;
 import com.github.infosimulators.genetictrainer.Evaluator;
 import com.github.infosimulators.genetictrainer.GeneticTrainer;
 import com.github.infosimulators.gui.*;
-import com.github.infosimulators.gui.gelements.NumberField;
-import com.github.infosimulators.gui.gelements.Panel;
 import com.github.infosimulators.gui.gelements.RectButton;
+import com.github.infosimulators.gui.gelements.SimulationPanel;
 import com.github.infosimulators.gui.gelements.Text;
-import com.github.infosimulators.gui.gelements.TextField;
 
 import processing.core.PApplet;
 
@@ -93,8 +90,31 @@ public class Main {
 		events = EventRegistry.getEvents();
 		handleEvents();
 	}
+	
+	public static void handleEvents() {
+		for (Event e : events)
+			handleEvent(e);
+	}
+
+	public static void handleEvent(Event event) {
+		System.out.println("----------------------------------");
+		System.out.println("EVENT OCCURED");
+		System.out.println("Type: " + event.getType().toString());
+		if (event.getCategories() != null && !event.getCategories().isEmpty()) {
+			System.out.println("Categories:");
+			for (EventCategory cat : event.getCategories())
+				System.out.println("> " + cat.toString());
+		}
+		if (event.getArgs() != null && event.getArgs().length != 0) {
+			System.out.println("Args:");
+			for (String arg : event.getArgs())
+				System.out.println("> " + arg);
+		}
+		event.setHandled();
+	}
+	
 	/**
-	* Test code to show the basic functionality of the GUI.
+	* Setup of the main menu.
 	*/
 	private static void mainMenu() {
 		State mainMenuState = new State(0, 120, 255);
@@ -176,34 +196,64 @@ public class Main {
 			
 		}));
 		
+		mainMenuState.addListener(new Listener("ClassicModeButton", new Runnable(){
+
+			@Override
+			public void run() {
+				classicMode();
+			}
+			
+		}));
+		
+		mainMenuState.addListener(new Listener("RandomModeButton", new Runnable(){
+
+			@Override
+			public void run() {
+				randomMode();
+			}
+			
+		}));
+		
+		mainMenuState.addListener(new Listener("AutoModeButton", new Runnable(){
+
+			@Override
+			public void run() {
+				autoMode();
+			}
+			
+		}));
 		
 		gui.setState(mainMenuState);
 	}
-	public static void handleEvents() {
-		for (Event e : events)
-			handleEvent(e);
+	
+	private static void classicMode(){
+		State classicModeState = new State(0, 120, 255);
+		
+		gui.setState(classicModeState);
 	}
-
-	public static void handleEvent(Event event) {
-		System.out.println("----------------------------------");
-		System.out.println("EVENT OCCURED");
-		System.out.println("Type: " + event.getType().toString());
-		if (event.getCategories() != null && !event.getCategories().isEmpty()) {
-			System.out.println("Categories:");
-			for (EventCategory cat : event.getCategories())
-				System.out.println("> " + cat.toString());
-		}
-		if (event.getArgs() != null && event.getArgs().length != 0) {
-			System.out.println("Args:");
-			for (String arg : event.getArgs())
-				System.out.println("> " + arg);
-		}
-		event.setHandled();
+	
+	private static void randomMode(){
+		State randomModeState = new State(0, 120, 255);
+		
+		float[][] startingAsteroids = new float[][]{
+			new float[] {100, 90, 10, 10, 10, 10},
+			new float[] {120, 45, 10, 10, 10, 10},
+		};
+		
+		randomModeState.addElement(new SimulationPanel("RandomSimulationPanel", new Simulation(startingAsteroids), 0, 0, gui.width, gui.height));
+		
+		gui.setState(randomModeState);
+	}
+	
+	private static void autoMode(){
+		State autoModeState = new State(0, 120, 255);
+		
+		gui.setState(autoModeState);
 	}
 
 	/**
-	* @return the gui
-	*/
+	 * @return the gui
+	 */
 	public static GUI getGUI() {
 		return gui;
 	}
