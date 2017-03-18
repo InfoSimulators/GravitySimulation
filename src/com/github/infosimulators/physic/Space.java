@@ -196,6 +196,7 @@ public class Space {
      * If it is not the case doElasticCollision is called with both objects.
      */
     public void handleCollisions() {
+        ArrayList<PhysicsObject> united = new ArrayList<PhysicsObject>();
         ArrayList<PhysicsObject> collided = new ArrayList<PhysicsObject>();
         Iterator<PhysicsObject> registerIterator1 = spaceRegister.iterator();
         Iterator<PhysicsObject> registerIterator2 = spaceRegister.iterator();
@@ -213,7 +214,7 @@ public class Space {
                                 .fire(new Event(EventType.SIMU_PLANET_UNITE, Arrays.asList(EventCategory.SIMULATION),
                                         new String[] { "" + simulationID, "" + object.getID(), "" + other.getID() }));
                         //Unite Objects and remove old
-                        registerPhysicsObject(PhysicsObject.unite(object, other));
+                        united.add(PhysicsObject.unite(object, other));
                         registerIterator1.remove();
                         registerIterator2.remove();
                     } else { /*Else do an elastic collision*/
@@ -228,6 +229,9 @@ public class Space {
                     }
                 }
             }
+        }
+        for(PhysicsObject unity : united){
+            registerPhysicsObject(unity);
         }
     }
 
