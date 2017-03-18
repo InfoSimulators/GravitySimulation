@@ -143,6 +143,12 @@ public class Space {
         Iterator<PhysicsObject> registerIterator = spaceRegister.iterator();
         while (registerIterator.hasNext()) {
             PhysicsObject object = registerIterator.next();
+            if (object.collider.getSize() < (2 * Constants.c * object.getMass() / (Constants.c * Constants.c))) {
+                registerIterator.remove();
+                EventRegistry.fire(new Event(EventType.SIMU_PLANET_BECOMES_BLACK_HOLE, Arrays.asList(EventCategory.SIMULATION),
+                        new String[] { "" + simulationID, "" + object.getID() }));
+                continue;
+            }
             if (!willLeave(object)) {
                 registerIterator.remove();
                 EventRegistry.fire(new Event(EventType.SIMU_PLANET_LEFT, Arrays.asList(EventCategory.SIMULATION),
@@ -230,7 +236,7 @@ public class Space {
                 }
             }
         }
-        for(PhysicsObject unity : united){
+        for (PhysicsObject unity : united) {
             registerPhysicsObject(unity);
         }
     }
