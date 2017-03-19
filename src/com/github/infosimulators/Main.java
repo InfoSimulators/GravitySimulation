@@ -10,6 +10,7 @@ import com.github.infosimulators.genetictrainer.GeneticTrainer;
 import com.github.infosimulators.gui.*;
 import com.github.infosimulators.gui.gelements.RectButton;
 import com.github.infosimulators.gui.gelements.SimulationPanel;
+import com.github.infosimulators.gui.gelements.SimulationSetupPanel;
 import com.github.infosimulators.gui.gelements.Text;
 
 import processing.core.PApplet;
@@ -231,6 +232,8 @@ public class Main {
 
 	private static void classicMode(){
 		State classicModeState = new State(0, 120, 255);
+		
+		classicModeState.addElement(new SimulationSetupPanel("SetupPanel", 0, 0, gui.width, gui.height));
 
 		gui.setState(classicModeState);
 	}
