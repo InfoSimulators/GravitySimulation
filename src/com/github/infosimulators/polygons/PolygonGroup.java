@@ -6,13 +6,8 @@ import com.github.infosimulators.physic.Vector2;
 
 /**
  * Class for building more complex polygons.
- * TODO
  */
 public class PolygonGroup extends Polygon {
-    public enum Faces {
-        NORTH, SOUTH, EAST, WEST
-    }
-
     protected ArrayList<Polygon> polygons;
 
     /**

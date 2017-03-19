@@ -173,43 +173,23 @@ public class Polygon {
     }
 
     /**
-    * Adds a vertex.
-    *   TODO
+    * Adds a vertex. May not work on inherting classes.
     * @param vertex The new vertex relative to local space.
     */
-    public void addVertex(PolarVector2 vertex) {
-        PolarVector2[] temp = new PolarVector2[verticies.length + 1];
-        for (int i = 0; i < verticies.length; i++) {
+    public void addVertex(PolarVector2... vertex) {
+        PolarVector2[] temp = new PolarVector2[verticies.length + vertex.length];
+        for (int i = 0; i < verticies.length; i++)
             temp[i] = verticies[i];
-        }
-        temp[-1] = vertex;
+        for (int i = 0; i < vertex.length; i++)
+            temp[verticies.length + i] = vertex[i];
         this.verticies = PolarVector2.order(temp);
     }
 
     /**
-     * Gets the number of verticies.
+     * @return The number of verticies.
      */
     public int getVerticiesCount() {
         return getVerticies().length;
-    }
-
-    /**
-     * Returns an array with all edges this polygon has.
-     * @return An array with all edges of this polygon.
-     */
-    public Vector2[] allEdges() {
-        ArrayList<Vector2> edges = new ArrayList<Vector2>();
-        Vector2[] verticies = getVerticies();
-        for (int i = 0; i < verticies.length; i++) {
-            if (i == 0) {
-                continue;
-            } else if (i == verticies.length - 1) {
-                Vector2.subtract(verticies[i], verticies[0]);
-            } else {
-                edges.add(Vector2.subtract(verticies[i], verticies[i + 1]));
-            }
-        }
-        return edges.toArray(new Vector2[edges.size()]);
     }
 
     /**
@@ -250,24 +230,25 @@ public class Polygon {
 
             Polygon sphere = p1 instanceof Sphere ? p1 : p2;
             Polygon polygon = p1 instanceof Sphere ? p2 : p1;
-            Vector2[] polygon_verticies = polygon.getVerticies();
-            Vector2 closest = Vector2.zero();
-            float min_distance = Float.NEGATIVE_INFINITY;
+            Vector2[] polygonVerticies = polygon.getVerticies();
+            Vector2 sphereOffset = sphere.getOffset();
+            Vector2 closest = null;
+            float min_distance = Float.POSITIVE_INFINITY;
             for (int i = 0; i < polygon.getVerticiesCount(); i++)
-                if (Vector2.distance(polygon_verticies[i], sphere.getOffset()) > min_distance) {
-                    min_distance = Vector2.distance(polygon_verticies[i], sphere.getOffset());
-                    closest = polygon_verticies[i];
+                if (Vector2.sqrDistance(polygonVerticies[i], sphereOffset) < (min_distance * min_distance)) {
+                    min_distance = Vector2.distance(polygonVerticies[i], sphereOffset);
+                    closest = polygonVerticies[i];
                 }
 
-            Vector2 axis = Vector2.subtract(sphere.getOffset(), closest);
+            Vector2 axis = Vector2.subtract(sphereOffset, closest);
             ArrayList<Float> projectedPoints = new ArrayList<Float>();
             for (int i = 0; i < polygon.getVerticiesCount(); i++)
-                projectedPoints.add(polygon_verticies[i].copy().dot(axis));
+                projectedPoints.add(polygonVerticies[i].copy().dot(axis));
 
             float min1 = getMin(projectedPoints);
             float max1 = getMax(projectedPoints);
-            float min2 = sphere.getOffset().dot(axis);
-            float max2 = sphere.getOffset().dot(axis);
+            float min2 = sphereOffset.dot(axis);
+            float max2 = sphereOffset.dot(axis);
             if (max1 < min2 || max2 < min1)
                 return false;
 
@@ -279,6 +260,7 @@ public class Polygon {
             int p2_verticies_count = p2.getVerticiesCount();
             //recover normal vectors for p1 and p2
             for (int i = 0; i < p1_verticies_count; i++) {
+                /* Old version. Not sure if new version works
                 if (i < p1_verticies_count - 1) {
                     float x = p1_verticies[i + 1].x - p1_verticies[i].x;
                     float y = p1_verticies[i + 1].y - p1_verticies[i].y;
@@ -287,10 +269,14 @@ public class Polygon {
                     float x = p1_verticies[0].x - p1_verticies[i].x;
                     float y = p1_verticies[0].y - p1_verticies[i].y;
                     normals.add(new Vector2(x, y).getNormal1());
-                }
+                }*/
+                float x = p1_verticies[(i + 1) % p1_verticies_count].x - p1_verticies[i].x;
+                float y = p1_verticies[(i + 1) % p1_verticies_count].y - p1_verticies[i].y;
+                normals.add(new Vector2(x, y).getNormal1());
             }
 
             for (int i = 0; i < p2_verticies_count; i++) {
+                /* Old version. Not sure if new version works
                 if (i < p2_verticies_count - 1) {
                     float x = p2_verticies[i + 1].x - p2_verticies[i].x;
                     float y = p2_verticies[i + 1].y - p2_verticies[i].y;
@@ -299,7 +285,10 @@ public class Polygon {
                     float x = p2_verticies[0].x - p2_verticies[i].x;
                     float y = p2_verticies[0].y - p2_verticies[i].y;
                     normals.add(new Vector2(x, y).getNormal1());
-                }
+                }*/
+                float x = p2_verticies[(i + 1) % p2_verticies_count].x - p2_verticies[i].x;
+                float y = p2_verticies[(i + 1) % p2_verticies_count].y - p2_verticies[i].y;
+                normals.add(new Vector2(x, y).getNormal1());
             }
 
             //project points of p1 and p2 on each normal vector until a gap is found
@@ -307,24 +296,17 @@ public class Polygon {
             for (int n = 0; n < normals.size(); n++) {
                 ArrayList<Float> projectedPoints1 = new ArrayList<Float>();
                 ArrayList<Float> projectedPoints2 = new ArrayList<Float>();
-
+                Vector2 curr_normal = normals.get(n);
                 for (int i = 0; i < p1_verticies_count; i++)
-                    projectedPoints1
-                            .add(new Vector2(p1_verticies[i].x, p1_verticies[i].y).dot(normals.get(n)));
+                    projectedPoints1.add(new Vector2(p1_verticies[i].x, p1_verticies[i].y).dot(curr_normal));
 
                 for (int i = 0; i < p2_verticies_count; i++)
-                    projectedPoints2
-                            .add(new Vector2(p2_verticies[i].x, p2_verticies[i].y).dot(normals.get(n)));
+                    projectedPoints2.add(new Vector2(p2_verticies[i].x, p2_verticies[i].y).dot(curr_normal));
 
                 float min1 = getMin(projectedPoints1);
                 float max1 = getMax(projectedPoints1);
                 float min2 = getMin(projectedPoints2);
                 float max2 = getMax(projectedPoints2);
-
-                System.out.println(normals.get(n));
-                System.out.println(min1 + " " + max1);
-                System.out.println(min2 + " " + max2);
-                System.out.println((max1 - min1) + " " + (max2 - min1));
                 if (max1 < min2 || max2 < min1)
                     return false;
             }
