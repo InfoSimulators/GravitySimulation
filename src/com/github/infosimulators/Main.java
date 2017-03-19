@@ -238,12 +238,7 @@ public class Main {
 	private static void randomMode(){
 		State randomModeState = new State(0, 120, 255);
 		
-		float[][] startingAsteroids = new float[][]{
-			new float[] {100, 90, 10, 10, 10, 10},
-			new float[] {120, 45, 10, 10, 10, 10},
-		};
-		
-		randomModeState.addElement(new SimulationPanel("RandomSimulationPanel", new Simulation(startingAsteroids), 0, 0, gui.width, gui.height));
+		randomModeState.addElement(new SimulationPanel("RandomSimulationPanel", new Simulation(new float[][]{{50000f,(float) Math.PI,2e3f,0f,0f,200f},{0f,0f,2e5f,0f,0f,1000f},{1f,200f,2e7f,0f,0f,1000f}}), 0, 0, gui.width, gui.height));
 		
 		gui.setState(randomModeState);
 	}
