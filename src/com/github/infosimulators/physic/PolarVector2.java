@@ -96,7 +96,7 @@ public class PolarVector2 {
 	* @return A new {@link Vector2} based on this {@link PolarVector2}.
 	*/
 	public Vector2 toCartesian() {
-		return new Vector2((float) Math.cos(theta), (float) Math.sin(theta));
+		return new Vector2((float) Math.cos(theta), (float) Math.sin(theta)).scale(r);
 	}
 
 	/**
@@ -252,6 +252,9 @@ public class PolarVector2 {
 	/*
 	 * STATIC/PURE FUNCTIONS
 	 */
+	public static final PolarVector2 zero() {
+		return new PolarVector2(0f, 0f);
+	}
 
 	public static final PolarVector2 up() {
 		return new PolarVector2((float) (0.5f * Math.PI), 1f);

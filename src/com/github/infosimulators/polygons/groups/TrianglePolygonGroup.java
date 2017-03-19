@@ -2,9 +2,11 @@ package com.github.infosimulators.polygons.groups;
 
 import java.util.ArrayList;
 
+import com.github.infosimulators.physic.PolarVector2;
 import com.github.infosimulators.physic.Vector2;
 import com.github.infosimulators.polygons.Polygon;
 import com.github.infosimulators.polygons.PolygonGroup;
+import com.github.infosimulators.polygons.regular.Triangle;
 
 /**
  * TODO
@@ -16,6 +18,10 @@ public class TrianglePolygonGroup extends PolygonGroup {
     */
     public TrianglePolygonGroup(int N) {
         super();
+        PolarVector2[] x = Polygon.getVerticiesOnCircle(N);
+        polygons = new ArrayList<Polygon>();
+        for (int i = 0; i < x.length; i++)
+            polygons.add(new Polygon(new PolarVector2[] { x[i], PolarVector2.zero(), x[(i + 1) % x.length] }));
     }
 
     /**
