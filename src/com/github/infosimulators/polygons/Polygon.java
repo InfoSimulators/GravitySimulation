@@ -17,7 +17,6 @@ public class Polygon {
     /** The mass of this polygon. Included to specify a density in polygongroups */
     private float mass = 1f;
     private Vector2 offset = Vector2.zero();
-    private float size = 1f;
 
     /**
     * Constructor.
@@ -69,19 +68,6 @@ public class Polygon {
     }
 
     /**
-    * Constructor. Generates a new regular N-Polygon
-    *
-    * @param N The number verticies of this polygon.
-    * @param offset The offset towards the origin.
-    * @param size The size of this object.
-    */
-    public Polygon(float N, Vector2 offset, float size) {
-        this.offset = offset;
-        this.size = size;
-        this.verticies = getVerticiesOnCircle(N);
-    }
-
-    /**
     * @return The center of mass of this polygon.
     */
     public Vector2 center() {
@@ -114,19 +100,13 @@ public class Polygon {
     }
 
     /**
-    * @returns {@link Polygon.size}.
-    */
-    public float getSize() {
-        return size;
-    }
-
-    /**
-    * Sets the size new.
+    * Resizes the polygon.
     *
     * @param size The new size.
     */
-    public void setSize(float size) {
-        this.size = size;
+    public void scale(float size) {
+        for (int i = 0; i < verticies.length; i++)
+            verticies[i].scale(size);
     }
 
     /**
@@ -146,12 +126,12 @@ public class Polygon {
     }
 
     /**
-    * @return A list of all points relative to world space (with size and offest applied).
+    * @return A list of all points relative to world space (with offest applied).
     */
     public Vector2[] getVerticies() {
         Vector2[] temp = new Vector2[verticies.length];
         for (int i = 0; i < temp.length; i++) {
-            temp[i] = verticies[i].toCartesian().scale(size).add(offset);
+            temp[i] = verticies[i].toCartesian().add(offset);
         }
         return temp;
     }
@@ -224,7 +204,10 @@ public class Polygon {
      */
     public static boolean intersectSAT(Polygon p1, Polygon p2) {
         if (p1 instanceof Sphere && p2 instanceof Sphere) {
-            if (p1.getSize() + p2.getSize() >= Vector2.distance(p1.getOffset(), p2.getOffset()))
+            Sphere s1 = (Sphere) p1;
+            Sphere s2 = (Sphere) p2;
+            if ((s1.radius + s2.radius) * (s1.radius + s2.radius) >= Vector2.sqrDistance(p1.getOffset(),
+                    p2.getOffset()))
                 return false;
         } else if (p1 instanceof Sphere || p2 instanceof Sphere) {
 
@@ -243,7 +226,7 @@ public class Polygon {
             Vector2 axis = Vector2.subtract(sphereOffset, closest);
             ArrayList<Float> projectedPoints = new ArrayList<Float>();
             for (int i = 0; i < polygon.getVerticiesCount(); i++)
-                projectedPoints.add(polygonVerticies[i].copy().dot(axis));
+                projectedPoints.add(Vector2.dot(polygonVerticies[i], axis));
 
             float min1 = getMin(projectedPoints);
             float max1 = getMax(projectedPoints);

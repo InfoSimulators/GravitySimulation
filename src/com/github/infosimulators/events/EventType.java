@@ -22,7 +22,7 @@ public enum EventType {
 	 * args = []
 	 */
 	TRAINER_GENERATED_FIRST_GEN,
-	
+
 	// ----------------------------------------------------------------------
 
 	/**
@@ -33,7 +33,7 @@ public enum EventType {
 	* args = [String buttonID]
 	*/
 	GUI_BUTTON_PRESSED,
-	
+
 	/**
 	 * GUI-Event
 	 *
@@ -51,7 +51,7 @@ public enum EventType {
 	 * args = [String numberFieldID, int value]
 	 */
 	GUI_NUMBERFIELD_VALUE,
-	
+
 	/**
 	 * GUI-Event
 	 *
@@ -71,7 +71,7 @@ public enum EventType {
 	 * args = [char key]
 	 */
 	KEY_RELEASED,
-	
+
 	// ----------------------------------------------------------------------
 
 	/*
@@ -106,11 +106,12 @@ public enum EventType {
 	 * args = [int simulationID, int planetID1, int planetID2]
 	 */
 	SIMU_PLANET_COLLISION,
+
 	/**
-	 * Simulation-Event: Fired when a planet has a to high desity
+	 * Simulation-Event: Fired when the Simulation ends.
 	 *
-	 * args = [int simulationID, int planetID1,]
+	 * args = [int simulationID]
 	 */
-	SIMU_PLANET_BECOMES_BLACK_HOLE
+	SIMU_PLANET_END
 
 }

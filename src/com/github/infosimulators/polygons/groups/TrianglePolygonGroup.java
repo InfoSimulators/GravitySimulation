@@ -6,8 +6,6 @@ import com.github.infosimulators.physic.PolarVector2;
 import com.github.infosimulators.physic.Vector2;
 import com.github.infosimulators.polygons.Polygon;
 import com.github.infosimulators.polygons.PolygonGroup;
-import com.github.infosimulators.polygons.regular.Triangle;
-
 /**
  * TODO
  * Class for building more complex polygons made out of Triangles.

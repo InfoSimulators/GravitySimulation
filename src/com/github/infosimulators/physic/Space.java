@@ -114,7 +114,7 @@ public class Space {
     * @param two Another {@link PhysicsObject}.
     */
     protected boolean areColliding(PhysicsObject one, PhysicsObject two) {
-        return Polygon.intersect(one.collider, two.collider);
+        return Polygon.intersectSAT(one.collider, two.collider);
     }
 
     /**
@@ -143,12 +143,6 @@ public class Space {
         Iterator<PhysicsObject> registerIterator = spaceRegister.iterator();
         while (registerIterator.hasNext()) {
             PhysicsObject object = registerIterator.next();
-            if (object.collider.getSize() < (2 * Constants.c * object.getMass() / (Constants.c * Constants.c))) {
-                registerIterator.remove();
-                EventRegistry.fire(new Event(EventType.SIMU_PLANET_BECOMES_BLACK_HOLE, Arrays.asList(EventCategory.SIMULATION),
-                        new String[] { "" + simulationID, "" + object.getID() }));
-                continue;
-            }
             if (willLeave(object)) {
                 registerIterator.remove();
                 EventRegistry.fire(new Event(EventType.SIMU_PLANET_LEFT, Arrays.asList(EventCategory.SIMULATION),
@@ -159,6 +153,9 @@ public class Space {
             object.move();
         }
         handleCollisions();
+        if(spaceRegister.size() <= 1)
+            EventRegistry.fire(new Event(EventType.SIMU_PLANET_END, Arrays.asList(EventCategory.SIMULATION),
+                    new String[] { "" + simulationID }));
     }
 
     /**
