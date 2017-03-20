@@ -310,6 +310,16 @@ public class Vector2 {
 		return this;
 	}
 
+	/**
+	 * Converts this into a {@link PVector} (Vectorclass form Processing).
+	 *
+	 * @return {@link PVector}
+	 */
+	public PVector toPVector() {
+		return new PVector(x, y);
+	}
+
+
 	/*
 	 * STATIC/PURE FUNCTIONS
 	 */
