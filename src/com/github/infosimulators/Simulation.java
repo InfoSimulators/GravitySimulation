@@ -13,6 +13,7 @@ import com.github.infosimulators.physic.Vector2;
 public class Simulation extends IDd {
 
 	protected Space space;
+	private float[][] initialConfig;
 
 	/**
 	 * Constructor.
@@ -29,28 +30,49 @@ public class Simulation extends IDd {
 
 	/**
 	 * Constructor.
-	 * Startes a simulation with a space filled with spaceobjects defined by the parameter content.
+	 * Startes a simulation with a space filled with spaceobjects defined by the parameter configuration.
 	 *
-	 * @param content
+	 * @param configuration
 	 * 		The properties of the objects the space should be filled with.
 	 * 		The first dimension defines the object. The second dimension the properties.
 	 * 		This list is structured like this:
-	 * 		content[n][0] The distance form the origin.
-	 * 		content[n][1] The angle from the origin.
-	 * 		content[n][2] The mass of the object.
-	 * 		content[n][3] The magnitude of the velocity.
-	 * 		content[n][4] The angle of the velocity.
-	 * 	 	content[n][5] The radius of the object.
+	 * 		configuration[n][0] The distance form the origin.
+	 * 		configuration[n][1] The angle from the origin.
+	 * 		configuration[n][2] The mass of the object.
+	 * 		configuration[n][3] The magnitude of the velocity.
+	 * 		configuration[n][4] The angle of the velocity.
+	 * 	 	configuration[n][5] The radius of the object.
 	 */
-	public Simulation(float[][] content) {
+	public Simulation(float[][] configuration) {
 		super();
 		space = new Space();
 		space.simulationID = getID();
-		for (float[] object : content) {
+		for (float[] object : configuration) {
 			space.registerPhysicsObject(
 					new PhysicsObject(object[0], object[1], object[2], object[3], object[4], object[5]));
 		}
 		space.simulationID = getID();
+		initialConfig = configuration;
+	}
+
+	/**
+	* Constructor.
+	* Startes a simulation with a space filled with spaceobjects defined by the parameter configuration.
+	*
+	* @param configuration See {@link Simulation#Simulation(float[][])}.
+	* @param size The viewable size of this simulation.
+	*/
+	public Simulation(float[][] configuration, float size) {
+		super();
+		space = new Space();
+		space.simulationID = getID();
+		for (float[] object : configuration) {
+			space.registerPhysicsObject(
+					new PhysicsObject(object[0], object[1], object[2], object[3], object[4], object[5]));
+		}
+		space.simulationID = getID();
+		space.observedRange = size;
+		initialConfig = configuration;
 	}
 
 	/**
@@ -82,5 +104,11 @@ public class Simulation extends IDd {
 	 */
 	public ArrayList<PhysicsObject> getContent() {
 		return space.getSpaceRegister();
+	}
+	/**
+	 * @return The inital configuration.
+	 */
+	public float[][] getInitialConfig(){
+		return initialConfig;
 	}
 }
