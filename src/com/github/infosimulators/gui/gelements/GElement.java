@@ -26,6 +26,7 @@ public abstract class GElement {
 	 */
 	public void modifyX(float x) {
 		this.x += x;
+		System.out.println("modified X of " + ID +" to be " + x);
 	}
 
 	/**
@@ -80,9 +81,65 @@ public abstract class GElement {
         }
     }
     
-    public abstract void update(PApplet p);
+    /**
+	 * @return the iD
+	 */
+	public String getID() {
+		return ID;
+	}
+
+	/**
+	 * @param iD the iD to set
+	 */
+	public void setID(String iD) {
+		ID = iD;
+	}
+
+	public abstract void update(PApplet p);
 
     /**
+	 * @return the xSize
+	 */
+	public float getxSize() {
+		return xSize;
+	}
+
+	/**
+	 * @param xSize the xSize to set
+	 */
+	public void setxSize(float xSize) {
+		this.xSize = xSize;
+	}
+
+	/**
+	 * @return the ySize
+	 */
+	public float getySize() {
+		return ySize;
+	}
+
+	/**
+	 * @param ySize the ySize to set
+	 */
+	public void setySize(float ySize) {
+		this.ySize = ySize;
+	}
+
+	/**
+	 * @param x the x to set
+	 */
+	public void setX(float x) {
+		this.x = x;
+	}
+
+	/**
+	 * @param y the y to set
+	 */
+	public void setY(float y) {
+		this.y = y;
+	}
+
+	/**
      * @return the color1
      */
     public int getColor1() {

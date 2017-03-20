@@ -17,8 +17,16 @@ public class SetupSpaceObject {
 		active = false;
 	}
 
-	public void swapActive(){
-		active = !active;
+	public boolean getActive(){
+		return active;
+	}
+	
+	public void setActive(){
+		active = true;
+	}
+	
+	public void notActive(){
+		active = false;
 	}
 	
 	/**

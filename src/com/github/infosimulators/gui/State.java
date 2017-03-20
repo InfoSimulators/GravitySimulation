@@ -78,6 +78,20 @@ public class State {
     public void addListener(Listener listener) {
         listeners.add(listener);
     }
+    
+    /**
+     * Used to get a specific GElement
+     * @param ID the ID of the GElement to get
+     * @return the GElement asked for, else null
+     */
+    public GElement getElementByID(String ID){
+    	for(GElement element : elements){
+    		if(element.getID() == ID){
+    			return element;
+    		}
+    	}
+    	return null;
+    }
 
     /**
      * @return the elements

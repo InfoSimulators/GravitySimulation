@@ -233,7 +233,18 @@ public class Main {
 	private static void classicMode(){
 		State classicModeState = new State(0, 120, 255);
 		
-		classicModeState.addElement(new SimulationSetupPanel("SetupPanel", 0, 0, gui.width, gui.height));
+		classicModeState.addElement(new SimulationSetupPanel("SetupPanel", 0, 60, gui.width, gui.height - 60));
+		
+		classicModeState.addElement(new RectButton("MainMenuButton", "Back", gui.width - 90, 10, 80, 40));
+		
+		classicModeState.addListener(new Listener("MainMenuButton", new Runnable(){
+
+			@Override
+			public void run() {
+				mainMenu();
+			}
+			
+		}));
 
 		gui.setState(classicModeState);
 	}
@@ -241,7 +252,18 @@ public class Main {
 	private static void randomMode(){
 		State randomModeState = new State(0, 120, 255);
 		
-		randomModeState.addElement(new SimulationPanel("RandomSimulationPanel", new Simulation(new float[][]{{50000f,(float) Math.PI,2e3f,0f,0f,200f},{0f,0f,2e5f,0f,0f,1000f},{1f,200f,2e7f,0f,0f,1000f}}), 0, 0, gui.width, gui.height));
+		randomModeState.addElement(new SimulationPanel("RandomSimulationPanel", new Simulation(new float[][]{{50000f,(float) Math.PI,2e3f,0f,0f,200f},{0f,0f,2e5f,0f,0f,1000f},{1f,200f,2e7f,0f,0f,1000f}}), 0, 60, gui.width, gui.height));
+		
+		randomModeState.addElement(new RectButton("MainMenuButton", "Back", gui.width - 90, 10, 80, 40));
+		
+		randomModeState.addListener(new Listener("MainMenuButton", new Runnable(){
+
+			@Override
+			public void run() {
+				mainMenu();
+			}
+			
+		}));
 		
 		gui.setState(randomModeState);
 	}

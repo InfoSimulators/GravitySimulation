@@ -25,10 +25,15 @@ public class SimulationPanel extends GElement{
 			avgX += asteroid.getPosition().x / simulation.getContent().size();
 			avgY += asteroid.getPosition().y / simulation.getContent().size();
 		}
-		p.translate(p.width/2, p.height/2);
+		p.pushMatrix();
+		p.translate(x + xSize/2, y + ySize);
 		for(PhysicsObject asteroid : simulation.getContent()){
 			p.ellipse((asteroid.getPosition().x - avgX)/scale, (asteroid.getPosition().y - avgY)/scale, 8, 8);
 		}
+		p.popMatrix();
+		p.noFill();
+		p.stroke(color3);
+		p.rect(x, y , xSize, ySize);
 	}
 
 }

@@ -34,7 +34,7 @@ public class Panel extends GElement{
 		}
 		
 		if(pressedLast && p.mousePressed){
-			modifyCoords(p.mouseX - p.pmouseX, p.mouseY - p.pmouseY);
+			//modifyCoords(p.mouseX - p.pmouseX, p.mouseY - p.pmouseY);
 			pressedLast = false;
 		}
 		
@@ -52,6 +52,20 @@ public class Panel extends GElement{
 		}
 	}
 	
+	/**
+     * Used to get a specific GElement
+     * @param ID the ID of the GElement to get
+     * @return the GElement asked for, else null
+     */
+    public GElement getElementByID(String ID){
+    	for(GElement element : elements){
+    		if(element.getID() == ID){
+    			return element;
+    		}
+    	}
+    	return null;
+    }
+	
 	public void modifyCoords(float deltaX, float deltaY){
 		this.x += deltaX;
 		this.y += deltaY;
@@ -59,6 +73,18 @@ public class Panel extends GElement{
 			element.modifyX(deltaX);
 			element.modifyY(deltaY);
 		}
+	}
+	
+	public void setX(float x){
+		modifyCoords(x - this.x, 0);
+	}
+	
+	public void setY(float y){
+		modifyCoords(0, y - this.y);
+	}
+	
+	public void setCoords(float x, float y){
+		modifyCoords(x - this.x, y - this.y);
 	}
 
 	public void addElement(GElement element){
