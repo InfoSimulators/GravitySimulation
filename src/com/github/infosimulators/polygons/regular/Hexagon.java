@@ -20,14 +20,4 @@ public class Hexagon extends Polygon {
     public Hexagon(Vector2 offset) {
         super(6, offset);
     }
-
-    /**
-    * Constructor.
-    *
-    * @param offset The offset towards the origin.
-    * @param size The size of the Collider.
-    */
-    public Hexagon(Vector2 offset, float size) {
-        super(6, offset, size);
-    }
 }

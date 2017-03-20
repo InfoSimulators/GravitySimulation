@@ -22,14 +22,4 @@ public class Triangle extends Polygon {
     public Triangle(Vector2 offset) {
         super(3, offset);
     }
-
-    /**
-    * Constructor.
-    *
-    * @param offset The offset towards the origin.
-    * @param size The size of the Collider.
-    */
-    public Triangle(Vector2 offset, float size) {
-        super(3, offset, size);
-    }
 }
