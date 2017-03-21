@@ -210,8 +210,6 @@ public class Space {
                 if (object == other)
                     continue;
                 if (areColliding(object, other)) {
-                    EventRegistry.fire(new Event(EventType.SIMU_PLANET_OVERLAP, Arrays.asList(EventCategory.SIMULATION),
-                            new String[] { "" + simulationID, "" + object.getID(), "" + other.getID() }));
                     if (wouldUnite(object, other)) {
                         EventRegistry
                                 .fire(new Event(EventType.SIMU_PLANET_UNITE, Arrays.asList(EventCategory.SIMULATION),
