@@ -50,17 +50,62 @@ public enum EventType {
 	 *
 	 * args = [String numberFieldID, int value]
 	 */
-	GUI_NUMBERFIELD_VALUE,
+	GUI_NUMBERFIELD_VALUE_CHANGE,
+	
+	/**
+	 * GUI-Event
+	 *
+	 * Sets the value of a number field.
+	 *
+	 * args = [String numberFieldID, int value]
+	 */
+	GUI_NUMBERFIELD_VALUE_SET,
 
 	/**
 	 * GUI-Event
 	 *
 	 * Determines the value of a text field.
 	 *
-	 * args = [String textFieldID, String value]
+	 * args = [String textFieldID, int value]
 	 */
-	GUI_TEXTFIELD_VALUE,
+	GUI_TEXTFIELD_VALUE_CHANGE,
+	
+	/**
+	 * GUI-Event
+	 *
+	 * Determines the value of a slider.
+	 *
+	 * args = [String sliderID, float value]
+	 */
+	GUI_SLIDER_VALUE_CHANGE,
+	
+	/**
+	 * GUI-Event
+	 *
+	 * Sets the value of a slider.
+	 *
+	 * args = [String sliderID, float value]
+	 */
+	GUI_SLIDER_VALUE_SET,
 
+	/**
+	 * GUI-Event
+	 *
+	 * Calls for setup of SimulationPanel from SimulationSetupPanel
+	 *
+	 * args = []
+	 */
+	GUI_SIMULATION_START,
+	
+	/**
+	 * GUI-Event
+	 *
+	 * Calls for the reset of a GElement
+	 *
+	 * args = [String ID + " - reset"]
+	 */
+	GUI_ELEMENT_RESET,
+	
 	// ----------------------------------------------------------------------
 
 	/**

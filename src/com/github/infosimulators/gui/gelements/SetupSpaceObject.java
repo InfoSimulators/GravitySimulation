@@ -16,6 +16,21 @@ public class SetupSpaceObject {
 		
 		active = false;
 	}
+	
+	public int getColor(){
+		if(mass < 2e1f){
+			return 50;
+		}else if(mass < 2e2f){
+			return 100;
+		}else if(mass < 2e3f){
+			return 150;
+		}else if(mass < 2e4f){
+			return 200;
+		}else if(mass == 2e4f){
+			return 255;
+		}
+		return 0;
+	}
 
 	public boolean getActive(){
 		return active;

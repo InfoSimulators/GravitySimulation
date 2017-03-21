@@ -5,6 +5,7 @@ import java.util.List;
 import com.github.infosimulators.events.Event;
 import com.github.infosimulators.events.EventCategory;
 import com.github.infosimulators.events.EventRegistry;
+import com.github.infosimulators.events.EventType;
 import com.github.infosimulators.genetictrainer.Evaluator;
 import com.github.infosimulators.genetictrainer.GeneticTrainer;
 import com.github.infosimulators.gui.*;
@@ -122,7 +123,7 @@ public class Main {
 	*/
 	private static void mainMenu() {
 		State mainMenuState = new State(0, 120, 255);
-
+		
 		mainMenuState.addElement(new Text("GravitySimulationText", "Gravity Simulation", 50, PApplet.CENTER, 0, 60, 600, 60));
 
 		mainMenuState.addElement(new RectButton("ClassicModeButton", "Classic Mode", 190, 170, 220, 40));
@@ -237,11 +238,24 @@ public class Main {
 		
 		classicModeState.addElement(new RectButton("MainMenuButton", "Back", gui.width - 90, 10, 80, 40));
 		
+		classicModeState.addElement(new RectButton("FinishButton", "Finish", 10, 10, 100, 40));
+		
 		classicModeState.addListener(new Listener("MainMenuButton", new Runnable(){
 
 			@Override
 			public void run() {
+				EventRegistry.fire(new Event(EventType.GUI_ELEMENT_RESET, new String[]{"SetupPanel"}));
 				mainMenu();
+			}
+			
+		}));
+		
+		classicModeState.addListener(new Listener("FinishButton", new Runnable(){
+
+			@Override
+			public void run() {
+				EventRegistry.fire(new Event(EventType.GUI_SIMULATION_START));
+				
 			}
 			
 		}));

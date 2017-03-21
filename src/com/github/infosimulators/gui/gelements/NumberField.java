@@ -36,6 +36,7 @@ public class NumberField extends GElement {
 
     @Override
     public void update(PApplet p) {
+    	
         if (hovered(p)) {
             if (!active) {
                 active = p.mousePressed ? true : false;
@@ -57,6 +58,12 @@ public class NumberField extends GElement {
                 keyPress(event.getArgs()[0]);
                 event.setHandled();
             }
+        }
+        
+        for(Event event : EventRegistry.getEventsOfType(EventType.GUI_NUMBERFIELD_VALUE_SET)){
+        	if(event.getArgs()[0] == ID){
+        		value = Integer.parseInt(event.getArgs()[1]);
+        	}
         }
 
         p.stroke(color2);
@@ -115,12 +122,12 @@ public class NumberField extends GElement {
             }
         }
 
-        for (Event event : EventRegistry.getEventsOfType(EventType.GUI_NUMBERFIELD_VALUE)) {
+        for (Event event : EventRegistry.getEventsOfType(EventType.GUI_NUMBERFIELD_VALUE_CHANGE)) {
             if (event.getArgs()[0] == ID) {
                 event.setHandled();
             }
         }
-        EventRegistry.fire(new Event(EventType.GUI_NUMBERFIELD_VALUE, new String[] { ID, Integer.toString(value) }));
+        EventRegistry.fire(new Event(EventType.GUI_NUMBERFIELD_VALUE_CHANGE, new String[] { ID, Integer.toString(value) }));
 
     }
 

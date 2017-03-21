@@ -26,7 +26,6 @@ public abstract class GElement {
 	 */
 	public void modifyX(float x) {
 		this.x += x;
-		System.out.println("modified X of " + ID +" to be " + x);
 	}
 
 	/**

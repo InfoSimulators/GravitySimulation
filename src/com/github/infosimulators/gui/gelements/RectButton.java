@@ -27,7 +27,6 @@ public class RectButton extends GElement {
     public void update(PApplet p) {
 
         if (hovered(p) && pressedLast && !p.mousePressed) {
-        	System.out.println("pressed" + ID);
             EventRegistry.fire(new Event(EventType.GUI_BUTTON_PRESSED, new String[] { ID }));
             pressedLast = false;
         }
