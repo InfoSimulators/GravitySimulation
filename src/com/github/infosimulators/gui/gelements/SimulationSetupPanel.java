@@ -14,6 +14,8 @@ import com.github.infosimulators.physic.PhysicsObject;
 import processing.core.PApplet;
 
 public class SimulationSetupPanel extends GElement{
+	
+	private int ticks;
 
 	private List<SetupSpaceObject> objects;
 	
@@ -32,6 +34,7 @@ public class SimulationSetupPanel extends GElement{
 		panelSetup();
 		setup = false;
 		finished = false;
+		ticks = 0;
 	}
 
 	@Override
@@ -129,7 +132,11 @@ public class SimulationSetupPanel extends GElement{
 		}));
 		}else{
 			p.rect(x, y, x, ySize);
-			simu.update();
+			if(ticks > 10){
+				simu.update();
+				ticks -= 10;
+			}
+			ticks++;
 			for(PhysicsObject object : simu.getContent()){
 				p.ellipse(object.getPosition().x, object.getPosition().y, 8, 8);
 			}
