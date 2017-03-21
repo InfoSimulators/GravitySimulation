@@ -88,13 +88,6 @@ public enum EventType {
 	SIMU_PLANET_LEFT,
 
 	/**
-	 * Simulation-Event: Fired when two planets collide in a simulation.
-	 *
-	 * args = [int simulationID, int planetID1, int planetID2]
-	 */
-	SIMU_PLANET_OVERLAP,
-
-	/**
 	 * Simulation-Event: Fired when two planets would unite into one
 	 *
 	 * args = [int simulationID, int planetID1, int planetID2]
