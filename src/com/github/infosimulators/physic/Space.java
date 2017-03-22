@@ -89,8 +89,9 @@ public class Space {
      * @return If the object will leave this space.
      */
     public boolean willLeave(PhysicsObject object) {
-        if (isPositionObservable(object.position))
-            return false;
+        if (!isPositionObservable(object.position))
+            return true;
+           return false;
         //return Vector2.dot(object.velocity, Vector2.subtract(object.position, pointOfOrigin)) > getEscapeVelocity(object, this);
     }
 
