@@ -1,7 +1,6 @@
 package com.github.infosimulators.physic;
 
 import java.util.ArrayList;
-import java.io.Serializable;
 import com.github.infosimulators.IDRegistry.IDd;
 import com.github.infosimulators.polygons.Polygon;
 import com.github.infosimulators.polygons.regular.Sphere;
@@ -11,7 +10,7 @@ import com.github.infosimulators.polygons.regular.Sphere;
  * It stores position, forces,acceleration, velocity, mass and size
  * It is assumed to be a sphere with the radius size with the mass located in the middle
  */
-public class PhysicsObject extends IDd implements Serializable {
+public class PhysicsObject extends IDd {
 
 	/** The position of the object in a Cartesian coordinate system represented as a {@link Vector2} */
 	protected Vector2 position;

@@ -3,7 +3,7 @@ package com.github.infosimulators.polygons.regular;
 import com.github.infosimulators.physic.Vector2;
 import com.github.infosimulators.polygons.Polygon;
 
-public class Octagon extends Polygon {
+public class Octagon extends Polygon{
 
     /**
     * Constructor.

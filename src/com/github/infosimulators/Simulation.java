@@ -1,18 +1,26 @@
 package com.github.infosimulators;
 
 import java.util.ArrayList;
-import java.io.Serializable;
+import java.util.Arrays;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 
 import com.github.infosimulators.IDRegistry.IDd;
 import com.github.infosimulators.physic.PhysicsObject;
 import com.github.infosimulators.physic.Space;
 import com.github.infosimulators.physic.Vector2;
+import com.sun.org.apache.xalan.internal.utils.ConfigurationError;
 
 /**
  * Calculates data on given parameters.
  */
-public class Simulation extends IDd implements Serializable{
-
+public class Simulation extends IDd {
 	protected Space space;
 	private float[][] initialConfig;
 
@@ -106,10 +114,61 @@ public class Simulation extends IDd implements Serializable{
 	public ArrayList<PhysicsObject> getContent() {
 		return space.getSpaceRegister();
 	}
+
 	/**
 	 * @return The inital configuration.
 	 */
-	public float[][] getInitialConfig(){
+	public float[][] getInitialConfig() {
 		return initialConfig;
+	}
+
+	/**
+	* Writes a simulation into al file, which can be read with {@link load}()
+	*/
+	public Simulation loadSimulation(String name) {
+		float[][] configuration = null;
+
+		try {
+			BufferedReader br = new BufferedReader(new FileReader(name + ".simulation"));
+			ArrayList<String> content = new ArrayList<String>();
+			String line;
+			while ((line = br.readLine()) != null) {
+				content.add(line);
+			}
+			configuration = new float[content.size()][content.get(0).split(",").length];
+			for (int i = 0; i < content.size() - 1; i++) {
+				for (int x = 0; x < content.get(i).split(",").length; x++) {
+					configuration[i][x] = Float.parseFloat(content.get(i).split(",")[x]);
+				}
+			}
+			br.close();
+		} catch (IOException i) {
+			i.printStackTrace();
+			configuration = null;
+		}
+		return new Simulation(configuration);
+	}
+
+	/**
+	* Writes a simulation into al file, which can be read with {@link load}()
+	*/
+	public boolean writeSimulation(String name,Simulation simulation) {
+		boolean success = false;
+		float[][] configuration = simulation.getInitialConfig();
+		try {
+			String content = "";
+			for(float[] object : configuration){
+				content += ("" + Arrays.asList(object)).toString().replaceAll("(^.|.$)", "").replace(", ", "," );
+				content += "\n";
+			}
+			FileWriter br = new FileWriter(name + ".simulation");
+			br.write(content);
+			br.close();
+			success = true;
+		} catch (IOException i) {
+			i.printStackTrace();
+			success = false;
+		}
+		return success;
 	}
 }
