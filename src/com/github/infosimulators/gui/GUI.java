@@ -44,17 +44,16 @@ public class GUI extends PApplet {
 	}
 
 	/**
-	 * Called once after startup
-	 * Sets basic options of the GUI.
+	 * Called once after startup Sets basic options of the GUI.
 	 */
 	public void setup() {
 
 		textFont(loadFont("Helvetica-Bold-96.vlw"), 96);
 
 		colorMode(RGB, 255, 255, 255);
-		GUIColor1 = 0;//0x000000;
-		GUIColor2 = 120;//0x00000f;
-		GUIColor3 = 255;//0x0000ff;
+		GUIColor1 = 0;// 0x000000;
+		GUIColor2 = 120;// 0x00000f;
+		GUIColor3 = 255;// 0x0000ff;
 
 		strokeCap(ROUND);
 		strokeJoin(ROUND);
@@ -107,7 +106,8 @@ public class GUI extends PApplet {
 	}
 
 	/**
-	 * @param State the State to set
+	 * @param State
+	 *            the State to set
 	 */
 	public void setState(State State) {
 		this.currentState = State;
@@ -121,7 +121,8 @@ public class GUI extends PApplet {
 	}
 
 	/**
-	 * @param gUIColor1 the color to set
+	 * @param gUIColor1
+	 *            the color to set
 	 */
 	public void setGUIColor1(int gUIColor1) {
 		GUIColor1 = gUIColor1;
@@ -135,7 +136,8 @@ public class GUI extends PApplet {
 	}
 
 	/**
-	 * @param gUIColor2 the color to set
+	 * @param gUIColor2
+	 *            the color to set
 	 */
 	public void setGUIColor2(int gUIColor2) {
 		GUIColor2 = gUIColor2;
@@ -149,7 +151,8 @@ public class GUI extends PApplet {
 	}
 
 	/**
-	 * @param gUIColor3 the color to set
+	 * @param gUIColor3
+	 *            the color to set
 	 */
 	public void setGUIColor3(int gUIColor3) {
 		GUIColor3 = gUIColor3;

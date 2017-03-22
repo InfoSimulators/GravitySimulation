@@ -6,113 +6,161 @@ import com.github.infosimulators.events.EventType;
 
 import processing.core.PApplet;
 
-public class TextField extends GElement{
+public class TextField extends GElement {
 
-    private int max;
-    
-    private String value;
+	private int max;
 
-    private boolean active;
+	private String value;
 
-    public TextField(String ID, float x, float y, float xSize, float ySize) {
-        super(ID, x, y, xSize, ySize);
+	private boolean active;
 
-        value = "";
-        max = 8;
+	public TextField(String ID, float x, float y, float xSize, float ySize) {
+		super(ID, x, y, xSize, ySize);
 
-        active = false;
-    }
+		value = "";
+		max = 8;
 
-    public TextField(String ID, int max, float x, float y, float xSize, float ySize) {
-        super(ID, x, y, xSize, ySize);
+		active = false;
+	}
 
-        value = "";
-        this.max = max;
+	public TextField(String ID, int max, float x, float y, float xSize, float ySize) {
+		super(ID, x, y, xSize, ySize);
 
-        active = false;
-    }
+		value = "";
+		this.max = max;
 
-    @Override
-    public void update(PApplet p) {
-        if (hovered(p)) {
-            if (!active) {
-                active = p.mousePressed ? true : false;
-            }
-            EventRegistry.fire(new Event(EventType.GUI_ELEMENT_HOVERED, new String[] { ID + " - hovered" }));
-        } else {
-            if (active) {
-                active = p.mousePressed ? false : true;
-            }
-            for (Event event : EventRegistry.getEventsOfType(EventType.GUI_ELEMENT_HOVERED)) {
-                if(event.getArgs()[0] == ID + " hovered"){
-                	event.setHandled();
-                }
-            }
-        }
+		active = false;
+	}
 
-        if (active) {
-            for (Event event : EventRegistry.getEventsOfType(EventType.KEY_RELEASED)) {
-                keyPress(event.getArgs()[0]);
-                event.setHandled();
-            }
-        }
+	@Override
+	public void update(PApplet p) {
+		if (hovered(p)) {
+			if (!active) {
+				active = p.mousePressed ? true : false;
+			}
+			EventRegistry.fire(new Event(EventType.GUI_ELEMENT_HOVERED, new String[] { ID + " - hovered" }));
+		} else {
+			if (active) {
+				active = p.mousePressed ? false : true;
+			}
+			for (Event event : EventRegistry.getEventsOfType(EventType.GUI_ELEMENT_HOVERED)) {
+				if (event.getArgs()[0] == ID + " hovered") {
+					event.setHandled();
+				}
+			}
+		}
 
-        p.stroke(color2);
-        p.fill(active ? color1 : color3);
-        p.rect(x, y, xSize, ySize);
+		if (active) {
+			for (Event event : EventRegistry.getEventsOfType(EventType.KEY_RELEASED)) {
+				keyPress(event.getArgs()[0]);
+				event.setHandled();
+			}
+		}
 
-        p.fill(color2);
-        p.textSize(ySize);
-        p.textAlign(PApplet.RIGHT, PApplet.TOP);
-        p.text(value, x + xSize - 2, y + 5);
-        
-    }
+		p.stroke(color2);
+		p.fill(active ? color1 : color3);
+		p.rect(x, y, xSize, ySize);
 
-    private void keyPress(String k) {
+		p.fill(color2);
+		p.textSize(ySize);
+		p.textAlign(PApplet.RIGHT, PApplet.TOP);
+		p.text(value, x + xSize - 2, y + 5);
 
-        if (k.charAt(0) == PApplet.BACKSPACE && value.length() > 0) {
-            value = value.substring(0, value.length() - 1);
-        }
+	}
 
-        if (value.length() < max) {
-            switch (k.charAt(0)) {
-            case 'a':case 'b':case 'c':case 'd':case 'e':case 'f':case 'g':case 'h':case 'i':case 'j':
-            case 'k':case 'l':case 'm':case 'n':case 'o':case 'p':case 'q':case 'r':case 's':case 't':
-            case 'u':case 'v':case 'w':case 'x':case 'y':case 'z': 
-            case 'A':case 'B':case 'C':case 'D':case 'E':case 'F':case 'G':case 'H':case 'I':case 'J':
-            case 'K':case 'L':case 'M':case 'N':case 'O':case 'P':case 'Q':case 'R':case 'S':case 'T':
-            case 'U':case 'V':case 'W':case 'X':case 'Y':case 'Z':
-            	value += k; break;
-            case PApplet.ENTER:
-                setActive(false);
+	private void keyPress(String k) {
 
-            }
-        }
+		if (k.charAt(0) == PApplet.BACKSPACE && value.length() > 0) {
+			value = value.substring(0, value.length() - 1);
+		}
 
-        for (Event event : EventRegistry.getEventsOfType(EventType.GUI_TEXTFIELD_VALUE)) {
-            if (event.getArgs()[0] == ID) {
-                event.setHandled();
-            }
-        }
-        EventRegistry.fire(new Event(EventType.GUI_TEXTFIELD_VALUE, new String[] { ID, value}));
+		if (value.length() < max) {
+			switch (k.charAt(0)) {
+			case 'a':
+			case 'b':
+			case 'c':
+			case 'd':
+			case 'e':
+			case 'f':
+			case 'g':
+			case 'h':
+			case 'i':
+			case 'j':
+			case 'k':
+			case 'l':
+			case 'm':
+			case 'n':
+			case 'o':
+			case 'p':
+			case 'q':
+			case 'r':
+			case 's':
+			case 't':
+			case 'u':
+			case 'v':
+			case 'w':
+			case 'x':
+			case 'y':
+			case 'z':
+			case 'A':
+			case 'B':
+			case 'C':
+			case 'D':
+			case 'E':
+			case 'F':
+			case 'G':
+			case 'H':
+			case 'I':
+			case 'J':
+			case 'K':
+			case 'L':
+			case 'M':
+			case 'N':
+			case 'O':
+			case 'P':
+			case 'Q':
+			case 'R':
+			case 'S':
+			case 'T':
+			case 'U':
+			case 'V':
+			case 'W':
+			case 'X':
+			case 'Y':
+			case 'Z':
+				value += k;
+				break;
+			case PApplet.ENTER:
+				setActive(false);
 
-    }
+			}
+		}
 
-    /**
-     * @return the active
-     */
-    public boolean isActive() {
-        return active;
-    }
+		for (Event event : EventRegistry.getEventsOfType(EventType.GUI_TEXTFIELD_VALUE_CHANGE)) {
+			if (event.getArgs()[0] == ID) {
+				event.setHandled();
+			}
+		}
+		EventRegistry.fire(new Event(EventType.GUI_TEXTFIELD_VALUE_CHANGE, new String[] { ID, value }));
 
-    /**
-     * @param active the active to set
-     */
-    public void setActive(boolean active) {
-        this.active = active;
-    }
+	}
 
-    public void modifyValue(int value) {
-        this.value += value;
-    }
+	/**
+	 * @return the active
+	 */
+	public boolean isActive() {
+		return active;
+	}
+
+	/**
+	 * @param active
+	 *            the active to set
+	 */
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+
+	public void modifyValue(int value) {
+		this.value += value;
+	}
 }

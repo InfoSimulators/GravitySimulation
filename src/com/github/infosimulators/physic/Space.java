@@ -8,14 +8,14 @@ import com.github.infosimulators.events.Event;
 import com.github.infosimulators.events.EventCategory;
 import com.github.infosimulators.events.EventType;
 import com.github.infosimulators.polygons.Polygon;
-
+import java.io.Serializable;
 /**
  * This class can be seen as a host for objects that should be effected by
  * physics especially gravity.
  *
  * @author Julisep
  */
-public class Space {
+public class Space implements Serializable {
     /**
      * Stores the maximum distance from the origin
      * Objects further appart are seen lost and will be removed from space register and deleted by GC.
@@ -89,10 +89,10 @@ public class Space {
      * @return If the object will leave this space.
      */
     public boolean willLeave(PhysicsObject object) {
-        if (isPositionObservable(object.position))
-            return false;
-        return Vector2.dot(object.velocity,
-                Vector2.subtract(object.position, pointOfOrigin)) > getEscapeVelocity(object, this);
+        if (!isPositionObservable(object.position))
+            return true;
+           return false;
+        //return Vector2.dot(object.velocity, Vector2.subtract(object.position, pointOfOrigin)) > getEscapeVelocity(object, this);
     }
 
     /**
@@ -210,8 +210,6 @@ public class Space {
                 if (object == other)
                     continue;
                 if (areColliding(object, other)) {
-                    EventRegistry.fire(new Event(EventType.SIMU_PLANET_OVERLAP, Arrays.asList(EventCategory.SIMULATION),
-                            new String[] { "" + simulationID, "" + object.getID(), "" + other.getID() }));
                     if (wouldUnite(object, other)) {
                         EventRegistry
                                 .fire(new Event(EventType.SIMU_PLANET_UNITE, Arrays.asList(EventCategory.SIMULATION),

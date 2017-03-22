@@ -1,6 +1,7 @@
 package com.github.infosimulators;
 
 import java.util.ArrayList;
+import java.io.Serializable;
 
 import com.github.infosimulators.IDRegistry.IDd;
 import com.github.infosimulators.physic.PhysicsObject;
@@ -10,7 +11,7 @@ import com.github.infosimulators.physic.Vector2;
 /**
  * Calculates data on given parameters.
  */
-public class Simulation extends IDd {
+public class Simulation extends IDd implements Serializable{
 
 	protected Space space;
 	private float[][] initialConfig;
@@ -36,7 +37,7 @@ public class Simulation extends IDd {
 	 * 		The properties of the objects the space should be filled with.
 	 * 		The first dimension defines the object. The second dimension the properties.
 	 * 		This list is structured like this:
-	 * 		configuration[n][0] The distance form the origin.
+	 * 		configuration[n][0] The distance from the origin.
 	 * 		configuration[n][1] The angle from the origin.
 	 * 		configuration[n][2] The mass of the object.
 	 * 		configuration[n][3] The magnitude of the velocity.

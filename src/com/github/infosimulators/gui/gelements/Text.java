@@ -6,12 +6,12 @@ import com.github.infosimulators.events.EventType;
 
 import processing.core.PApplet;
 
-public class Text extends GElement{
-	
+public class Text extends GElement {
+
 	private String text;
-	
+
 	private float textSize;
-	
+
 	private int textAlign;
 
 	public Text(String ID, String text, float textSize, int textAlign, float x, float y, float xSize, float ySize) {
@@ -23,14 +23,14 @@ public class Text extends GElement{
 
 	@Override
 	public void update(PApplet p) {
-		if(hovered(p)){
+		if (hovered(p)) {
 			EventRegistry.fire(new Event(EventType.GUI_ELEMENT_HOVERED, new String[] { ID + " - hovered" }));
-		}else{
+		} else {
 			for (Event event : EventRegistry.getEventsOfType(EventType.GUI_ELEMENT_HOVERED)) {
-                if(event.getArgs()[0] == ID + " hovered"){
-                	event.setHandled();
-                }
-            }
+				if (event.getArgs()[0] == ID + " hovered") {
+					event.setHandled();
+				}
+			}
 		}
 		p.stroke(color3);
 		p.fill(color3);
@@ -47,7 +47,8 @@ public class Text extends GElement{
 	}
 
 	/**
-	 * @param text the text to set
+	 * @param text
+	 *            the text to set
 	 */
 	public void setText(String text) {
 		this.text = text;

@@ -2,6 +2,7 @@ package com.github.infosimulators.polygons;
 
 import java.lang.Math;
 import java.util.ArrayList;
+import java.io.Serializable;
 
 import com.github.infosimulators.physic.Vector2;
 import com.github.infosimulators.physic.PolarVector2;
@@ -11,7 +12,7 @@ import com.github.infosimulators.polygons.regular.Sphere;
 /**
  * A class to store simple convex polygons.
  */
-public class Polygon {
+public class Polygon implements Serializable{
     /** points on the outside */
     protected PolarVector2[] verticies;
     /** The mass of this polygon. Included to specify a density in polygongroups */
