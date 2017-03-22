@@ -91,8 +91,7 @@ public class Space {
     public boolean willLeave(PhysicsObject object) {
         if (isPositionObservable(object.position))
             return false;
-        return Vector2.dot(object.velocity,
-                Vector2.subtract(object.position, pointOfOrigin)) > getEscapeVelocity(object, this);
+        //return Vector2.dot(object.velocity, Vector2.subtract(object.position, pointOfOrigin)) > getEscapeVelocity(object, this);
     }
 
     /**
