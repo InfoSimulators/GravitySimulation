@@ -1,6 +1,7 @@
 package com.github.infosimulators;
 
 import java.util.ArrayList;
+import java.io.Serializable;
 
 import com.github.infosimulators.IDRegistry.IDd;
 import com.github.infosimulators.physic.PhysicsObject;
@@ -10,7 +11,7 @@ import com.github.infosimulators.physic.Vector2;
 /**
  * Calculates data on given parameters.
  */
-public class Simulation extends IDd {
+public class Simulation extends IDd implements Serializable{
 
 	protected Space space;
 	private float[][] initialConfig;

@@ -1,5 +1,7 @@
 package com.github.infosimulators.polygons;
 
+import java.io.Serializable;
+
 import com.github.infosimulators.physic.Vector2;
 
 /**
@@ -7,7 +9,7 @@ import com.github.infosimulators.physic.Vector2;
  *
  * It is kind of a superset for {@link Vector2}.
  */
-public class Ray {
+public class Ray implements Serializable{
     /**
      * Enum to store position relative to the line.
      */
