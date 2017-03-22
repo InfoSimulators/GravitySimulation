@@ -59,7 +59,7 @@ public class Main {
 			/*
 			 * Rendering simulations goes here
 			 */
-			// trainer.getSimulations()
+			trainer.getSimulations();
 
 		} else {
 			// not running simulation

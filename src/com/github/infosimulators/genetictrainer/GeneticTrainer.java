@@ -339,6 +339,13 @@ public class GeneticTrainer {
 	}
 
 	/**
+	 * @return A list of all running simulations.
+	 */
+	public ArrayList<Simulation> getSimulations() {
+		return simulations;
+	}
+
+	/**
 	 * Returns the simulation of the given ID, if found in simulations.
 	 * 
 	 * @param simulationID
