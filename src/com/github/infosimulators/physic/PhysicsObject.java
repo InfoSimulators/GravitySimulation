@@ -167,7 +167,6 @@ public class PhysicsObject extends IDd {
 			if (Math.abs(angel - v.theta) > Math.PI)
 				united.addVertex(v);
 		}
-		united.setSize((float) Math.cbrt(Math.pow(one.collider.getSize(), 2) + Math.pow(two.collider.getSize(), 2)));
 		return new PhysicsObject(Vector2.lerp(one.getPosition(), two.getPosition(), two.mass / (one.mass + two.mass)),
 				Vector2.add(one.velocity, two.velocity)
 						.setMag((one.mass * one.velocity.magnitude() + two.mass * two.velocity.magnitude())

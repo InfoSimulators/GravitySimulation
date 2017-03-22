@@ -5,7 +5,7 @@ import com.github.infosimulators.polygons.Polygon;
 
 public class Sphere extends Polygon {
     public final static int NUMBER_OF_POLYGONS_IN_SPHERE = 50;
-
+    public float radius;
     /**
     * Constructor.
     */
@@ -30,6 +30,11 @@ public class Sphere extends Polygon {
     * @param size The size of the Collider.
     */
     public Sphere(Vector2 offset, float size) {
-        super(NUMBER_OF_POLYGONS_IN_SPHERE, offset, size);
+        super(NUMBER_OF_POLYGONS_IN_SPHERE, offset);
+        scale(size);
+    }
+    @Override
+    public void scale(float size){
+        radius *= size;
     }
 }

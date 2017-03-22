@@ -22,7 +22,7 @@ public enum EventType {
 	 * args = []
 	 */
 	TRAINER_GENERATED_FIRST_GEN,
-	
+
 	// ----------------------------------------------------------------------
 
 	/**
@@ -33,7 +33,7 @@ public enum EventType {
 	* args = [String buttonID]
 	*/
 	GUI_BUTTON_PRESSED,
-	
+
 	/**
 	 * GUI-Event
 	 *
@@ -50,17 +50,62 @@ public enum EventType {
 	 *
 	 * args = [String numberFieldID, int value]
 	 */
-	GUI_NUMBERFIELD_VALUE,
+	GUI_NUMBERFIELD_VALUE_CHANGE,
 	
+	/**
+	 * GUI-Event
+	 *
+	 * Sets the value of a number field.
+	 *
+	 * args = [String numberFieldID, int value]
+	 */
+	GUI_NUMBERFIELD_VALUE_SET,
+
 	/**
 	 * GUI-Event
 	 *
 	 * Determines the value of a text field.
 	 *
-	 * args = [String textFieldID, String value]
+	 * args = [String textFieldID, int value]
 	 */
-	GUI_TEXTFIELD_VALUE,
+	GUI_TEXTFIELD_VALUE_CHANGE,
+	
+	/**
+	 * GUI-Event
+	 *
+	 * Determines the value of a slider.
+	 *
+	 * args = [String sliderID, float value]
+	 */
+	GUI_SLIDER_VALUE_CHANGE,
+	
+	/**
+	 * GUI-Event
+	 *
+	 * Sets the value of a slider.
+	 *
+	 * args = [String sliderID, float value]
+	 */
+	GUI_SLIDER_VALUE_SET,
 
+	/**
+	 * GUI-Event
+	 *
+	 * Calls for setup of SimulationPanel from SimulationSetupPanel
+	 *
+	 * args = []
+	 */
+	GUI_SIMULATION_START,
+	
+	/**
+	 * GUI-Event
+	 *
+	 * Calls for the reset of a GElement
+	 *
+	 * args = [String ID + " - reset"]
+	 */
+	GUI_ELEMENT_RESET,
+	
 	// ----------------------------------------------------------------------
 
 	/**
@@ -71,7 +116,7 @@ public enum EventType {
 	 * args = [char key]
 	 */
 	KEY_RELEASED,
-	
+
 	// ----------------------------------------------------------------------
 
 	/*
@@ -88,13 +133,6 @@ public enum EventType {
 	SIMU_PLANET_LEFT,
 
 	/**
-	 * Simulation-Event: Fired when two planets collide in a simulation.
-	 *
-	 * args = [int simulationID, int planetID1, int planetID2]
-	 */
-	SIMU_PLANET_OVERLAP,
-
-	/**
 	 * Simulation-Event: Fired when two planets would unite into one
 	 *
 	 * args = [int simulationID, int planetID1, int planetID2]
@@ -106,11 +144,12 @@ public enum EventType {
 	 * args = [int simulationID, int planetID1, int planetID2]
 	 */
 	SIMU_PLANET_COLLISION,
+
 	/**
-	 * Simulation-Event: Fired when a planet has a to high desity
+	 * Simulation-Event: Fired when the Simulation ends.
 	 *
-	 * args = [int simulationID, int planetID1,]
+	 * args = [int simulationID]
 	 */
-	SIMU_PLANET_BECOMES_BLACK_HOLE
+	SIMU_PLANET_END
 
 }

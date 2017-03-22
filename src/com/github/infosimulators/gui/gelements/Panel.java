@@ -34,7 +34,7 @@ public class Panel extends GElement{
 		}
 		
 		if(pressedLast && p.mousePressed){
-			//modifyCoords(p.mouseX - p.pmouseX, p.mouseY - p.pmouseY);
+			modifyCoords(p.mouseX - p.pmouseX, p.mouseY - p.pmouseY);
 			pressedLast = false;
 		}
 		

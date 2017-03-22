@@ -89,12 +89,12 @@ public class TextField extends GElement{
             }
         }
 
-        for (Event event : EventRegistry.getEventsOfType(EventType.GUI_TEXTFIELD_VALUE)) {
+        for (Event event : EventRegistry.getEventsOfType(EventType.GUI_TEXTFIELD_VALUE_CHANGE)) {
             if (event.getArgs()[0] == ID) {
                 event.setHandled();
             }
         }
-        EventRegistry.fire(new Event(EventType.GUI_TEXTFIELD_VALUE, new String[] { ID, value}));
+        EventRegistry.fire(new Event(EventType.GUI_TEXTFIELD_VALUE_CHANGE, new String[] { ID, value}));
 
     }
 

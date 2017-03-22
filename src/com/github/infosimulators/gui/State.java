@@ -18,7 +18,7 @@ import com.github.infosimulators.gui.gelements.GElement;
 public class State {
 
     private List<GElement> elements;
-    private Collection<Listener> listeners;
+    private List<Listener> listeners;
     private int color1, color2, color3;
 
     public State(int color1, int color2, int color3) {
@@ -66,6 +66,7 @@ public class State {
                 listener.getAction().run();
             }
         }
+        
     }
 
     public void addElement(GElement g) {
@@ -77,6 +78,14 @@ public class State {
 
     public void addListener(Listener listener) {
         listeners.add(listener);
+    }
+    
+    public void removeElementByID(String ID){
+    	for(GElement element : elements){
+    		if(element.getID() == ID){
+    			elements.remove(element);
+    		}
+    	}
     }
     
     /**
