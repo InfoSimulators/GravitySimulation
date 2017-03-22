@@ -58,7 +58,7 @@ public class Main {
 			/*
 			 * Rendering simulations goes here
 			 */
-			// trainer.getEvaluator().getSimulations()
+			// trainer.getSimulations()
 
 		} else {
 			// not running simulation
@@ -81,7 +81,6 @@ public class Main {
 					e.printStackTrace();
 				}
 			}
-
 
 			trainer.startSimulations();
 

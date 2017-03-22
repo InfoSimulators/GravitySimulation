@@ -338,4 +338,18 @@ public class GeneticTrainer {
 		return random.nextFloat();
 	}
 
+	/**
+	 * Returns the simulation of the given ID, if found in simulations.
+	 * 
+	 * @param simulationID
+	 *            The ID of the simulation to be found.
+	 * @return The simulation with the given ID.
+	 */
+	private Simulation getSimulationById(long simulationID) {
+		for (Simulation s : simulations)
+			if (s.getID() == simulationID)
+				return s;
+		return null;
+	}
+
 }
