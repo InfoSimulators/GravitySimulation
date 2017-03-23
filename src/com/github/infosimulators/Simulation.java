@@ -123,7 +123,9 @@ public class Simulation extends IDd {
 	}
 
 	/**
-	* Writes a simulation into al file, which can be read with {@link load}()
+	* Loads a simulation from a file.
+	* @param name The name of the Siumaltion to load.
+	* @return The loaded simulation.
 	*/
 	public Simulation loadSimulation(String name) {
 		float[][] configuration = null;
@@ -150,7 +152,10 @@ public class Simulation extends IDd {
 	}
 
 	/**
-	* Writes a simulation into al file, which can be read with {@link load}()
+	* Writes a simulation into a file, which can be read with {@link load}().
+	* @param name THe name to store the simulation in.
+	* @param simulation The siumlation to store.
+	* @return Whether the storing was a success.
 	*/
 	public boolean writeSimulation(String name,Simulation simulation) {
 		boolean success = false;
