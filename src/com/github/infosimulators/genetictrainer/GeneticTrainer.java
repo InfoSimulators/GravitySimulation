@@ -94,10 +94,10 @@ public class GeneticTrainer {
 
 		// always two indices of parent-genomes
 		int[][] parentIndices = new int[genomesPerGeneration][2];
-
+		
 		for (int i = 0; i < genomesPerGeneration; i++)
 			parentIndices[i] = getRandomParents(results, byCostFunction);
-
+		
 		float[][] newGenomes = new float[genomesPerGeneration][numPlanets * paramsPerPlanet];
 
 		for (int i = 0; i < genomesPerGeneration; i++)
@@ -220,8 +220,11 @@ public class GeneticTrainer {
 		float r = random.nextFloat();
 		float sum = 0;
 		int index = 0;
-		while (sum < r)
+		while (sum < r) {
+			sum += results[index];
 			index++;
+		}
+		index--;
 
 		return index;
 	}
@@ -276,6 +279,29 @@ public class GeneticTrainer {
 	}
 
 	/**
+	 * Sets the state for simulations to be running. Initializes Simulations.
+	 */
+	public void startSimulations() {
+		simulations = new ArrayList<Simulation>(genomesPerGeneration);
+		evalEvents = new HashMap<Integer, List<Event>>(genomesPerGeneration);
+	
+		for (float[] genome : genomes) {
+			float[][] simuParams = new float[genome.length / paramsPerPlanet][paramsPerPlanet];
+	
+			for (int i = 0; i < genome.length; i++) {
+				simuParams[i / 6][i % 6] = genome[i];
+			}
+	
+			simulations.add(new Simulation(simuParams));
+		}
+	
+		isRunningSimulations = true;
+	
+		EventRegistry.fire(new Event(EventType.TRAINER_SIMU_START, new String[] { "" + generationCounter }) {
+		});
+	}
+
+	/**
 	 * Updates all running simulations and sorts and interprets some events.
 	 */
 	public void step() {
@@ -284,7 +310,6 @@ public class GeneticTrainer {
 
 		// TODO interpret events
 		List<Event> simuEvents = EventRegistry.getEventsOfCategory(EventCategory.SIMULATION);
-		evalEvents = new HashMap<Integer, List<Event>>(genomesPerGeneration);
 
 		for (Event event : simuEvents) {
 			if (event.getType() == EventType.SIMU_PLANET_END) {
@@ -310,35 +335,6 @@ public class GeneticTrainer {
 				evalEvents.put(simuID, new ArrayList<Event>());
 			evalEvents.get(simuID).add(event);
 		}
-	}
-
-	/**
-	 * @return Current generation number
-	 */
-	public int getGeneration() {
-		return generationCounter;
-	}
-
-	/**
-	 * Sets the state for simulations to be running. Initializes Simulations.
-	 */
-	public void startSimulations() {
-		simulations = new ArrayList<Simulation>(genomesPerGeneration);
-
-		for (float[] genome : genomes) {
-			float[][] simuParams = new float[genome.length / paramsPerPlanet][paramsPerPlanet];
-
-			for (int i = 0; i < genome.length; i++) {
-				simuParams[i / 6][i % 6] = genome[i];
-			}
-
-			simulations.add(new Simulation(simuParams));
-		}
-
-		isRunningSimulations = true;
-
-		EventRegistry.fire(new Event(EventType.TRAINER_SIMU_START, new String[] { "" + generationCounter }) {
-		});
 	}
 
 	/**
@@ -375,6 +371,13 @@ public class GeneticTrainer {
 			if (s.getID() == simulationID)
 				return s;
 		return null;
+	}
+
+	/**
+	 * @return Current generation number
+	 */
+	public int getGeneration() {
+		return generationCounter;
 	}
 
 }

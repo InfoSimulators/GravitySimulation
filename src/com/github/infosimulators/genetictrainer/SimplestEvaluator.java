@@ -1,8 +1,5 @@
 package com.github.infosimulators.genetictrainer;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.List;
 
 import com.github.infosimulators.events.Event;
@@ -48,55 +45,45 @@ public class SimplestEvaluator extends Evaluator {
 		Evaluator evaluator = new SimplestEvaluator();
 
 		trainer.generateFirstGeneration();
-		trainer.generateFirstGeneration();
+		
+		int generations = 2;
 
-		boolean stop = false;
-
-		while (!stop) {
+		for (int i = 0; i < generations; i++) {
+			System.out.println("----------");
 			trainer.startSimulations();
-			System.out.println("Started Simulations");
+			// System.out.println("Started Simulations");
 
 			boolean stepsDone = false;
 			int steps = 0;
 			
 			while (!stepsDone) {
-				System.out.println("Step...");
+				// System.out.println("Step...");
 				trainer.step();
 
 				List<Event> events = EventRegistry.getEventsOfType(EventType.TRAINER_SIMUS_END);
 				if (events.size() > 0) {
 					stepsDone = true;
-					System.out.println("All simus ended.");
+					// System.out.println("All simus ended.");
 				}
 				for (Event event : events)
 					event.setHandled();
 				
-				if (++steps > 0) {
+				if (++steps > 10) {
 					System.out.println("Too many steps");
 					stepsDone = true;
 				}
 			}
 
 			float[] results = evaluator.eval(trainer.getEvalEvents());
-			System.out.println("Got results");
+			// System.out.println("Got results");
 
 			printResults(results);
 
 			try {
+				// System.out.println("Generating next gen");
 				trainer.generateNextGeneration(results, evaluator.isCostFunction());
-				System.out.println("Generated next gen");
+				// System.out.println("Done");
 			} catch (Exception e) {
-				e.printStackTrace();
-			}
-
-			System.out.println("Done with one generation.");
-
-			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-			try {
-				String s = br.readLine();
-				if (s == "e")
-					stop = true;
-			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
@@ -112,6 +99,7 @@ public class SimplestEvaluator extends Evaluator {
 			max = f > max ? f : max;
 		}
 		avg = avg / results.length;
+		System.out.println("len: " + results.length);
 		System.out.println("min: " + min);
 		System.out.println("avg: " + avg);
 		System.out.println("max: " + max);
