@@ -312,7 +312,7 @@ public class GeneticTrainer {
 		List<Event> simuEvents = EventRegistry.getEventsOfCategory(EventCategory.SIMULATION);
 
 		for (Event event : simuEvents) {
-			if (event.getType() == EventType.SIMU_PLANET_END) {
+			if (event.getType() == EventType.SIMU_END) {
 				long simuID = Long.parseLong(event.getArgs()[0]);
 				simulations.remove(getSimulationById(simuID));
 

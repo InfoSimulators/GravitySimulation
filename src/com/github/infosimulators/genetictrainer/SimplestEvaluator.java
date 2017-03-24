@@ -26,7 +26,7 @@ public class SimplestEvaluator extends Evaluator {
 			case SIMU_PLANET_UNITE:
 				p += 3;
 				break;
-			case SIMU_PLANET_END:
+			case SIMU_END:
 				p += 20;
 				break;
 			}
