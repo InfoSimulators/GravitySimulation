@@ -69,7 +69,7 @@ public class Space {
     */
     public void clear() {
         for (PhysicsObject object : spaceRegister) {
-            //object.clearID();
+           object.clearID();
         }
     }
 
