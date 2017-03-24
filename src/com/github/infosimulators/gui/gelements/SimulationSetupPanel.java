@@ -10,6 +10,7 @@ import com.github.infosimulators.events.EventRegistry;
 import com.github.infosimulators.events.EventType;
 import com.github.infosimulators.gui.Listener;
 import com.github.infosimulators.physic.PhysicsObject;
+import com.github.infosimulators.physic.Vector2;
 
 import processing.core.PApplet;
 
@@ -138,7 +139,11 @@ public class SimulationSetupPanel extends GElement{
 			}
 			ticks++;
 			for(PhysicsObject object : simu.getContent()){
-				p.ellipse(object.getPosition().x, object.getPosition().y, 8, 8);
+				p.beginShape();
+                                for(Vector2 vec : object.collider.getVerticies()){
+                                    p.vertex(vec.x, vec.y);
+                                }
+                                p.endShape();
 			}
 		}
 	}
@@ -248,8 +253,8 @@ public class SimulationSetupPanel extends GElement{
 		float[][] asteroids = new float [objects.size()][6];
 		int i = 0;
 		for(SetupSpaceObject object : objects){
-			asteroids[i][0] = PApplet.dist(0, 0, object.getX(), object.getY());
-			asteroids[i][1] = (float) Math.atan2(object.getX(), object.getY()) ;
+			asteroids[i][0] = new Vector2(object.getX(), object.getY()).magnitude();
+			asteroids[i][1] = new Vector2(object.getX(), object.getY()).angle() ;
 			asteroids[i][2] = object.getMass();
 			asteroids[i][3] = object.getVelocity();
 			asteroids[i][4] = object.getAngleVel();
