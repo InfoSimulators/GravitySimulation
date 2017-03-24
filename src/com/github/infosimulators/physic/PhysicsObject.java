@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.io.Serializable;
 import com.github.infosimulators.IDRegistry.IDd;
 import com.github.infosimulators.polygons.Polygon;
-import com.github.infosimulators.polygons.regular.Sphere;
+import com.github.infosimulators.polygons.Sphere;
 
 /**
  * Baseclass for all objects, manipulated by physics.

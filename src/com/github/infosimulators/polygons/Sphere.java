@@ -1,4 +1,4 @@
-package com.github.infosimulators.polygons.regular;
+package com.github.infosimulators.polygons;
 
 import com.github.infosimulators.physic.Vector2;
 import com.github.infosimulators.polygons.Polygon;

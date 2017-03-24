@@ -7,7 +7,6 @@ import java.io.Serializable;
 import com.github.infosimulators.physic.Vector2;
 import com.github.infosimulators.physic.PolarVector2;
 import com.github.infosimulators.polygons.Ray.RelativePoisition;
-import com.github.infosimulators.polygons.regular.Sphere;
 
 /**
  * A class to store simple convex polygons.
