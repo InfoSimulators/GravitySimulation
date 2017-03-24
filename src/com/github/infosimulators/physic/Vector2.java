@@ -2,7 +2,6 @@ package com.github.infosimulators.physic;
 
 import java.lang.Math;
 import processing.core.PVector;
-import java.io.Serializable;
 
 /**
  * Vector class that is limited to x and y components: Can store positions,
@@ -10,7 +9,8 @@ import java.io.Serializable;
  *
  * @author Julisep
  */
-public class Vector2 implements Serializable{
+public class Vector2 {
+
 	public float x;
 	public float y;
 

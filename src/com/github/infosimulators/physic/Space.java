@@ -8,14 +8,13 @@ import com.github.infosimulators.events.Event;
 import com.github.infosimulators.events.EventCategory;
 import com.github.infosimulators.events.EventType;
 import com.github.infosimulators.polygons.Polygon;
-import java.io.Serializable;
 /**
  * This class can be seen as a host for objects that should be effected by
  * physics especially gravity.
  *
  * @author Julisep
  */
-public class Space implements Serializable {
+public class Space {
     /**
      * Stores the maximum distance from the origin
      * Objects further appart are seen lost and will be removed from space register and deleted by GC.
