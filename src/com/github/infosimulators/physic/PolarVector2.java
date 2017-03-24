@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.io.Serializable;
 import processing.core.PVector;
 
 /**
@@ -14,7 +13,7 @@ import processing.core.PVector;
  *
  * @author Julisep
  */
-public class PolarVector2  implements Serializable{
+public class PolarVector2 {
 	private static Comparator<PolarVector2> comparator = (PolarVector2 a, PolarVector2 b) -> {
 		return (a.theta > b.theta ? -1 : 1);
 	};
