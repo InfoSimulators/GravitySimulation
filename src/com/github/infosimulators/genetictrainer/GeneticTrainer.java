@@ -94,17 +94,17 @@ public class GeneticTrainer {
 
 		// always two indices of parent-genomes
 		int[][] parentIndices = new int[genomesPerGeneration][2];
-		
+
 		for (int i = 0; i < genomesPerGeneration; i++)
 			parentIndices[i] = getRandomParents(results, byCostFunction);
-		
+
 		float[][] newGenomes = new float[genomesPerGeneration][numPlanets * paramsPerPlanet];
 
 		for (int i = 0; i < genomesPerGeneration; i++)
 			newGenomes[i] = generateGenomeFromParents(genomes[parentIndices[i][0]], genomes[parentIndices[i][1]]);
 
-		generationCounter++;
-		EventRegistry.fire(new Event(EventType.TRAINER_GEN_GENERATED, new String[] { "" + generationCounter }));
+		genomes = newGenomes.clone();
+		EventRegistry.fire(new Event(EventType.TRAINER_GEN_GENERATED, new String[] { "" + generationCounter++ }));
 	}
 
 	/**
@@ -284,19 +284,21 @@ public class GeneticTrainer {
 	public void startSimulations() {
 		simulations = new ArrayList<Simulation>(genomesPerGeneration);
 		evalEvents = new HashMap<Integer, List<Event>>(genomesPerGeneration);
-	
+
+		System.out.println("len(genomes): " + genomes.length);
+		
 		for (float[] genome : genomes) {
 			float[][] simuParams = new float[genome.length / paramsPerPlanet][paramsPerPlanet];
-	
+
 			for (int i = 0; i < genome.length; i++) {
 				simuParams[i / 6][i % 6] = genome[i];
 			}
-	
+
 			simulations.add(new Simulation(simuParams));
 		}
-	
+
 		isRunningSimulations = true;
-	
+
 		EventRegistry.fire(new Event(EventType.TRAINER_SIMU_START, new String[] { "" + generationCounter }) {
 		});
 	}
