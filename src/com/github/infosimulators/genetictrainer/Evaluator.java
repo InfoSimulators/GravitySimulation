@@ -1,7 +1,7 @@
 package com.github.infosimulators.genetictrainer;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import com.github.infosimulators.events.Event;
 
@@ -15,11 +15,11 @@ public abstract class Evaluator {
 	 *            genome's simulation
 	 * @return The sorted cost/fitness determined by this evaluator.
 	 */
-	public float[] eval(Map<Integer, List<Event>> map) {
-		float[] results = new float[map.size()];
+	public float[] eval(ArrayList<List<Event>> pairs) {
+		float[] results = new float[pairs.size()];
 
 		for (int i = 0; i < results.length; i++)
-			results[i] = eval(map.get(i));
+			results[i] = eval(pairs.get(i));
 
 		return results;
 	}

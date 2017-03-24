@@ -42,7 +42,7 @@ public class Main {
 		// int genomesPerGeneration = 50;
 		// trainer = new GeneticTrainer(numPlanets, paramsPerPlanet,
 		// genomesPerGeneration);
-		// evaluator = new ExampleEvaluator();
+		// evaluator = new SimplestEvaluator();
 
 		// TODO replace this loop with gui-functionality
 		for (int i = 0; i < 3; i++) {
@@ -61,7 +61,7 @@ public class Main {
 			/*
 			 * Rendering simulations goes here
 			 */
-			// trainer.getEvaluator().getSimulations()
+			trainer.getSimulations();
 
 		} else {
 			// not running simulation

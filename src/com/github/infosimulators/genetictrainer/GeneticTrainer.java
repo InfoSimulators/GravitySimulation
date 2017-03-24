@@ -1,9 +1,7 @@
 package com.github.infosimulators.genetictrainer;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 import com.github.infosimulators.Simulation;
@@ -26,7 +24,7 @@ public class GeneticTrainer {
 	private float chanceOfCompleteMutation = .04f;
 
 	private float[][] genomes;
-	private Map<Integer, List<Event>> evalEvents;
+	private SimuIdEvalEventsListPair[] evalEvents;
 	private ArrayList<Simulation> simulations;
 
 	/**
@@ -103,8 +101,8 @@ public class GeneticTrainer {
 		for (int i = 0; i < genomesPerGeneration; i++)
 			newGenomes[i] = generateGenomeFromParents(genomes[parentIndices[i][0]], genomes[parentIndices[i][1]]);
 
-		generationCounter++;
-		EventRegistry.fire(new Event(EventType.TRAINER_GEN_GENERATED, new String[] { "" + generationCounter }));
+		genomes = newGenomes.clone();
+		EventRegistry.fire(new Event(EventType.TRAINER_GEN_GENERATED, new String[] { "" + generationCounter++ }));
 	}
 
 	/**
@@ -220,8 +218,11 @@ public class GeneticTrainer {
 		float r = random.nextFloat();
 		float sum = 0;
 		int index = 0;
-		while (sum < r)
+		while (sum <= r) {
+			sum += results[index];
 			index++;
+		}
+		index--;
 
 		return index;
 	}
@@ -276,37 +277,11 @@ public class GeneticTrainer {
 	}
 
 	/**
-	 * Updates all running simulations and sorts and interprets some events.
-	 */
-	public void step() {
-		for (Simulation simulation : simulations)
-			simulation.update();
-
-		// TODO interpret events
-		List<Event> simuEvents = EventRegistry.getEventsOfCategory(EventCategory.SIMULATION);
-		evalEvents = new HashMap<Integer, List<Event>>(genomesPerGeneration);
-
-		for (Event event : simuEvents) {
-			int simuID = Integer.parseInt(event.getArgs()[0]);
-			if (!evalEvents.containsKey(simuID))
-				evalEvents.put(simuID, new ArrayList<Event>());
-			evalEvents.get(simuID).add(event);
-		}
-	}
-
-	/**
-	 * @return Current generation number
-	 */
-	public int getGeneration() {
-		return generationCounter;
-	}
-
-	/**
 	 * Sets the state for simulations to be running. Initializes Simulations.
 	 */
 	public void startSimulations() {
 		simulations = new ArrayList<Simulation>(genomesPerGeneration);
-
+		
 		for (float[] genome : genomes) {
 			float[][] simuParams = new float[genome.length / paramsPerPlanet][paramsPerPlanet];
 
@@ -317,6 +292,17 @@ public class GeneticTrainer {
 			simulations.add(new Simulation(simuParams));
 		}
 
+		// ----------------------------------------------------------------
+		// reset evalEvents
+		evalEvents = new SimuIdEvalEventsListPair[genomesPerGeneration];
+
+		for (int i = 0; i < evalEvents.length; i++) {
+			evalEvents[i] = new SimuIdEvalEventsListPair();
+			evalEvents[i].simuID = simulations.get(i).getID();
+			evalEvents[i].events = new ArrayList<Event>();
+		}
+		// ----------------------------------------------------------------
+
 		isRunningSimulations = true;
 
 		EventRegistry.fire(new Event(EventType.TRAINER_SIMU_START, new String[] { "" + generationCounter }) {
@@ -324,11 +310,54 @@ public class GeneticTrainer {
 	}
 
 	/**
+	 * Updates all running simulations and sorts and interprets some events.
+	 */
+	public void step() {
+		for (Simulation simulation : simulations)
+			simulation.update();
+
+		// TODO interpret events
+		List<Event> simuEvents = EventRegistry.getEventsOfCategory(EventCategory.SIMULATION);
+
+		for (Event event : simuEvents) {
+			if (event.getType() == EventType.SIMU_END) {
+				long simuID = Long.parseLong(event.getArgs()[0]);
+				simulations.remove(getSimulationById(simuID));
+
+				List<EventCategory> categories = new ArrayList<EventCategory>(1);
+				categories.add(EventCategory.GENETIC_TRAINER);
+				EventRegistry
+						.fire(new Event(EventType.TRAINER_SIMU_END, categories, new String[] { event.getArgs()[0] }));
+			}
+		}
+
+		if (simulations.size() == 0) {
+			List<EventCategory> categories = new ArrayList<EventCategory>(1);
+			categories.add(EventCategory.GENETIC_TRAINER);
+			EventRegistry.fire(new Event(EventType.TRAINER_SIMUS_END, categories));
+		}
+
+		for (Event event : simuEvents) {
+			long simuID = Long.parseLong(event.getArgs()[0]);
+
+			if (getSimulationById(simuID) != null) {
+				int pairIndex = findIndexOfPairWithSimuId(evalEvents, simuID);
+				evalEvents[pairIndex].events.add(event);
+			}
+		}
+	}
+
+	/**
 	 * @return A list of lists of events interpretable by the evaluator, sorted
 	 *         by genome.
 	 */
-	public Map<Integer, List<Event>> getEvalEvents() {
-		return evalEvents;
+	public ArrayList<List<Event>> getEvalEvents() {
+		ArrayList<List<Event>> events = new ArrayList<List<Event>>(evalEvents.length);
+
+		for (int i = 0; i < evalEvents.length; i++)
+			events.add(evalEvents[i].events);
+		
+		return events;
 	}
 
 	/**
@@ -336,6 +365,62 @@ public class GeneticTrainer {
 	 */
 	private float getRandomValue() {
 		return random.nextFloat();
+	}
+
+	/**
+	 * @return A list of all running simulations.
+	 */
+	public ArrayList<Simulation> getSimulations() {
+		return simulations;
+	}
+
+	/**
+	 * Returns the simulation of the given ID, if found in simulations.
+	 * 
+	 * @param simulationID
+	 *            The ID of the simulation to be found.
+	 * @return The simulation with the given ID.
+	 */
+	private Simulation getSimulationById(long simulationID) {
+		for (Simulation s : simulations)
+			if (s.getID() == simulationID)
+				return s;
+		return null;
+	}
+
+	/**
+	 * @return Current generation number
+	 */
+	public int getGeneration() {
+		return generationCounter;
+	}
+
+	/**
+	 * Helper class for putting pairs of simulation IDs and evaluation events
+	 * into an array.
+	 */
+	public class SimuIdEvalEventsListPair {
+		long simuID;
+		List<Event> events;
+	}
+
+	/**
+	 * Finds the index of the pair with the given simulation id in an array of
+	 * pairs
+	 * 
+	 * @param pairs
+	 *            The array of pairs to search in
+	 * @param id
+	 *            The simulation id to search for
+	 * @return The index of the pair in the array, or -1 if it could not be
+	 *         found.
+	 */
+	public static int findIndexOfPairWithSimuId(SimuIdEvalEventsListPair[] pairs, long id) {
+		for (int i = 0; i < pairs.length; i++) {
+			if (pairs[i].simuID == id)
+				return i;
+		}
+		return -1;
 	}
 
 }
