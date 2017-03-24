@@ -218,7 +218,7 @@ public class GeneticTrainer {
 		float r = random.nextFloat();
 		float sum = 0;
 		int index = 0;
-		while (sum <= r) {
+		while (sum < r) {
 			sum += results[index];
 			index++;
 		}

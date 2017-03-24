@@ -59,6 +59,7 @@ public class SimplestEvaluator extends Evaluator {
 			
 			while (!stepsDone) {
 				trainer.step();
+				handleAllEvents();
 
 				List<Event> events = EventRegistry.getEventsOfType(EventType.TRAINER_SIMUS_END);
 				if (events.size() > 0) {
@@ -68,7 +69,8 @@ public class SimplestEvaluator extends Evaluator {
 					event.setHandled();
 				
 				if (++steps > 10) {
-					System.out.println("Too many steps");
+					if (doPrint)
+						System.out.println("Too many steps");
 					stepsDone = true;
 				}
 			}
@@ -85,6 +87,11 @@ public class SimplestEvaluator extends Evaluator {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	private static void handleAllEvents() {
+		for (Event event : EventRegistry.getEvents())
+			event.setHandled();
 	}
 
 	private static void printResults(float[] results) {
