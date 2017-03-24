@@ -50,6 +50,26 @@ public class PhysicsObject extends IDd {
 	/**
 	* Constructor.
 	*
+	* @param distance The distance the new object should have from the origin.
+	* @param theta The angle of the position in relation to the origin.
+	* @param mass The mass of the Object.
+	* @param radius The radius of the object.
+	* @param impulsVelocity A float representing the magnitude of the velocity of the object.
+	* @param alpha The angle of the velocity
+	*/
+	public PhysicsObject(float distance, float theta, float mass, float impulsVelocity, float alpha, float size,
+			float shape) {
+		super();
+		this.position = new PolarVector2(theta, distance).toCartesian();
+		this.velocity = new PolarVector2(alpha, impulsVelocity).toCartesian();
+		this.collider = new Polygon((int) shape, position);
+		this.collider.scale(size);
+		setMass(mass);
+	}
+
+	/**
+	* Constructor.
+	*
 	* @param position The position of the new object.
 	* @param velocity The velocity of the new object.
 	* @param mass The mass of the Object.
@@ -159,8 +179,8 @@ public class PhysicsObject extends IDd {
 	public static PhysicsObject unite(PhysicsObject one, PhysicsObject two) {
 		Polygon united = new Polygon();
 		float angel = Vector2.subtract(one.getPosition(), two.getPosition()).angle();
-		for(PolarVector2 v : one.collider.getLocalVerticies()){
-			if(Math.abs(angel-v.theta)<=Math.PI)
+		for (PolarVector2 v : one.collider.getLocalVerticies()) {
+			if (Math.abs(angel - v.theta) <= Math.PI)
 				united.addVertex(v);
 		}
 		for (PolarVector2 v : two.collider.getLocalVerticies()) {
@@ -171,8 +191,7 @@ public class PhysicsObject extends IDd {
 				Vector2.add(one.velocity, two.velocity)
 						.setMag((one.mass * one.velocity.magnitude() + two.mass * two.velocity.magnitude())
 								/ (one.mass + two.mass)),
-				one.mass + two.mass,
-				 united);
+				one.mass + two.mass, united);
 	}
 
 }

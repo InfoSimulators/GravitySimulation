@@ -128,20 +128,20 @@ public enum EventType {
 	 * Simulation-Event: Fired when a planet has left the system in a
 	 * simulation.
 	 *
-	 * args = [int simulationID, int planetID,, int runNumber]
+	 * args = [int simulationID, int runNumber, int planetID]
 	 */
 	SIMU_PLANET_LEFT,
 
 	/**
 	 * Simulation-Event: Fired when two planets would unite into one
 	 *
-	 * args = [int simulationID, int planetID1, int planetID2, int runNumber]
+	 * args = [int simulationID, int runNumber, int planetID1, int planetID2]
 	 */
 	SIMU_PLANET_UNITE,
 	/**
 	 * Simulation-Event: Fired when two planets would unite into one
 	 *
-	 * args = [int simulationID, int planetID1, int planetID2, int runNumber]
+	 * args = [int simulationID, int runNumber, int planetID1, int planetID2]
 	 */
 	SIMU_PLANET_COLLISION,
 
