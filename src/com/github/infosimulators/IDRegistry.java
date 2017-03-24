@@ -46,10 +46,11 @@ public class IDRegistry {
 	 *            The ID to free again.
 	 */
 	public static void clear(long id) {
-		// TODO clear
-
-		// find out whether there is a fitting interval
-
+		if (freed.size() == 0) {
+			freed.add(new long[]{id});
+			return;
+		}
+		
 		for (int i = 0; i < freed.size(); i++) {
 			long[] interval = freed.get(i);
 			long start = interval[0];
@@ -76,7 +77,11 @@ public class IDRegistry {
 		// if the last interval reaches to the current value, set the current
 		// value to the start of the interval and remove the interval from the
 		// list
-		if (freed.get(freed.size() - 1)[1] + 1 >= id) {
+
+		long absEnd = freed.get(freed.size() - 1).length == 2 ? freed.get(freed.size() - 1)[1]
+				: freed.get(freed.size() - 1)[0];
+
+		if (absEnd + 1 >= id) {
 			current = freed.get(freed.size() - 1)[0];
 			freed.remove(freed.size() - 1);
 		}

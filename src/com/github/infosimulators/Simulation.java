@@ -103,7 +103,7 @@ public class Simulation extends IDd {
 	public void update() {
 		space.tick();
 		if(space.getSpaceRegister().size() <= 1){
-			D();
+			clearID();
 		}
 	}
 
