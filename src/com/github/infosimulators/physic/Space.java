@@ -8,14 +8,13 @@ import com.github.infosimulators.events.Event;
 import com.github.infosimulators.events.EventCategory;
 import com.github.infosimulators.events.EventType;
 import com.github.infosimulators.polygons.Polygon;
-import java.io.Serializable;
 /**
  * This class can be seen as a host for objects that should be effected by
  * physics especially gravity.
  *
  * @author Julisep
  */
-public class Space implements Serializable {
+public class Space {
     /**
      * Stores the maximum distance from the origin
      * Objects further appart are seen lost and will be removed from space register and deleted by GC.
@@ -35,6 +34,8 @@ public class Space implements Serializable {
     * Stores the simulationID of the simulation the space belongs to.
     */
     public long simulationID;
+
+    private int nor;
 
     // Constructors
     public Space() {
@@ -146,16 +147,17 @@ public class Space implements Serializable {
             if (willLeave(object)) {
                 registerIterator.remove();
                 EventRegistry.fire(new Event(EventType.SIMU_PLANET_LEFT, Arrays.asList(EventCategory.SIMULATION),
-                        new String[] { "" + simulationID, "" + object.getID() }));
+                        new String[] { "" + simulationID, "" + object.getID(), ""+nor  }));
                 continue;
             }
             object.playoutForces();
             object.move();
+            nor++;
         }
         handleCollisions();
         if(spaceRegister.size() <= 1)
-            EventRegistry.fire(new Event(EventType.SIMU_PLANET_END, Arrays.asList(EventCategory.SIMULATION),
-                    new String[] { "" + simulationID }));
+            EventRegistry.fire(new Event(EventType.SIMU_END, Arrays.asList(EventCategory.SIMULATION),
+                    new String[] { "" + simulationID,""+nor }));
     }
 
     /**
@@ -213,7 +215,8 @@ public class Space implements Serializable {
                     if (wouldUnite(object, other)) {
                         EventRegistry
                                 .fire(new Event(EventType.SIMU_PLANET_UNITE, Arrays.asList(EventCategory.SIMULATION),
-                                        new String[] { "" + simulationID, "" + object.getID(), "" + other.getID() }));
+                                        new String[] { "" + simulationID, "" + object.getID(), "" + other.getID(),
+                                                "" + nor }));
                         //Unite Objects and remove old
                         united.add(PhysicsObject.unite(object, other));
                         registerIterator1.remove();
@@ -223,7 +226,8 @@ public class Space implements Serializable {
                             continue;
                         EventRegistry.fire(
                                 new Event(EventType.SIMU_PLANET_COLLISION, Arrays.asList(EventCategory.SIMULATION),
-                                        new String[] { "" + simulationID, "" + object.getID(), "" + other.getID() }));
+                                        new String[] { "" + simulationID, "" + object.getID(), "" + other.getID(),
+                                                "" + nor }));
                         doElasticCollision(object, other);
                         collided.add(object);
                         collided.add(other);

@@ -33,8 +33,4 @@ public class Sphere extends Polygon {
         super(NUMBER_OF_POLYGONS_IN_SPHERE, offset);
         scale(size);
     }
-    @Override
-    public void scale(float size){
-        radius *= size;
-    }
 }
