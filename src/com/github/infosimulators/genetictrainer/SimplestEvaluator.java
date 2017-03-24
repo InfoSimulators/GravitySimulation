@@ -79,6 +79,7 @@ public class SimplestEvaluator extends Evaluator {
 				printResults(results);
 
 			try {
+				trainer.clearSimulations();
 				trainer.generateNextGeneration(results, evaluator.isCostFunction());
 			} catch (Exception e) {
 				e.printStackTrace();

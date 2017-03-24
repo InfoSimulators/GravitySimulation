@@ -375,6 +375,14 @@ public class GeneticTrainer {
 	}
 
 	/**
+	 * Clear IDs of current simulations for RAM.
+	 */
+	public void clearSimulations() {
+		for (Simulation simulation : simulations)
+			simulation.clearID();
+	}
+
+	/**
 	 * Returns the simulation of the given ID, if found in simulations.
 	 * 
 	 * @param simulationID

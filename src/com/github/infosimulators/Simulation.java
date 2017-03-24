@@ -176,4 +176,11 @@ public class Simulation extends IDd {
 		}
 		return success;
 	}
+	
+	@Override
+	public void clearID() {
+		super.clearID();
+		space.clearIDs();
+	}
+	
 }

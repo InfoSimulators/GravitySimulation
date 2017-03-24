@@ -67,7 +67,7 @@ public class Space {
     /**
     * Clears all IDs
     */
-    public void clear() {
+    public void clearIDs() {
         for (PhysicsObject object : spaceRegister) {
            object.clearID();
         }
@@ -168,7 +168,7 @@ public class Space {
             EventRegistry.fire(new Event(EventType.SIMU_END, Arrays.asList(EventCategory.SIMULATION),
                     new String[] { "" + simulationID, "" + nor }));
 
-            clear();
+            clearIDs();
         }
         nor++;
     }
