@@ -51,7 +51,7 @@ public enum EventType {
 	 * args = [String numberFieldID, int value]
 	 */
 	GUI_NUMBERFIELD_VALUE_CHANGE,
-	
+
 	/**
 	 * GUI-Event
 	 *
@@ -69,7 +69,7 @@ public enum EventType {
 	 * args = [String textFieldID, int value]
 	 */
 	GUI_TEXTFIELD_VALUE_CHANGE,
-	
+
 	/**
 	 * GUI-Event
 	 *
@@ -78,7 +78,7 @@ public enum EventType {
 	 * args = [String sliderID, float value]
 	 */
 	GUI_SLIDER_VALUE_CHANGE,
-	
+
 	/**
 	 * GUI-Event
 	 *
@@ -96,7 +96,7 @@ public enum EventType {
 	 * args = []
 	 */
 	GUI_SIMULATION_START,
-	
+
 	/**
 	 * GUI-Event
 	 *
@@ -105,7 +105,7 @@ public enum EventType {
 	 * args = [String ID + " - reset"]
 	 */
 	GUI_ELEMENT_RESET,
-	
+
 	// ----------------------------------------------------------------------
 
 	/**
@@ -128,28 +128,28 @@ public enum EventType {
 	 * Simulation-Event: Fired when a planet has left the system in a
 	 * simulation.
 	 *
-	 * args = [int simulationID, int planetID]
+	 * args = [int simulationID, int planetID,, int runNumber]
 	 */
 	SIMU_PLANET_LEFT,
 
 	/**
 	 * Simulation-Event: Fired when two planets would unite into one
 	 *
-	 * args = [int simulationID, int planetID1, int planetID2]
+	 * args = [int simulationID, int planetID1, int planetID2, int runNumber]
 	 */
 	SIMU_PLANET_UNITE,
 	/**
 	 * Simulation-Event: Fired when two planets would unite into one
 	 *
-	 * args = [int simulationID, int planetID1, int planetID2]
+	 * args = [int simulationID, int planetID1, int planetID2, int runNumber]
 	 */
 	SIMU_PLANET_COLLISION,
 
 	/**
 	 * Simulation-Event: Fired when the Simulation ends.
 	 *
-	 * args = [int simulationID]
+	 * args = [int simulationID, int runNumber]
 	 */
-	SIMU_PLANET_END
+	SIMU_END
 
 }

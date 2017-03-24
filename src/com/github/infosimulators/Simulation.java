@@ -3,19 +3,14 @@ package com.github.infosimulators;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 
 import com.github.infosimulators.IDRegistry.IDd;
 import com.github.infosimulators.physic.PhysicsObject;
 import com.github.infosimulators.physic.Space;
 import com.github.infosimulators.physic.Vector2;
-import com.sun.org.apache.xalan.internal.utils.ConfigurationError;
 
 /**
  * Calculates data on given parameters.
@@ -157,13 +152,13 @@ public class Simulation extends IDd {
 	* @param simulation The siumlation to store.
 	* @return Whether the storing was a success.
 	*/
-	public boolean writeSimulation(String name,Simulation simulation) {
+	public boolean writeSimulation(String name, Simulation simulation) {
 		boolean success = false;
 		float[][] configuration = simulation.getInitialConfig();
 		try {
 			String content = "";
-			for(float[] object : configuration){
-				content += ("" + Arrays.asList(object)).toString().replaceAll("(^.|.$)", "").replace(", ", "," );
+			for (float[] object : configuration) {
+				content += ("" + Arrays.asList(object)).toString().replaceAll("(^.|.$)", "").replace(", ", ",");
 				content += "\n";
 			}
 			FileWriter br = new FileWriter(name + ".simulation");
