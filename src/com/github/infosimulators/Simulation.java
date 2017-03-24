@@ -45,7 +45,8 @@ public class Simulation extends IDd {
 	 * 		configuration[n][2] The mass of the object.
 	 * 		configuration[n][3] The magnitude of the velocity.
 	 * 		configuration[n][4] The angle of the velocity.
-	 * 	 	configuration[n][5] The radius of the object.
+	 * 	 	configuration[n][5] The size of the object.
+	 *  	TODO: configuration[n][6] The shape of the object.
 	 */
 	public Simulation(float[][] configuration) {
 		super();

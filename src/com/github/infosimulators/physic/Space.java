@@ -8,6 +8,7 @@ import com.github.infosimulators.events.Event;
 import com.github.infosimulators.events.EventCategory;
 import com.github.infosimulators.events.EventType;
 import com.github.infosimulators.polygons.Polygon;
+
 /**
  * This class can be seen as a host for objects that should be effected by
  * physics especially gravity.
@@ -35,7 +36,7 @@ public class Space {
     */
     public long simulationID;
 
-    private int nor;
+    private int nor = 0;
 
     // Constructors
     public Space() {
@@ -92,7 +93,7 @@ public class Space {
     public boolean willLeave(PhysicsObject object) {
         if (!isPositionObservable(object.position))
             return true;
-           return false;
+        return false;
         //return Vector2.dot(object.velocity, Vector2.subtract(object.position, pointOfOrigin)) > getEscapeVelocity(object, this);
     }
 
@@ -147,17 +148,17 @@ public class Space {
             if (willLeave(object)) {
                 registerIterator.remove();
                 EventRegistry.fire(new Event(EventType.SIMU_PLANET_LEFT, Arrays.asList(EventCategory.SIMULATION),
-                        new String[] { "" + simulationID, "" + object.getID(), ""+nor  }));
+                        new String[] { "" + simulationID, "" + nor, "" + object.getID() }));
                 continue;
             }
             object.playoutForces();
             object.move();
-            nor++;
         }
         handleCollisions();
-        if(spaceRegister.size() <= 1)
+        if (spaceRegister.size() <= 1)
             EventRegistry.fire(new Event(EventType.SIMU_END, Arrays.asList(EventCategory.SIMULATION),
-                    new String[] { "" + simulationID,""+nor }));
+                    new String[] { "" + simulationID, "" + nor }));
+        nor++;
     }
 
     /**
@@ -213,10 +214,9 @@ public class Space {
                     continue;
                 if (areColliding(object, other)) {
                     if (wouldUnite(object, other)) {
-                        EventRegistry
-                                .fire(new Event(EventType.SIMU_PLANET_UNITE, Arrays.asList(EventCategory.SIMULATION),
-                                        new String[] { "" + simulationID, "" + object.getID(), "" + other.getID(),
-                                                "" + nor }));
+                        EventRegistry.fire(new Event(EventType.SIMU_PLANET_UNITE,
+                                Arrays.asList(EventCategory.SIMULATION),
+                                new String[] { "" + simulationID, "" + nor, "" + object.getID(), "" + other.getID() }));
                         //Unite Objects and remove old
                         united.add(PhysicsObject.unite(object, other));
                         registerIterator1.remove();
@@ -224,10 +224,9 @@ public class Space {
                     } else { /*Else do an elastic collision*/
                         if (collided.contains(object) && collided.contains(other))
                             continue;
-                        EventRegistry.fire(
-                                new Event(EventType.SIMU_PLANET_COLLISION, Arrays.asList(EventCategory.SIMULATION),
-                                        new String[] { "" + simulationID, "" + object.getID(), "" + other.getID(),
-                                                "" + nor }));
+                        EventRegistry.fire(new Event(EventType.SIMU_PLANET_COLLISION,
+                                Arrays.asList(EventCategory.SIMULATION),
+                                new String[] { "" + simulationID, "" + nor, "" + object.getID(), "" + other.getID() }));
                         doElasticCollision(object, other);
                         collided.add(object);
                         collided.add(other);
