@@ -1,6 +1,7 @@
 package com.github.infosimulators;
 
 import java.util.List;
+import java.util.Random;
 
 import com.github.infosimulators.events.Event;
 import com.github.infosimulators.events.EventCategory;
@@ -130,9 +131,11 @@ public class Main {
 
 		mainMenuState.addElement(
 				new Text("GravitySimulationText", "Gravity Simulation", 50, PApplet.CENTER, 0, 60, 600, 60));
-		
-		mainMenuState.addElement(new Text("GravitySimulationInfoText1", "A customizable and optimizable simulation of Gravity.", 16, PApplet.CENTER, 0, 120, gui.width, 120));
-		mainMenuState.addElement(new Text("GravitySimulationInfoText2", "Hover over the buttons to learn more!", 16, PApplet.CENTER, 0, 133, gui.width, 133));
+
+		mainMenuState.addElement(new Text("GravitySimulationInfoText1",
+				"A customizable and optimizable simulation of Gravity.", 16, PApplet.CENTER, 0, 120, gui.width, 120));
+		mainMenuState.addElement(new Text("GravitySimulationInfoText2", "Hover over the buttons to learn more!", 16,
+				PApplet.CENTER, 0, 133, gui.width, 133));
 
 		mainMenuState.addElement(new RectButton("ClassicModeButton", "Classic Mode", 190, 170, 220, 40));
 		mainMenuState.addElement(new RectButton("RandomModeButton", "Random Mode", 190, 250, 220, 40));
@@ -258,10 +261,19 @@ public class Main {
 	private static void randomMode() {
 		State randomModeState = new State(0, 120, 255);
 
-		randomModeState.addElement(new SimulationPanel("RandomSimulationPanel",
-				new Simulation(new float[][] { { 50000f, (float) Math.PI, 2e3f, 0f, 0f, 200f },
-						{ 0f, 0f, 2e5f, 0f, 0f, 1000f }, { 1f, 200f, 2e7f, 0f, 0f, 1000f } }),
-				0, 60, gui.width, gui.height));
+		Random ran = new Random();
+		float[][] asteroids = new float[ran.nextInt(9) + 1][6];
+		for (int i = 0; i < asteroids.length; i++) {
+			asteroids[i][0] = ran.nextInt(1000);
+			asteroids[i][1] = (float) (ran.nextInt(360) / (2 * Math.PI));
+			asteroids[i][2] = (float) (Math.random() * 2e5f);
+			asteroids[i][3] = ran.nextInt(15);
+			asteroids[i][4] = (float) (ran.nextInt(360) / (2 * Math.PI));
+			asteroids[i][5] = (float) (Math.random() * 40f);
+		}
+
+		randomModeState.addElement(
+				new SimulationPanel("RandomSimulationPanel", new Simulation(asteroids), 0, 60, gui.width, gui.height));
 
 		randomModeState.addElement(new RectButton("MainMenuButton", "Back", gui.width - 90, 10, 80, 40));
 
@@ -289,13 +301,4 @@ public class Main {
 	public static GUI getGUI() {
 		return gui;
 	}
-
-	/**
-	 * @param gui
-	 *            the gui to set
-	 */
-	public static void setGUI(GUI gui) {
-		Main.gui = gui;
-	}
-
 }
