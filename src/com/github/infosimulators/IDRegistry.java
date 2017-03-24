@@ -1,5 +1,6 @@
 package com.github.infosimulators;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class IDRegistry {
@@ -14,7 +15,7 @@ public class IDRegistry {
 	/**
 	 * A list of long[]-s of IDs that have been freed again.
 	 */
-	private static List<long[]> freed;
+	private static ArrayList<long[]> freed = new ArrayList<long[]>();
 
 	/**
 	 * @return The next available ID
@@ -37,8 +38,85 @@ public class IDRegistry {
 		return current;
 	}
 
+	/**
+	 * Sets the given ID on the list of free IDs or re-sets current to a fitting
+	 * value and clears out freed if possible.
+	 * 
+	 * @param id
+	 *            The ID to free again.
+	 */
 	public static void clear(long id) {
 		// TODO clear
+
+		// find out whether there is a fitting interval
+
+		for (int i = 0; i < freed.size(); i++) {
+			long[] interval = freed.get(i);
+			long start = interval[0];
+			long end = interval.length == 2 ? freed.get(i)[1] : start;
+
+			if (start <= id && id <= end) // in interval
+				break;
+			else if (start > id + 1) { // no neighbor
+				freed.add(i, new long[] { id });
+				break;
+			} else if (start == id + 1) { // before interval
+				freed.set(i, new long[] { id, end });
+				break;
+			} else if (end == id - 1) { // after interval
+				freed.set(i, new long[] { start, id });
+				break;
+			} else if (i == freed.size() - 1) { //
+				freed.add(new long[] { id });
+			}
+		}
+
+		mergeOverlappingIntervals();
+
+		// if the last interval reaches to the current value, set the current
+		// value to the start of the interval and remove the interval from the
+		// list
+		if (freed.get(freed.size() - 1)[1] + 1 >= id) {
+			current = freed.get(freed.size() - 1)[0];
+			freed.remove(freed.size() - 1);
+		}
+	}
+
+	private static void mergeOverlappingIntervals() {
+		if (freed.size() < 2)
+			return;
+
+		List<long[]> toRemove = new ArrayList<long[]>();
+
+		boolean keepCurr = true;
+		long[] currInterval = freed.get(0);
+		long[] nextInterval;
+
+		for (int i = 0; i < freed.size() - 1; i++) {
+			// -1 because the highest interval can not merge with a higher one
+
+			if (!keepCurr) {
+				currInterval = freed.get(i);
+				keepCurr = false;
+			}
+
+			nextInterval = freed.get(i + 1);
+
+			long currStart = currInterval[0];
+			long currEnd = currInterval.length == 2 ? currInterval[1] : currStart;
+			long nextStart = nextInterval[0];
+			long nextEnd = nextInterval.length == 2 ? nextInterval[1] : nextStart;
+
+			if (!(currEnd + 1 < nextStart)) {
+				currInterval = new long[] { currStart, nextEnd };
+				toRemove.add(nextInterval);
+				keepCurr = true;
+			}
+		}
+
+		// remove unnecessary intervals
+		for (long[] interval : toRemove)
+			freed.remove(interval);
 	}
 
 	/**
