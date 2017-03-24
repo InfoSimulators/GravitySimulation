@@ -10,7 +10,7 @@ public abstract class Evaluator {
 	/**
 	 * Evaluates the given data.
 	 * 
-	 * @param map
+	 * @param pairs
 	 *            The ArrayList of Lists of events that were fired in each
 	 *            genome's simulation
 	 * @return The sorted cost/fitness determined by this evaluator.

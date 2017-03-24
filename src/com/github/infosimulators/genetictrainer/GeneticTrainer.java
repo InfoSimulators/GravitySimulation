@@ -232,12 +232,13 @@ public class GeneticTrainer {
 	 * After this, the ratio between all elements is the same, but they add up
 	 * to 1.
 	 * 
+	 * If at least one weight is negative an error is shown, because that can
+	 * not be handled.
+	 * 
 	 * @param weights
 	 *            The weights to normalize.
 	 * @return A normalized array of floats with a total sum of 1.0 and the same
 	 *         ratio as the starting array.
-	 * @throws Exception
-	 *             If at least one weight is negative, which can not be handled.
 	 */
 	private static float[] normalizeWeights(float[] weights) {
 		float total = 0;
@@ -281,7 +282,7 @@ public class GeneticTrainer {
 	 */
 	public void startSimulations() {
 		simulations = new ArrayList<Simulation>(genomesPerGeneration);
-		
+
 		for (float[] genome : genomes) {
 			float[][] simuParams = new float[genome.length / paramsPerPlanet][paramsPerPlanet];
 
@@ -316,7 +317,6 @@ public class GeneticTrainer {
 		for (Simulation simulation : simulations)
 			simulation.update();
 
-		// TODO interpret events
 		List<Event> simuEvents = EventRegistry.getEventsOfCategory(EventCategory.SIMULATION);
 
 		for (Event event : simuEvents) {
@@ -356,7 +356,7 @@ public class GeneticTrainer {
 
 		for (int i = 0; i < evalEvents.length; i++)
 			events.add(evalEvents[i].events);
-		
+
 		return events;
 	}
 
@@ -379,7 +379,7 @@ public class GeneticTrainer {
 	 * 
 	 * @param simulationID
 	 *            The ID of the simulation to be found.
-	 * @return The simulation with the given ID.
+	 * @return The simulation with the given ID or null if it wasn't found.
 	 */
 	private Simulation getSimulationById(long simulationID) {
 		for (Simulation s : simulations)
