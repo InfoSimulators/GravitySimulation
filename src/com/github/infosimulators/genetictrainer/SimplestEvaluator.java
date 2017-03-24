@@ -51,7 +51,6 @@ public class SimplestEvaluator extends Evaluator {
 		for (int i = 0; i < generations; i++) {
 			System.out.println("----------");
 			trainer.startSimulations();
-			// System.out.println("Started Simulations");
 
 			boolean stepsDone = false;
 			int steps = 0;

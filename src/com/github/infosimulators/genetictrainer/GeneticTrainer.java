@@ -1,9 +1,7 @@
 package com.github.infosimulators.genetictrainer;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 import com.github.infosimulators.Simulation;
@@ -26,7 +24,6 @@ public class GeneticTrainer {
 	private float chanceOfCompleteMutation = .04f;
 
 	private float[][] genomes;
-	// private Map<Long, List<Event>> evalEvents;
 	private SimuIdEvalEventsListPair[] evalEvents;
 	private ArrayList<Simulation> simulations;
 
@@ -284,9 +281,7 @@ public class GeneticTrainer {
 	 */
 	public void startSimulations() {
 		simulations = new ArrayList<Simulation>(genomesPerGeneration);
-
-		System.out.println("len(genomes): " + genomes.length);
-
+		
 		for (float[] genome : genomes) {
 			float[][] simuParams = new float[genome.length / paramsPerPlanet][paramsPerPlanet];
 
@@ -296,17 +291,17 @@ public class GeneticTrainer {
 
 			simulations.add(new Simulation(simuParams));
 		}
-		
-		// ---------------------------------------------------------------------------------------
-		// evalEvents = new HashMap<Long, List<Event>>(genomesPerGeneration);
+
+		// ----------------------------------------------------------------
+		// reset evalEvents
 		evalEvents = new SimuIdEvalEventsListPair[genomesPerGeneration];
-		
+
 		for (int i = 0; i < evalEvents.length; i++) {
 			evalEvents[i] = new SimuIdEvalEventsListPair();
 			evalEvents[i].simuID = simulations.get(i).getID();
 			evalEvents[i].events = new ArrayList<Event>();
 		}
-		// ---------------------------------------------------------------------------------------
+		// ----------------------------------------------------------------
 
 		isRunningSimulations = true;
 
@@ -344,11 +339,10 @@ public class GeneticTrainer {
 
 		for (Event event : simuEvents) {
 			long simuID = Long.parseLong(event.getArgs()[0]);
+
 			if (getSimulationById(simuID) != null) {
-//				if (!evalEvents.containsKey(simuID))
-//					evalEvents.put(simuID, new ArrayList<Event>());
-//				evalEvents.get(simuID).add(event);
-				evalEvents[findIndexOfPairWithSimuId(evalEvents, simuID)].events.add(event);
+				int pairIndex = findIndexOfPairWithSimuId(evalEvents, simuID);
+				evalEvents[pairIndex].events.add(event);
 			}
 		}
 	}
@@ -357,9 +351,15 @@ public class GeneticTrainer {
 	 * @return A list of lists of events interpretable by the evaluator, sorted
 	 *         by genome.
 	 */
-	// public Map<Long, List<Event>> getEvalEvents() {
-	public SimuIdEvalEventsListPair[] getEvalEvents() {
-		return evalEvents;
+	public ArrayList<List<Event>> getEvalEvents() {
+		ArrayList<List<Event>> events = new ArrayList<List<Event>>(evalEvents.length);
+
+		for (int i = 0; i < evalEvents.length; i++)
+			events.add(evalEvents[i].events);
+		
+		System.out.println(events.size());
+		
+		return events;
 	}
 
 	/**
@@ -402,12 +402,21 @@ public class GeneticTrainer {
 	 * into an array.
 	 */
 	public class SimuIdEvalEventsListPair {
-		
 		long simuID;
 		List<Event> events;
-		
 	}
 
+	/**
+	 * Finds the index of the pair with the given simulation id in an array of
+	 * pairs
+	 * 
+	 * @param pairs
+	 *            The array of pairs to search in
+	 * @param id
+	 *            The simulation id to search for
+	 * @return The index of the pair in the array, or -1 if it could not be
+	 *         found.
+	 */
 	public static int findIndexOfPairWithSimuId(SimuIdEvalEventsListPair[] pairs, long id) {
 		for (int i = 0; i < pairs.length; i++) {
 			if (pairs[i].simuID == id)
