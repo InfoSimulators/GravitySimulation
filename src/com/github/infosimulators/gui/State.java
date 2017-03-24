@@ -12,107 +12,110 @@ import com.github.infosimulators.events.EventType;
 import com.github.infosimulators.gui.gelements.GElement;
 
 /**
- * Saves currently needed GElements and Listeners.
- * Update function updates all saves Elements.
+ * Saves currently needed GElements and Listeners. Update function updates all
+ * saves Elements.
  */
 public class State {
 
-    private List<GElement> elements;
-    private List<Listener> listeners;
-    private int color1, color2, color3;
+	private List<GElement> elements;
+	private List<Listener> listeners;
+	private int color1, color2, color3;
 
-    public State(int color1, int color2, int color3) {
-        elements = new ArrayList<GElement>();
+	public State(int color1, int color2, int color3) {
+		elements = new ArrayList<GElement>();
 
-        listeners = new ArrayList<Listener>();
+		listeners = new ArrayList<Listener>();
 
-        this.color1 = color1;
-        this.color2 = color2;
-        this.color3 = color3;
-    }
+		this.color1 = color1;
+		this.color2 = color2;
+		this.color3 = color3;
+	}
 
-    public State() {
-        elements = new ArrayList<GElement>();
+	public State() {
+		elements = new ArrayList<GElement>();
 
-        listeners = new ArrayList<Listener>();
+		listeners = new ArrayList<Listener>();
 
-        this.color1 = Main.getGUI().getGUIColor1();
-        this.color2 = Main.getGUI().getGUIColor2();
-        this.color3 = Main.getGUI().getGUIColor3();
-    }
+		this.color1 = Main.getGUI().getGUIColor1();
+		this.color2 = Main.getGUI().getGUIColor2();
+		this.color3 = Main.getGUI().getGUIColor3();
+	}
 
-    public void update(PApplet p) {
-        p.background(color1);
+	public void update(PApplet p) {
+		p.background(color1);
 
-        for (GElement element : elements) {
-            element.update(p);
-        }
+		for (GElement element : elements) {
+			element.update(p);
+		}
 
-        Collection<String> events = new ArrayList<String>();
-        for (com.github.infosimulators.events.Event event : EventRegistry
-                .getEventsOfType(EventType.GUI_BUTTON_PRESSED)) {
-            events.add(event.getArgs()[0]);
-            event.setHandled();
-        }
+		Collection<String> events = new ArrayList<String>();
+		for (com.github.infosimulators.events.Event event : EventRegistry
+				.getEventsOfType(EventType.GUI_BUTTON_PRESSED)) {
+			events.add(event.getArgs()[0]);
+			event.setHandled();
+		}
 
-        for (com.github.infosimulators.events.Event event : EventRegistry
-                .getEventsOfType(EventType.GUI_ELEMENT_HOVERED)) {
-            events.add(event.getArgs()[0]);
-            event.setHandled();
-        }
+		for (com.github.infosimulators.events.Event event : EventRegistry
+				.getEventsOfType(EventType.GUI_ELEMENT_HOVERED)) {
+			events.add(event.getArgs()[0]);
+			event.setHandled();
+		}
 
-        for (Listener listener : listeners) {
-            if (events.contains(listener.getID())) {
-                listener.getAction().run();
-            }
-        }
-        
-    }
+		for (Listener listener : listeners) {
+			if (events.contains(listener.getID())) {
+				listener.getAction().run();
+			}
+		}
 
-    public void addElement(GElement g) {
-        g.setColor1(color1);
-        g.setColor2(color2);
-        g.setColor3(color3);
-        elements.add(g);
-    }
+	}
 
-    public void addListener(Listener listener) {
-        listeners.add(listener);
-    }
-    
-    public void removeElementByID(String ID){
-    	for(GElement element : elements){
-    		if(element.getID() == ID){
-    			elements.remove(element);
-    		}
-    	}
-    }
-    
-    /**
-     * Used to get a specific GElement
-     * @param ID the ID of the GElement to get
-     * @return the GElement asked for, else null
-     */
-    public GElement getElementByID(String ID){
-    	for(GElement element : elements){
-    		if(element.getID() == ID){
-    			return element;
-    		}
-    	}
-    	return null;
-    }
+	public void addElement(GElement g) {
+		g.setColor1(color1);
+		g.setColor2(color2);
+		g.setColor3(color3);
+		elements.add(g);
+	}
 
-    /**
-     * @return the elements
-     */
-    public List<GElement> getElements() {
-        return elements;
-    }
+	public void addListener(Listener listener) {
+		listeners.add(listener);
+	}
 
-    /**
-     * @param elements the elements to set
-     */
-    public void setElements(List<GElement> elements) {
-        this.elements = elements;
-    }
+	public void removeElementByID(String ID) {
+		for (GElement element : elements) {
+			if (element.getID() == ID) {
+				elements.remove(element);
+			}
+		}
+	}
+
+	/**
+	 * Used to get a specific GElement
+	 * 
+	 * @param ID
+	 *            the ID of the GElement to get
+	 * @return the GElement asked for, else null
+	 */
+	public GElement getElementByID(String ID) {
+		for (GElement element : elements) {
+			if (element.getID() == ID) {
+				return element;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * @return the elements
+	 */
+	public List<GElement> getElements() {
+		return elements;
+	}
+
+	/**
+	 * @param elements
+	 *            the elements to set
+	 */
+	public void setElements(List<GElement> elements) {
+		this.elements = elements;
+	}
 }

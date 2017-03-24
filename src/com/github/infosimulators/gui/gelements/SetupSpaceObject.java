@@ -3,47 +3,47 @@ package com.github.infosimulators.gui.gelements;
 public class SetupSpaceObject {
 
 	private float x, y, mass, velocity, angleVel, radius;
-	
+
 	private boolean active;
-	
-	public SetupSpaceObject(float x, float y, float mass, float velocity, float angleVel, float radius){
+
+	public SetupSpaceObject(float x, float y, float mass, float velocity, float angleVel, float radius) {
 		this.x = x;
 		this.y = y;
 		this.mass = mass;
 		this.velocity = velocity;
 		this.angleVel = angleVel;
 		this.radius = radius;
-		
+
 		active = false;
 	}
-	
-	public int getColor(){
-		if(mass < 2e1f){
+
+	public int getColor() {
+		if (mass < 2e1f) {
 			return 50;
-		}else if(mass < 2e2f){
+		} else if (mass < 2e2f) {
 			return 100;
-		}else if(mass < 2e3f){
+		} else if (mass < 2e3f) {
 			return 150;
-		}else if(mass < 2e4f){
+		} else if (mass < 2e4f) {
 			return 200;
-		}else if(mass == 2e4f){
+		} else if (mass == 2e4f) {
 			return 255;
 		}
 		return 0;
 	}
 
-	public boolean getActive(){
+	public boolean getActive() {
 		return active;
 	}
-	
-	public void setActive(){
+
+	public void setActive() {
 		active = true;
 	}
-	
-	public void notActive(){
+
+	public void notActive() {
 		active = false;
 	}
-	
+
 	/**
 	 * @return the x
 	 */
@@ -52,7 +52,8 @@ public class SetupSpaceObject {
 	}
 
 	/**
-	 * @param x the x to set
+	 * @param x
+	 *            the x to set
 	 */
 	public void setX(float x) {
 		this.x = x;
@@ -66,7 +67,8 @@ public class SetupSpaceObject {
 	}
 
 	/**
-	 * @param y the y to set
+	 * @param y
+	 *            the y to set
 	 */
 	public void setY(float y) {
 		this.y = y;
@@ -80,7 +82,8 @@ public class SetupSpaceObject {
 	}
 
 	/**
-	 * @param mass the mass to set
+	 * @param mass
+	 *            the mass to set
 	 */
 	public void setMass(float mass) {
 		this.mass = mass;
@@ -94,7 +97,8 @@ public class SetupSpaceObject {
 	}
 
 	/**
-	 * @param velocity the velocity to set
+	 * @param velocity
+	 *            the velocity to set
 	 */
 	public void setVelocity(float velocity) {
 		this.velocity = velocity;
@@ -108,7 +112,8 @@ public class SetupSpaceObject {
 	}
 
 	/**
-	 * @param angleVel the angleVel to set
+	 * @param angleVel
+	 *            the angleVel to set
 	 */
 	public void setAngleVel(float angleVel) {
 		this.angleVel = angleVel;
@@ -122,7 +127,8 @@ public class SetupSpaceObject {
 	}
 
 	/**
-	 * @param radius the radius to set
+	 * @param radius
+	 *            the radius to set
 	 */
 	public void setRadius(float radius) {
 		this.radius = radius;
