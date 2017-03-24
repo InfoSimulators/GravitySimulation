@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.github.infosimulators.events.Event;
+import com.github.infosimulators.genetictrainer.GeneticTrainer.SimuIdEvalEventsListPair;
 
 public abstract class Evaluator {
 
@@ -28,6 +29,15 @@ public abstract class Evaluator {
 				for (Event event : events)
 					event.setHandled();
 		}
+		
+		return results;
+	}
+
+	public float[] eval(SimuIdEvalEventsListPair[] pairs) {
+		float[] results = new float[pairs.length];
+		
+		for (int i = 0; i < results.length; i++)
+			results[i] = eval(pairs[i].events);
 		
 		return results;
 	}

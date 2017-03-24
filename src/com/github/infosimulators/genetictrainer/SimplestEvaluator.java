@@ -1,7 +1,6 @@
 package com.github.infosimulators.genetictrainer;
 
 import java.util.List;
-import java.util.Map;
 
 import com.github.infosimulators.events.Event;
 import com.github.infosimulators.events.EventRegistry;
@@ -11,7 +10,7 @@ public class SimplestEvaluator extends Evaluator {
 
 	@Override
 	protected float eval(List<Event> events) {
-		if (events == null)
+		if (events.isEmpty())
 			return .5f;
 		
 		float p = 0;

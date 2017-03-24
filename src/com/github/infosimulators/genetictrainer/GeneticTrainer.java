@@ -26,7 +26,8 @@ public class GeneticTrainer {
 	private float chanceOfCompleteMutation = .04f;
 
 	private float[][] genomes;
-	private Map<Long, List<Event>> evalEvents;
+	// private Map<Long, List<Event>> evalEvents;
+	private SimuIdEvalEventsListPair[] evalEvents;
 	private ArrayList<Simulation> simulations;
 
 	/**
@@ -283,7 +284,6 @@ public class GeneticTrainer {
 	 */
 	public void startSimulations() {
 		simulations = new ArrayList<Simulation>(genomesPerGeneration);
-		evalEvents = new HashMap<Long, List<Event>>(genomesPerGeneration);
 
 		System.out.println("len(genomes): " + genomes.length);
 
@@ -296,6 +296,17 @@ public class GeneticTrainer {
 
 			simulations.add(new Simulation(simuParams));
 		}
+		
+		// ---------------------------------------------------------------------------------------
+		// evalEvents = new HashMap<Long, List<Event>>(genomesPerGeneration);
+		evalEvents = new SimuIdEvalEventsListPair[genomesPerGeneration];
+		
+		for (int i = 0; i < evalEvents.length; i++) {
+			evalEvents[i] = new SimuIdEvalEventsListPair();
+			evalEvents[i].simuID = simulations.get(i).getID();
+			evalEvents[i].events = new ArrayList<Event>();
+		}
+		// ---------------------------------------------------------------------------------------
 
 		isRunningSimulations = true;
 
@@ -334,9 +345,10 @@ public class GeneticTrainer {
 		for (Event event : simuEvents) {
 			long simuID = Long.parseLong(event.getArgs()[0]);
 			if (getSimulationById(simuID) != null) {
-				if (!evalEvents.containsKey(simuID))
-					evalEvents.put(simuID, new ArrayList<Event>());
-				evalEvents.get(simuID).add(event);
+//				if (!evalEvents.containsKey(simuID))
+//					evalEvents.put(simuID, new ArrayList<Event>());
+//				evalEvents.get(simuID).add(event);
+				evalEvents[findIndexOfPairWithSimuId(evalEvents, simuID)].events.add(event);
 			}
 		}
 	}
@@ -345,7 +357,8 @@ public class GeneticTrainer {
 	 * @return A list of lists of events interpretable by the evaluator, sorted
 	 *         by genome.
 	 */
-	public Map<Long, List<Event>> getEvalEvents() {
+	// public Map<Long, List<Event>> getEvalEvents() {
+	public SimuIdEvalEventsListPair[] getEvalEvents() {
 		return evalEvents;
 	}
 
@@ -382,6 +395,25 @@ public class GeneticTrainer {
 	 */
 	public int getGeneration() {
 		return generationCounter;
+	}
+
+	/**
+	 * Helper class for putting pairs of simulation IDs and evaluation events
+	 * into an array.
+	 */
+	public class SimuIdEvalEventsListPair {
+		
+		long simuID;
+		List<Event> events;
+		
+	}
+
+	public static int findIndexOfPairWithSimuId(SimuIdEvalEventsListPair[] pairs, long id) {
+		for (int i = 0; i < pairs.length; i++) {
+			if (pairs[i].simuID == id)
+				return i;
+		}
+		return -1;
 	}
 
 }
