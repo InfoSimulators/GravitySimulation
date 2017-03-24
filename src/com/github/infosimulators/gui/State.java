@@ -10,6 +10,7 @@ import com.github.infosimulators.Main;
 import com.github.infosimulators.events.EventRegistry;
 import com.github.infosimulators.events.EventType;
 import com.github.infosimulators.gui.gelements.GElement;
+import com.github.infosimulators.gui.gelements.SimulationSetupPanel;
 
 /**
  * Saves currently needed GElements and Listeners. Update function updates all
@@ -44,7 +45,7 @@ public class State {
 	public void update(PApplet p) {
 		p.background(color1);
 
-		for (GElement element : elements) {
+		for (GElement element : new ArrayList<GElement>(elements)) {
 			element.update(p);
 		}
 
@@ -61,7 +62,7 @@ public class State {
 			event.setHandled();
 		}
 
-		for (Listener listener : listeners) {
+		for (Listener listener : new ArrayList<Listener>(listeners)) {
 			if (events.contains(listener.getID())) {
 				listener.getAction().run();
 			}
@@ -81,7 +82,7 @@ public class State {
 	}
 
 	public void removeElementByID(String ID) {
-		for (GElement element : elements) {
+		for (GElement element : new ArrayList<GElement>(elements)) {
 			if (element.getID() == ID) {
 				elements.remove(element);
 			}
@@ -117,5 +118,15 @@ public class State {
 	 */
 	public void setElements(List<GElement> elements) {
 		this.elements = elements;
+	}
+	
+	public List<SimulationSetupPanel> getSimulationSetupPanels(){
+		List<SimulationSetupPanel> setupPanels = new ArrayList<SimulationSetupPanel>();
+		for(GElement element : elements){
+			if (element.getClass() == SimulationSetupPanel.class){
+				setupPanels.add((SimulationSetupPanel) element);
+			}
+		}
+		return setupPanels;
 	}
 }

@@ -249,7 +249,6 @@ public class Main {
 
 			@Override
 			public void run() {
-				EventRegistry.fire(new Event(EventType.GUI_ELEMENT_RESET, new String[] { "SetupPanel" }));
 				mainMenu();
 			}
 
@@ -260,7 +259,6 @@ public class Main {
 			@Override
 			public void run() {
 				EventRegistry.fire(new Event(EventType.GUI_SIMULATION_START));
-
 			}
 
 		}));
