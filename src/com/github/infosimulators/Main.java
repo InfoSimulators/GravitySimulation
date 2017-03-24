@@ -32,18 +32,6 @@ public class Main {
 		// creates and runs processing sketch
 		gui = GUI.getInstance();
 		mainMenu();
-
-		// int numPlanets = 3;
-		// int paramsPerPlanet = 6;
-		// int genomesPerGeneration = 50;
-		// trainer = new GeneticTrainer(numPlanets, paramsPerPlanet,
-		// genomesPerGeneration);
-		// evaluator = new SimplestEvaluator();
-
-		// TODO replace this loop with gui-functionality
-		for (int i = 0; i < 3; i++) {
-		}
-		// mainLoop();
 	}
 
 	public static Simulation workingExample() {
