@@ -3,7 +3,7 @@ package com.github.infosimulators.physic;
 import java.util.ArrayList;
 import com.github.infosimulators.IDRegistry.IDd;
 import com.github.infosimulators.polygons.Polygon;
-import com.github.infosimulators.polygons.regular.Sphere;
+import com.github.infosimulators.polygons.Sphere;
 
 /**
  * Baseclass for all objects, manipulated by physics.
