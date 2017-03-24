@@ -1,15 +1,13 @@
 package com.github.infosimulators;
 
-import java.util.List;
 import java.util.Random;
 
 import com.github.infosimulators.events.Event;
-import com.github.infosimulators.events.EventCategory;
 import com.github.infosimulators.events.EventRegistry;
 import com.github.infosimulators.events.EventType;
-import com.github.infosimulators.genetictrainer.Evaluator;
-import com.github.infosimulators.genetictrainer.GeneticTrainer;
-import com.github.infosimulators.gui.*;
+import com.github.infosimulators.gui.GUI;
+import com.github.infosimulators.gui.Listener;
+import com.github.infosimulators.gui.State;
 import com.github.infosimulators.gui.gelements.RectButton;
 import com.github.infosimulators.gui.gelements.SimulationPanel;
 import com.github.infosimulators.gui.gelements.SimulationSetupPanel;
@@ -22,9 +20,6 @@ import processing.core.PApplet;
  */
 public class Main {
 
-	private static GeneticTrainer trainer;
-	private static Evaluator evaluator;
-	private static List<Event> events;
 	private static GUI gui;
 
 	/**
@@ -51,76 +46,10 @@ public class Main {
 		// mainLoop();
 	}
 
-	public static void mainLoop() {
-		if (trainer.isRunningSimulations()) {
-			try {
-				trainer.step();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-
-			/*
-			 * Rendering simulations goes here
-			 */
-			trainer.getSimulations();
-
-		} else {
-			// not running simulation
-
-			/*
-			 * Rendering GUI interface goes here.
-			 *
-			 * Add option to call methods as shown here (start an evaluation)
-			 */
-
-			if (trainer.getGeneration() == 0) {
-				trainer.generateFirstGeneration();
-			} else {
-
-				float[] results = evaluator.eval(trainer.getEvalEvents());
-
-				try {
-					trainer.generateNextGeneration(results, evaluator.isCostFunction());
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-
-			trainer.startSimulations();
-
-		}
-
-		// output events
-		events = EventRegistry.getEvents();
-		handleEvents();
-	}
-
-	public static void handleEvents() {
-		for (Event e : events)
-			handleEvent(e);
-	}
-
 	public static Simulation workingExample() {
 		Simulation x = new Simulation(
 				new float[][] { { 50000f, (float) Math.PI, 2e3f, 0f, 0f, 200f }, { 0f, 0f, 2e5f, 0f, 0f, 1000f } });
 		return x;
-	}
-
-	public static void handleEvent(Event event) {
-		System.out.println("----------------------------------");
-		System.out.println("EVENT OCCURED");
-		System.out.println("Type: " + event.getType().toString());
-		if (event.getCategories() != null && !event.getCategories().isEmpty()) {
-			System.out.println("Categories:");
-			for (EventCategory cat : event.getCategories())
-				System.out.println("> " + cat.toString());
-		}
-		if (event.getArgs() != null && event.getArgs().length != 0) {
-			System.out.println("Args:");
-			for (String arg : event.getArgs())
-				System.out.println("> " + arg);
-		}
-		event.setHandled();
 	}
 
 	/**
