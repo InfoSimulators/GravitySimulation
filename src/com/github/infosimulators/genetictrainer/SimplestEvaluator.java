@@ -41,15 +41,17 @@ public class SimplestEvaluator extends Evaluator {
 	}
 
 	public static void main(String[] args) {
-		GeneticTrainer trainer = new GeneticTrainer(3, 6, 100);
+		int generations = 1000;
+		boolean doPrint = false;
+		
+		GeneticTrainer trainer = new GeneticTrainer(5, 6, 1000);
 		Evaluator evaluator = new SimplestEvaluator();
 
 		trainer.generateFirstGeneration();
-		
-		int generations = 2;
 
 		for (int i = 0; i < generations; i++) {
-			System.out.println("----------");
+			if (doPrint)
+				System.out.println("----------");
 			trainer.startSimulations();
 
 			boolean stepsDone = false;
@@ -73,7 +75,8 @@ public class SimplestEvaluator extends Evaluator {
 
 			float[] results = evaluator.eval(trainer.getEvalEvents());
 
-			printResults(results);
+			if (doPrint)
+				printResults(results);
 
 			try {
 				trainer.generateNextGeneration(results, evaluator.isCostFunction());

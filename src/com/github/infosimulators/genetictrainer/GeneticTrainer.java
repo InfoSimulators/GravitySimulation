@@ -218,7 +218,7 @@ public class GeneticTrainer {
 		float r = random.nextFloat();
 		float sum = 0;
 		int index = 0;
-		while (sum < r) {
+		while (sum <= r) {
 			sum += results[index];
 			index++;
 		}
@@ -356,8 +356,6 @@ public class GeneticTrainer {
 
 		for (int i = 0; i < evalEvents.length; i++)
 			events.add(evalEvents[i].events);
-		
-		System.out.println(events.size());
 		
 		return events;
 	}
