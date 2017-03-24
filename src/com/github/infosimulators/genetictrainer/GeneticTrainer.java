@@ -287,6 +287,24 @@ public class GeneticTrainer {
 		evalEvents = new HashMap<Integer, List<Event>>(genomesPerGeneration);
 
 		for (Event event : simuEvents) {
+			if (event.getType() == EventType.SIMU_PLANET_END) {
+				long simuID = Long.parseLong(event.getArgs()[0]);
+				simulations.remove(getSimulationById(simuID));
+
+				List<EventCategory> categories = new ArrayList<EventCategory>(1);
+				categories.add(EventCategory.GENETIC_TRAINER);
+				EventRegistry
+						.fire(new Event(EventType.TRAINER_SIMU_END, categories, new String[] { event.getArgs()[0] }));
+			}
+		}
+
+		if (simulations.size() == 0) {
+			List<EventCategory> categories = new ArrayList<EventCategory>(1);
+			categories.add(EventCategory.GENETIC_TRAINER);
+			EventRegistry.fire(new Event(EventType.TRAINER_SIMUS_END, categories));
+		}
+
+		for (Event event : simuEvents) {
 			int simuID = Integer.parseInt(event.getArgs()[0]);
 			if (!evalEvents.containsKey(simuID))
 				evalEvents.put(simuID, new ArrayList<Event>());
