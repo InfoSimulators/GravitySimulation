@@ -102,7 +102,11 @@ public class Simulation extends IDd {
 	 */
 	public void update() {
 		space.tick();
+		if(space.getSpaceRegister().size() <= 1){
+			//clearID();
+		}
 	}
+
 
 	/**
 	 * @return The content of the simulation as ArrayList of {@link PhysicsObject}s.
