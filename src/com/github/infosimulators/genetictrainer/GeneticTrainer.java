@@ -26,7 +26,7 @@ public class GeneticTrainer {
 	private float chanceOfCompleteMutation = .04f;
 
 	private float[][] genomes;
-	private Map<Integer, List<Event>> evalEvents;
+	private Map<Long, List<Event>> evalEvents;
 	private ArrayList<Simulation> simulations;
 
 	/**
@@ -283,10 +283,10 @@ public class GeneticTrainer {
 	 */
 	public void startSimulations() {
 		simulations = new ArrayList<Simulation>(genomesPerGeneration);
-		evalEvents = new HashMap<Integer, List<Event>>(genomesPerGeneration);
+		evalEvents = new HashMap<Long, List<Event>>(genomesPerGeneration);
 
 		System.out.println("len(genomes): " + genomes.length);
-		
+
 		for (float[] genome : genomes) {
 			float[][] simuParams = new float[genome.length / paramsPerPlanet][paramsPerPlanet];
 
@@ -332,10 +332,12 @@ public class GeneticTrainer {
 		}
 
 		for (Event event : simuEvents) {
-			int simuID = Integer.parseInt(event.getArgs()[0]);
-			if (!evalEvents.containsKey(simuID))
-				evalEvents.put(simuID, new ArrayList<Event>());
-			evalEvents.get(simuID).add(event);
+			long simuID = Long.parseLong(event.getArgs()[0]);
+			if (getSimulationById(simuID) != null) {
+				if (!evalEvents.containsKey(simuID))
+					evalEvents.put(simuID, new ArrayList<Event>());
+				evalEvents.get(simuID).add(event);
+			}
 		}
 	}
 
@@ -343,7 +345,7 @@ public class GeneticTrainer {
 	 * @return A list of lists of events interpretable by the evaluator, sorted
 	 *         by genome.
 	 */
-	public Map<Integer, List<Event>> getEvalEvents() {
+	public Map<Long, List<Event>> getEvalEvents() {
 		return evalEvents;
 	}
 

@@ -1,6 +1,7 @@
 package com.github.infosimulators.genetictrainer;
 
 import java.util.List;
+import java.util.Map;
 
 import com.github.infosimulators.events.Event;
 import com.github.infosimulators.events.EventRegistry;
@@ -57,13 +58,11 @@ public class SimplestEvaluator extends Evaluator {
 			int steps = 0;
 			
 			while (!stepsDone) {
-				// System.out.println("Step...");
 				trainer.step();
 
 				List<Event> events = EventRegistry.getEventsOfType(EventType.TRAINER_SIMUS_END);
 				if (events.size() > 0) {
 					stepsDone = true;
-					// System.out.println("All simus ended.");
 				}
 				for (Event event : events)
 					event.setHandled();
@@ -75,14 +74,11 @@ public class SimplestEvaluator extends Evaluator {
 			}
 
 			float[] results = evaluator.eval(trainer.getEvalEvents());
-			// System.out.println("Got results");
 
 			printResults(results);
 
 			try {
-				// System.out.println("Generating next gen");
 				trainer.generateNextGeneration(results, evaluator.isCostFunction());
-				// System.out.println("Done");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

@@ -15,12 +15,20 @@ public abstract class Evaluator {
 	 *            genome's simulation
 	 * @return The sorted cost/fitness determined by this evaluator.
 	 */
-	public float[] eval(Map<Integer, List<Event>> map) {
+	public float[] eval(Map<Long, List<Event>> map) {
 		float[] results = new float[map.size()];
 
 		for (int i = 0; i < results.length; i++)
 			results[i] = eval(map.get(i));
 
+		// TODO: test without / get rid of
+		for (int i = 0; i < results.length; i++) {
+			List<Event> events = map.get(i);
+			if (null != events)
+				for (Event event : events)
+					event.setHandled();
+		}
+		
 		return results;
 	}
 
