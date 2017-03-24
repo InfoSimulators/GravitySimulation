@@ -130,25 +130,14 @@ public class Main {
 
 		mainMenuState.addElement(
 				new Text("GravitySimulationText", "Gravity Simulation", 50, PApplet.CENTER, 0, 60, 600, 60));
+		
+		mainMenuState.addElement(new Text("GravitySimulationInfoText1", "A customizable and optimizable simulation of Gravity.", 16, PApplet.CENTER, 0, 120, gui.width, 120));
+		mainMenuState.addElement(new Text("GravitySimulationInfoText2", "Hover over the buttons to learn more!", 16, PApplet.CENTER, 0, 133, gui.width, 133));
 
 		mainMenuState.addElement(new RectButton("ClassicModeButton", "Classic Mode", 190, 170, 220, 40));
 		mainMenuState.addElement(new RectButton("RandomModeButton", "Random Mode", 190, 250, 220, 40));
 		mainMenuState.addElement(new RectButton("AutoModeButton", "Training Mode", 190, 330, 220, 40));
 		mainMenuState.addElement(new RectButton("LoadStartButton", "Load Start", 190, 410, 220, 40));
-
-		mainMenuState.addListener(new Listener("GravitySimulationText - hovered", new Runnable() {
-
-			@Override
-			public void run() {
-				gui.stroke(0, 255, 255);
-				gui.fill(0, 200, 200);
-				gui.textSize(16);
-				gui.textAlign(PApplet.CENTER, PApplet.TOP);
-				gui.text("A customizable and optimizable simulation of Gravity.", gui.width / 2, 120);
-				gui.text("Hover over the buttons to learn more!", gui.width / 2, 133);
-			}
-
-		}));
 
 		mainMenuState.addListener(new Listener("ClassicModeButton - hovered", new Runnable() {
 

@@ -65,6 +65,15 @@ public class Space {
     }
 
     /**
+    * Clears all IDs
+    */
+    public void clear() {
+        for (PhysicsObject object : spaceRegister) {
+            //object.clearID();
+        }
+    }
+
+    /**
      * Gets the space register.
      * @return The space register as ArrayList of {@link PhysicsObject}s.
      */
@@ -155,9 +164,12 @@ public class Space {
             object.move();
         }
         handleCollisions();
-        if (spaceRegister.size() <= 1)
+        if (spaceRegister.size() <= 1) {
             EventRegistry.fire(new Event(EventType.SIMU_END, Arrays.asList(EventCategory.SIMULATION),
                     new String[] { "" + simulationID, "" + nor }));
+
+            clear();
+        }
         nor++;
     }
 

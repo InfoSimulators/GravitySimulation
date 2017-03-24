@@ -21,7 +21,7 @@ public class SimulationSetupPanel extends GElement {
 
 	private boolean pressedLast, setup, setVelocity;
 
-	private float STANDARD_MASS = 2e3f, STANDARD_VELOCITY = 0f, STANDARD_ANGLEVEL = 0f, STANDARD_RADIUS = 20f;
+	private final float STANDARD_MASS = 2e3f, STANDARD_VELOCITY = 0f, STANDARD_ANGLEVEL = 0f, STANDARD_RADIUS = 20f;
 
 	public SimulationSetupPanel(String ID, float x, float y, float xSize, float ySize) {
 		super(ID, x, y, xSize, ySize);
