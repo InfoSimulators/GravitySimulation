@@ -8,23 +8,31 @@ import java.util.List;
 import processing.core.PVector;
 
 /**
- * Vector class that defines a vector by it´s length and it´s rotation around the z-axis: Can store positions,
- * forces and velocities.
+ * Vector class that defines a vector by it´s length and it´s rotation around
+ * the z-axis: Can store positions, forces and velocities.
  *
  * @author Julisep
  */
 public class PolarVector2 {
+
 	private static Comparator<PolarVector2> comparator = (PolarVector2 a, PolarVector2 b) -> {
 		return (a.theta > b.theta ? -1 : 1);
 	};
-	/** The rotation around the z-axis */
+
+	/**
+	 * The rotation around the z-axis
+	 */
 	public float theta;
-	/** The length of this {@link PolarVector2} */
+
+	/**
+	 * The length of this {@link PolarVector2}
+	 */
 	public float r;
 
 	/*
 	 * Constructors
 	 */
+
 	public PolarVector2(float theta, float r) {
 		this.theta = theta;
 		this.r = r;
@@ -39,11 +47,11 @@ public class PolarVector2 {
 	}
 
 	/*
-	 * METHODS FOR ATTRIBUTESS
+	 * METHODS FOR ATTRIBUTES
 	 */
 
 	/**
-	 * returns the squared length of the vector. Much faster then magitude()
+	 * returns the squared length of the vector. Much faster then magnitude()
 	 *
 	 * @return squared length of the vector
 	 */
@@ -77,8 +85,8 @@ public class PolarVector2 {
 	}
 
 	/**
-	* @return The first normal.
-	*/
+	 * @return The first normal.
+	 */
 	public PolarVector2 getNormal1() {
 		return new PolarVector2(theta + (float) Math.PI, 1);
 	}
@@ -91,8 +99,8 @@ public class PolarVector2 {
 	}
 
 	/**
-	* @return A new {@link Vector2} based on this {@link PolarVector2}.
-	*/
+	 * @return A new {@link Vector2} based on this {@link PolarVector2}.
+	 */
 	public Vector2 toCartesian() {
 		return new Vector2((float) Math.cos(theta), (float) Math.sin(theta)).scale(r);
 	}
@@ -107,15 +115,16 @@ public class PolarVector2 {
 	/*
 	 * METHODS FOR MANIPULATION
 	 */
+
 	/**
-	* Sets theta and the length.
-	*
-	* @param theta
-	*            The new angle;
-	* @param r
-	*            The new length.
-	* @return this
-	*/
+	 * Sets theta and length.
+	 *
+	 * @param theta
+	 *            The new angle;
+	 * @param r
+	 *            The new length.
+	 * @return this
+	 */
 	public PolarVector2 set(float theta, float r) {
 		this.theta = theta;
 		this.r = r;
@@ -138,7 +147,8 @@ public class PolarVector2 {
 	/**
 	 * Adds rotation to this vector.
 	 *
-	 * @param theta The rotation to add.
+	 * @param theta
+	 *            The rotation to add.
 	 * @return this
 	 */
 	public PolarVector2 addRotation(float theta) {
@@ -147,9 +157,10 @@ public class PolarVector2 {
 	}
 
 	/**
-	 * Subtracts rotation from this vector;
+	 * Subtracts rotation from this vector.
 	 *
-	 * @param theta The rotation to subtract.
+	 * @param theta
+	 *            The rotation to subtract.
 	 * @return this
 	 */
 	public PolarVector2 subtractRotation(float theta) {
@@ -170,7 +181,6 @@ public class PolarVector2 {
 	}
 
 	/**
-	 *
 	 * Divides a vector by a scalar.
 	 *
 	 * @param r
@@ -183,17 +193,19 @@ public class PolarVector2 {
 	}
 
 	/**
-	* Method to get the dot product (scalar product) of this and anoher vector;
-	*
-	* @param a Another Vector2.
-	* @return the dot product
-	*/
+	 * Method to get the dot product (scalar product) of this and another
+	 * vector.
+	 *
+	 * @param a
+	 *            Another Vector2.
+	 * @return the dot product
+	 */
 	public float dot(PolarVector2 a) {
 		return r * a.r * (float) Math.cos(theta - a.theta);
 	}
 
 	/**
-	 * normalizes this vector. The vector IS changed.
+	 * Normalizes this vector.
 	 *
 	 * @return this
 	 */
@@ -203,7 +215,6 @@ public class PolarVector2 {
 	}
 
 	/**
-	 *
 	 * Set the magnitude of this vector to the value used for the <b>len</b>
 	 * parameter.
 	 *
@@ -217,7 +228,6 @@ public class PolarVector2 {
 	}
 
 	/**
-	 *
 	 * Interpolates this vector linear to another vector.
 	 *
 	 * @param v
@@ -235,7 +245,6 @@ public class PolarVector2 {
 	}
 
 	/**
-	 *
 	 * Rotates this vector by an angle. The magnitude remains the same.
 	 *
 	 * @param theta
@@ -248,8 +257,9 @@ public class PolarVector2 {
 	}
 
 	/*
-	 * STATIC/PURE FUNCTIONS
+	 * STATIC FUNCTIONS
 	 */
+
 	public static final PolarVector2 zero() {
 		return new PolarVector2(0f, 0f);
 	}
@@ -271,7 +281,7 @@ public class PolarVector2 {
 	}
 
 	/**
-	 * Converts PVector (Vectorclass form Processing) to Vector2
+	 * Converts PVector (Vectorclass of Processing) to Vector2
 	 *
 	 * @param pvector
 	 * @return Collidered vector
@@ -281,11 +291,11 @@ public class PolarVector2 {
 	}
 
 	/**
-	 * Multiplies a vector by a scalar.
-	 * Equals new {@link PolarVector2}(v.theta, v.r*r).
+	 * Multiplies a vector by a scalar. Equals new {@link PolarVector2}(v.theta,
+	 * v.r*r).
 	 *
 	 * @param v
-	 *            The vector to multiplyed by the scalar.
+	 *            The vector to multiplied by the scalar.
 	 * @param r
 	 *            The scalar to multiply with.
 	 * @return A new vector that is v * r.
@@ -295,13 +305,13 @@ public class PolarVector2 {
 	}
 
 	/**
-	 * Divide a vector by a scalar and return the result in a new vector.
-	 * Equals new {@link PolarVector2}(v.theta, v.r/r).
+	 * Divide a vector by a scalar and return the result in a new vector. Equals
+	 * new {@link PolarVector2}(v.theta, v.r/r).
 	 *
 	 * @param v
 	 *            The vector to divide by the scalar.
 	 * @param r
-	 *            The scalar to devide by.
+	 *            The scalar to divide by.
 	 * @return A new vector that is v / r.
 	 */
 	public static PolarVector2 div(PolarVector2 v, float r) {
@@ -330,10 +340,10 @@ public class PolarVector2 {
 	 *
 	 * @param v1
 	 *            Any variable of type {@link PolarVector2}.
-
+	 * 
 	 * @param v2
 	 *            Any variable of type {@link PolarVector2}.
-
+	 * 
 	 * @return The squared Euclidean distance between v1 and v2.
 	 */
 	public static float sqrDistance(PolarVector2 v1, PolarVector2 v2) {
@@ -367,27 +377,33 @@ public class PolarVector2 {
 	}
 
 	/**
-	 * Calculates the angle between two vectors in radiants.
+	 * Calculates the angle between two vectors in radians.
 	 *
-	 * @param v1 The first {@link PolarVector2}.
-	 * @param v2 The secound {@link PolarVector2}.
-	 * @return The angle between the two vectors in radiants.
+	 * @param v1
+	 *            The first {@link PolarVector2}.
+	 * @param v2
+	 *            The second {@link PolarVector2}.
+	 * @return The angle between the two vectors in radians.
 	 */
 	public static float angleBetween(PolarVector2 v1, PolarVector2 v2) {
 		return (float) Math.abs(v1.theta - v2.theta);
 	}
 
 	/**
-	* @return A new {@link Vector2} based on the given {@link PolarVector2}.
-	* @param v The {@link PolarVector2} to transform.
-	*/
+	 * @param v
+	 *            The {@link PolarVector2} to transform.
+	 * @return A new {@link Vector2} based on the given {@link PolarVector2}.
+	 */
 	public static Vector2 toCartesian(PolarVector2 v) {
 		return new Vector2((float) Math.cos(v.theta), (float) Math.sin(v.theta)).scale(v.r);
 	}
 
 	/**
-	 * Orders the {@link PolarVector2}s from the array in counterclockwise direction.
-	 * @param unsorted The array with unsorted {@link PolarVector2}s.
+	 * Orders the {@link PolarVector2}s from the array in counterclockwise
+	 * direction.
+	 * 
+	 * @param unsorted
+	 *            The array with unsorted {@link PolarVector2}s.
 	 * @return An array with sorted {@link PolarVector2}s.
 	 */
 	public static PolarVector2[] order(PolarVector2[] unsorted) {
@@ -399,8 +415,11 @@ public class PolarVector2 {
 	}
 
 	/**
-	 * Orders the {@link PolarVector2}s from the array in counterclockwise direction.
-	 * @param unsorted The List with unsorted {@link PolarVector2}s.
+	 * Orders the {@link PolarVector2}s from the array in counterclockwise
+	 * direction.
+	 * 
+	 * @param unsorted
+	 *            The List with unsorted {@link PolarVector2}s.
 	 * @return An array with sorted {@link PolarVector2}s.
 	 */
 	public static PolarVector2[] order(List<PolarVector2> unsorted) {
@@ -409,4 +428,5 @@ public class PolarVector2 {
 		unsorted.toArray(sorted);
 		return sorted;
 	}
+	
 }
