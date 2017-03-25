@@ -54,7 +54,7 @@ public class Space {
 
 	/**
 	 * Adds objects to the space register.
-	 * 
+	 *
 	 * @param objects
 	 *            The objects to be added to the register.
 	 */
@@ -66,7 +66,7 @@ public class Space {
 
 	/**
 	 * Removes objects from the space register.
-	 * 
+	 *
 	 * @param objects
 	 *            The Objects to be removed from the register.
 	 */
@@ -223,7 +223,6 @@ public class Space {
 	 *
 	 */
 	protected void doElasticCollision(PhysicsObject one, PhysicsObject two) {
-		System.out.println("doElasticCollision");
 		float v1 = one.velocity.magnitude();
 		Vector2 v1_vector = one.velocity.copy();
 		float v2 = two.velocity.magnitude();
@@ -264,7 +263,6 @@ public class Space {
 
 				if (areColliding(object, other)) {
 					if (wouldUnite(object, other)) {
-						System.out.println("UNITE");
 						EventRegistry.fire(new Event(EventType.SIMU_PLANET_UNITE,
 								Arrays.asList(EventCategory.SIMULATION),
 								new String[] { "" + simulationID, "" + nor, "" + object.getID(), "" + other.getID() }));
@@ -299,7 +297,7 @@ public class Space {
 
 	/**
 	 * TODO: Optimize this into one line.
-	 * 
+	 *
 	 * Calculates the force PhysicsObject b acts on PhysicsObject a. Only the
 	 * force from b to a is returned.
 	 *

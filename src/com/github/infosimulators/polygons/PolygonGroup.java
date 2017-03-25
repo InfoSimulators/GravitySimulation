@@ -65,13 +65,13 @@ public class PolygonGroup extends Polygon {
 	}
 
 	/**
-	 * @return the outer verticies TODO
+	 * @return the outer vertices TODO
 	 */
 	@Override
-	public Vector2[] getVerticies() {
+	public Vector2[] getVertices() {
 		ArrayList<Vector2> temp = new ArrayList<Vector2>();
 		for (Polygon poly : polygons) {
-			for (Vector2 v : poly.getVerticies()) {
+			for (Vector2 v : poly.getVertices()) {
 				if (!temp.contains(v))
 					temp.add(v);
 			}

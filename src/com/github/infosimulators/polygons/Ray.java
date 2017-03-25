@@ -5,14 +5,14 @@ import com.github.infosimulators.physic.Vector2;
 /**
  * A class to store information about lines in space.
  *
- * It is kind of a superset for {@link Vector2}.
+ * It is kind of an extension  for {@link Vector2}.
  */
 public class Ray {
 
 	/**
 	 * Enum to store position relative to the line.
 	 */
-	public enum RelativePoisition {
+	public enum RelativePosition {
 		ABOVE, UNDER, ON, NEXT_TO
 	};
 
@@ -28,7 +28,7 @@ public class Ray {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param a
 	 *            The base {@link Vector2}.
 	 */
@@ -39,11 +39,11 @@ public class Ray {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param a
 	 *            The base {@link Vector2}.
 	 * @param v
-	 *            The dirction {@link Vector2}.
+	 *            The direction {@link Vector2}.
 	 */
 	public Ray(Vector2 v) {
 		this.v = v;
@@ -106,21 +106,21 @@ public class Ray {
 	 *
 	 * @param point
 	 *            The point.
-	 * @return The reative position of the point as {@link RelativePoisition}.
+	 * @return The relative position of the point as {@link RelativePosition}.
 	 */
-	public RelativePoisition getRelativePosition(Vector2 point) {
+	public RelativePosition getRelativePosition(Vector2 point) {
 		Vector2 closest = getShortestWay(point);
 		if (closest == Vector2.zero())
-			return RelativePoisition.ON;
+			return RelativePosition.ON;
 		float angle = closest.angle();
 		if (angle > (float) Math.PI && angle < (float) 2 * Math.PI)
-			return RelativePoisition.UNDER;
+			return RelativePosition.UNDER;
 		else if (angle > 0 && angle < (float) Math.PI)
-			return RelativePoisition.ABOVE;
+			return RelativePosition.ABOVE;
 		else if (angle == (float) Math.PI || angle == 0)
-			return RelativePoisition.NEXT_TO;
+			return RelativePosition.NEXT_TO;
 		// SHOULD NEVER BE REACHED WITH VALID ARGUMENTS
-		return RelativePoisition.ON;
+		return RelativePosition.ON;
 	}
 
 	/**
@@ -129,7 +129,7 @@ public class Ray {
 	 * @param point1
 	 *            The first point.
 	 * @param point2
-	 *            The secound point.
+	 *            The second point.
 	 * @return A ray through both points.
 	 */
 	public static Ray fromTwoPoints(Vector2 point1, Vector2 point2) {

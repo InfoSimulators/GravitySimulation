@@ -32,11 +32,22 @@ public class Sphere extends Polygon {
 	 * @param offset
 	 *            The offset towards the origin.
 	 * @param size
-	 *            The size of the Collider.
+	 *            The size of the collider.
 	 */
 	public Sphere(Vector2 offset, float size) {
 		super(NUMBER_OF_POLYGONS_IN_SPHERE, offset);
 		scale(size);
+	}
+
+	/**
+	 * Scales the circle.
+	 * @param amount
+	 * 				The amount to scale with.
+	 */
+	@Override
+	public void scale(float amount){
+		radius *= amount;
+		super.scale(amount);
 	}
 
 }
