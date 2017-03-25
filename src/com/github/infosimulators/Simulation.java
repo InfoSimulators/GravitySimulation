@@ -16,15 +16,16 @@ import com.github.infosimulators.physic.Vector2;
  * Calculates data on given parameters.
  */
 public class Simulation extends IDd {
+	
 	protected Space space;
 	private float[][] initialConfig;
 	public boolean finished = false;
 
 	/**
-	 * Constructor.
-	 * Startes a simulation with a {@link Space} of the size size;
+	 * Constructor. Startes a simulation with a {@link Space} of the size size;
 	 *
-	 * @param size The size of the {@link Space} containing the simulation.
+	 * @param size
+	 *            The size of the {@link Space} containing the simulation.
 	 */
 	public Simulation(float size) {
 		super();
@@ -34,20 +35,20 @@ public class Simulation extends IDd {
 	}
 
 	/**
-	 * Constructor.
-	 * Startes a simulation with a space filled with spaceobjects defined by the parameter configuration.
+	 * Constructor. Startes a simulation with a space filled with spaceobjects
+	 * defined by the parameter configuration.
 	 *
 	 * @param configuration
-	 * 		The properties of the objects the space should be filled with.
-	 * 		The first dimension defines the object. The second dimension the properties.
-	 * 		This list is structured like this:
-	 * 		configuration[n][0] The distance from the origin.
-	 * 		configuration[n][1] The angle from the origin.
-	 * 		configuration[n][2] The mass of the object.
-	 * 		configuration[n][3] The magnitude of the velocity.
-	 * 		configuration[n][4] The angle of the velocity.
-	 * 	 	configuration[n][5] The size of the object.
-	 *  	TODO: configuration[n][6] The shape of the object.
+	 *            The properties of the objects the space should be filled with.
+	 *            The first dimension defines the object. The second dimension
+	 *            the properties. This list is structured like this:
+	 *            configuration[n][0] The distance from the origin.
+	 *            configuration[n][1] The angle from the origin.
+	 *            configuration[n][2] The mass of the object.
+	 *            configuration[n][3] The magnitude of the velocity.
+	 *            configuration[n][4] The angle of the velocity.
+	 *            configuration[n][5] The size of the object. TODO:
+	 *            configuration[n][6] The shape of the object.
 	 */
 	public Simulation(float[][] configuration) {
 		super();
@@ -62,12 +63,14 @@ public class Simulation extends IDd {
 	}
 
 	/**
-	* Constructor.
-	* Startes a simulation with a space filled with spaceobjects defined by the parameter configuration.
-	*
-	* @param configuration See {@link Simulation#Simulation(float[][])}.
-	* @param size The viewable size of this simulation.
-	*/
+	 * Constructor. Startes a simulation with a space filled with spaceobjects
+	 * defined by the parameter configuration.
+	 *
+	 * @param configuration
+	 *            See {@link Simulation#Simulation(float[][])}.
+	 * @param size
+	 *            The viewable size of this simulation.
+	 */
 	public Simulation(float[][] configuration, float size) {
 		super();
 		space = new Space();
@@ -112,7 +115,8 @@ public class Simulation extends IDd {
 	}
 
 	/**
-	 * @return The content of the simulation as ArrayList of {@link PhysicsObject}s.
+	 * @return The content of the simulation as ArrayList of
+	 *         {@link PhysicsObject}s.
 	 */
 	public ArrayList<PhysicsObject> getContent() {
 		return space.getSpaceRegister();
@@ -126,10 +130,12 @@ public class Simulation extends IDd {
 	}
 
 	/**
-	* Loads a simulation from a file.
-	* @param name The name of the Siumaltion to load.
-	* @return The loaded simulation.
-	*/
+	 * Loads a simulation from a file.
+	 * 
+	 * @param name
+	 *            The name of the Siumaltion to load.
+	 * @return The loaded simulation.
+	 */
 	public Simulation loadSimulation(String name) {
 		float[][] configuration = null;
 
@@ -155,11 +161,14 @@ public class Simulation extends IDd {
 	}
 
 	/**
-	* Writes a simulation into a file, which can be read with {@link load}().
-	* @param name THe name to store the simulation in.
-	* @param simulation The siumlation to store.
-	* @return Whether the storing was a success.
-	*/
+	 * Writes a simulation into a file, which can be read with {@link load}().
+	 * 
+	 * @param name
+	 *            THe name to store the simulation in.
+	 * @param simulation
+	 *            The siumlation to store.
+	 * @return Whether the storing was a success.
+	 */
 	public boolean writeSimulation(String name, Simulation simulation) {
 		boolean success = false;
 		float[][] configuration = simulation.getInitialConfig();
