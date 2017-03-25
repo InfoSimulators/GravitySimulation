@@ -16,20 +16,20 @@ public class TrianglePolygonGroup extends PolygonGroup {
     */
     public TrianglePolygonGroup(int N) {
         super();
-        PolarVector2[] x = Polygon.getVerticiesOnCircle(N);
+        PolarVector2[] x = Polygon.getVerticesOnCircle(N);
         polygons = new ArrayList<Polygon>();
         for (int i = 0; i < x.length; i++)
             polygons.add(new Polygon(new PolarVector2[] { x[i], PolarVector2.zero(), x[(i + 1) % x.length] }));
     }
 
     /**
-     * @return the outer verticies
+     * @return the outer vertices
      */
     @Override
-    public Vector2[] getVerticies() {
+    public Vector2[] getVertices() {
         ArrayList<Vector2> temp = new ArrayList<Vector2>();
         for (Polygon poly : polygons) {
-            for (Vector2 v : poly.getVerticies()) {
+            for (Vector2 v : poly.getVertices()) {
                 if (!temp.contains(v) || Vector2.add(v, poly.getOffset()) == Vector2.zero())
                     temp.add(v);
             }

@@ -18,10 +18,10 @@ import com.github.infosimulators.polygons.Polygon;
 public class Space {
 
 	/**
-	 * Stores the maximum distance from the origin Objects further appart are
+	 * Stores the maximum distance from the origin Objects further apart are
 	 * seen lost and will be removed from space register and deleted by GC.
 	 */
-	public float observedRange = 10e15f;
+	public float observedRange = Float.POSITIVE_INFINITY;
 
 	/**
 	 * Stores the position of the center point. The outside is calculated on the
@@ -30,7 +30,7 @@ public class Space {
 	public Vector2 pointOfOrigin = Vector2.zero();
 
 	/**
-	 * Spaceregister that stores all objects that should be effected by gravity.
+	 * Register that stores all objects that should be effected by gravity.
 	 */
 	protected ArrayList<PhysicsObject> spaceRegister = new ArrayList<PhysicsObject>();
 
@@ -54,7 +54,7 @@ public class Space {
 
 	/**
 	 * Adds objects to the space register.
-	 * 
+	 *
 	 * @param objects
 	 *            The objects to be added to the register.
 	 */
@@ -66,7 +66,7 @@ public class Space {
 
 	/**
 	 * Removes objects from the space register.
-	 * 
+	 *
 	 * @param objects
 	 *            The Objects to be removed from the register.
 	 */
@@ -116,9 +116,8 @@ public class Space {
 	public boolean willLeave(PhysicsObject object) {
 		if (!isPositionObservable(object.position))
 			return true;
-		return false;
-		// return Vector2.dot(object.velocity, Vector2.subtract(object.position,
-		// pointOfOrigin)) > getEscapeVelocity(object, this);
+		return (Vector2.project(object.velocity,
+				Vector2.subtract(object.position, pointOfOrigin)) > getEscapeVelocity(object, this));
 	}
 
 	/**
@@ -181,7 +180,11 @@ public class Space {
 		while (registerIterator.hasNext()) {
 			PhysicsObject object = registerIterator.next();
 			object.playoutForces();
+			EventRegistry.fire(new Event(EventType.SIMU_PLANET_MOVE, Arrays.asList(EventCategory.SIMULATION),
+					new String[] { "" + simulationID, "" + nor, "" + object.getID(),
+							"" + Vector2.scale(object.acceleration, 0.5f).add(object.velocity).magnitude() }));
 			object.move();
+
 			if (willLeave(object)) {
 				registerIterator.remove();
 				EventRegistry.fire(new Event(EventType.SIMU_PLANET_LEFT, Arrays.asList(EventCategory.SIMULATION),
@@ -223,7 +226,6 @@ public class Space {
 	 *
 	 */
 	protected void doElasticCollision(PhysicsObject one, PhysicsObject two) {
-		System.out.println("doElasticCollision");
 		float v1 = one.velocity.magnitude();
 		Vector2 v1_vector = one.velocity.copy();
 		float v2 = two.velocity.magnitude();
@@ -264,7 +266,6 @@ public class Space {
 
 				if (areColliding(object, other)) {
 					if (wouldUnite(object, other)) {
-						System.out.println("UNITE");
 						EventRegistry.fire(new Event(EventType.SIMU_PLANET_UNITE,
 								Arrays.asList(EventCategory.SIMULATION),
 								new String[] { "" + simulationID, "" + nor, "" + object.getID(), "" + other.getID() }));
@@ -299,7 +300,7 @@ public class Space {
 
 	/**
 	 * TODO: Optimize this into one line.
-	 * 
+	 *
 	 * Calculates the force PhysicsObject b acts on PhysicsObject a. Only the
 	 * force from b to a is returned.
 	 *
@@ -326,7 +327,7 @@ public class Space {
 	 */
 	public static float getEscapeVelocity(PhysicsObject a, Space s) {
 		return (float) Math
-				.sqrt((2f * Constants.G * s.summedMass()) / Vector2.sqrDistance(a.getPosition(), s.pointOfOrigin));
+				.sqrt(2f * Constants.G * s.summedMass() / Vector2.distance(a.getPosition(), s.pointOfOrigin));
 	}
 
 }

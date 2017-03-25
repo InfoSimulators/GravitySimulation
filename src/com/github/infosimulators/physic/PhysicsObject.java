@@ -1,12 +1,18 @@
 package com.github.infosimulators.physic;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+
 import com.github.infosimulators.IDRegistry.IDd;
+import com.github.infosimulators.events.Event;
+import com.github.infosimulators.events.EventCategory;
+import com.github.infosimulators.events.EventRegistry;
+import com.github.infosimulators.events.EventType;
 import com.github.infosimulators.polygons.Polygon;
 import com.github.infosimulators.polygons.Sphere;
 
 /**
- * Baseclass for all objects, manipulated by physics. It stores position,
+ * Superclass for all objects, manipulated by physics. It stores position,
  * forces, acceleration, velocity, mass and size. It is assumed to be a sphere
  * with the radius size with the mass located in the middle.
  */
@@ -77,13 +83,15 @@ public class PhysicsObject extends IDd {
 	 *            The angle of the position in relation to the origin.
 	 * @param mass
 	 *            The mass of the object.
-	 * @param radius
-	 *            The radius of the object.
+	 * @param size
+	 *            The size of the object.
 	 * @param impulsVelocity
 	 *            A float representing the magnitude of the velocity of the
 	 *            object.
 	 * @param alpha
-	 *            The angle of the velocity
+	 *            The angle of the velocity.
+	 * @param shape
+	 *            A float representing the number of vertices the object will have.
 	 */
 	public PhysicsObject(float distance, float theta, float mass, float impulsVelocity, float alpha, float size,
 			float shape) {
@@ -218,11 +226,11 @@ public class PhysicsObject extends IDd {
 	public static PhysicsObject unite(PhysicsObject one, PhysicsObject two) {
 		Polygon united = new Polygon();
 		float angel = Vector2.subtract(one.getPosition(), two.getPosition()).angle();
-		for (PolarVector2 v : one.collider.getLocalVerticies()) {
+		for (PolarVector2 v : one.collider.getLocalVertices()) {
 			if (Math.abs(angel - v.theta) <= Math.PI)
 				united.addVertex(v);
 		}
-		for (PolarVector2 v : two.collider.getLocalVerticies()) {
+		for (PolarVector2 v : two.collider.getLocalVertices()) {
 			if (Math.abs(angel - v.theta) > Math.PI)
 				united.addVertex(v);
 		}

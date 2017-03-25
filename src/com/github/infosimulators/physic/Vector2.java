@@ -289,7 +289,7 @@ public class Vector2 {
 	 * Linear interpolate the vector to another vector.
 	 *
 	 * @param v
-	 *            the vector to lerp to
+	 *            the vector to interpolate to
 	 * @param amt
 	 *            The amount of interpolation; some value between 0.0 (old
 	 *            vector) and 1.0 (new vector). 0.1 is very near the old vector;
@@ -486,26 +486,14 @@ public class Vector2 {
 	}
 
 	/**
-	 * @param v1
-	 *            Any variable of type {@link Vector2}.
-	 * @param v2
-	 *            Any variable of type {@link Vector2}.
-	 * @return null
-	 * @deprecated
-	 */
-	public static Vector2 cross(Vector2 v1, Vector2 v2) {
-		return null;
-	}
-
-	/**
 	 * Linear interpolate between two {@link Vector2}.
 	 *
 	 * @param v1
 	 *            The vector to start from.
 	 * @param v2
-	 *            The vector to lerp to.
+	 *            The vector to interpolate to.
 	 * @param amt
-	 *            The amount of lerping.
+	 *            The amount of interpolating.
 	 * @return The interpolated {@link Vector2}.
 	 */
 	public static Vector2 lerp(Vector2 v1, Vector2 v2, float amt) {
@@ -552,5 +540,17 @@ public class Vector2 {
 	 */
 	static public Vector2 reflect(Vector2 inDirection, Vector2 inNormal) {
 		return Vector2.add(Vector2.scale(inNormal, -2f * Vector2.dot(inDirection, inNormal)), inDirection);
+	}
+
+	/**
+	* @param a
+	*            The vector to project onto.
+	* @param b
+	*            The vector to project.
+	*
+	* @return {@link Vector2} B projected onto a.
+	*/
+	static public float project(Vector2 a, Vector2 b) {
+		return (Vector2.dot(a, b) / a.magnitude());
 	}
 }

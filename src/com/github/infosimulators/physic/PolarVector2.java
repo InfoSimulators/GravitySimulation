@@ -231,14 +231,14 @@ public class PolarVector2 {
 	 * Interpolates this vector linear to another vector.
 	 *
 	 * @param v
-	 *            The vector to lerp to.
+	 *            The vector to interpolate to.
 	 * @param amt
 	 *            The amount of interpolation; some value between 0.0 (old
 	 *            vector) and 1.0 (new vector). 0.1 is very near the old vector;
 	 *            0.5 is halfway in between.
 	 * @return this
 	 */
-	public PolarVector2 lerp(PolarVector2 v, float amt) {
+	public PolarVector2 interpolate(PolarVector2 v, float amt) {
 		theta = theta + (v.theta - theta) * amt;
 		r = r + (v.r - r) * amt;
 		return this;
@@ -284,7 +284,7 @@ public class PolarVector2 {
 	 * Converts PVector (Vectorclass of Processing) to Vector2
 	 *
 	 * @param pvector
-	 * @return Collidered vector
+	 * @return converted vector
 	 */
 	public static PolarVector2 fromPVector(PVector pv) {
 		return new PolarVector2((float) Math.atan2(pv.x * 0 - 1 * pv.y, pv.x * 1 + pv.y * 0), pv.mag());
@@ -340,10 +340,10 @@ public class PolarVector2 {
 	 *
 	 * @param v1
 	 *            Any variable of type {@link PolarVector2}.
-	 * 
+	 *
 	 * @param v2
 	 *            Any variable of type {@link PolarVector2}.
-	 * 
+	 *
 	 * @return The squared Euclidean distance between v1 and v2.
 	 */
 	public static float sqrDistance(PolarVector2 v1, PolarVector2 v2) {
@@ -363,16 +363,16 @@ public class PolarVector2 {
 	 * Interpolates two vectors linear.
 	 *
 	 * @param v1
-	 *            The vector to lerp from.
+	 *            The vector to interpolate from.
 	 * @param v2
-	 *            The vector to lerp to.
+	 *            The vector to interpolate to.
 	 * @param amt
 	 *            The amount of interpolation; some value between 0.0 (old
 	 *            vector) and 1.0 (new vector). 0.1 is very near the old vector;
 	 *            0.5 is halfway in between.
 	 * @return The resulting {@link PolarVector2}.
 	 */
-	public static PolarVector2 lerp(PolarVector2 v1, PolarVector2 v2, float amt) {
+	public static PolarVector2 interpolate(PolarVector2 v1, PolarVector2 v2, float amt) {
 		return new PolarVector2(v1.theta + (v2.theta - v1.theta) * amt, v1.r + (v2.r - v1.r) * amt);
 	}
 
@@ -401,7 +401,7 @@ public class PolarVector2 {
 	/**
 	 * Orders the {@link PolarVector2}s from the array in counterclockwise
 	 * direction.
-	 * 
+	 *
 	 * @param unsorted
 	 *            The array with unsorted {@link PolarVector2}s.
 	 * @return An array with sorted {@link PolarVector2}s.
@@ -417,7 +417,7 @@ public class PolarVector2 {
 	/**
 	 * Orders the {@link PolarVector2}s from the array in counterclockwise
 	 * direction.
-	 * 
+	 *
 	 * @param unsorted
 	 *            The List with unsorted {@link PolarVector2}s.
 	 * @return An array with sorted {@link PolarVector2}s.
@@ -428,5 +428,5 @@ public class PolarVector2 {
 		unsorted.toArray(sorted);
 		return sorted;
 	}
-	
+
 }
