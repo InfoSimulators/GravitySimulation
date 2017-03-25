@@ -34,17 +34,22 @@ public class Simulation extends IDd {
 	 *            configuration[n][2] The mass of the object.
 	 *            configuration[n][3] The magnitude of the velocity.
 	 *            configuration[n][4] The angle of the velocity.
-	 *            configuration[n][5] The size of the object. TODO:
+	 *            configuration[n][5] The size of the object.
 	 *            configuration[n][6] The shape of the object.
 	 */
 	public Simulation(float[][] configuration) {
 		super();
 		space = new Space();
 		space.simulationID = getID();
-		for (float[] object : configuration) {
-			space.registerPhysicsObject(
-					new PhysicsObject(object[0], object[1], object[2], object[3], object[4], object[5]));
-		}
+
+		if (configuration[0].length == 6)
+			for (float[] object : configuration)
+				space.registerPhysicsObject(
+						new PhysicsObject(object[0], object[1], object[2], object[3], object[4], object[5]));
+		else
+			for (float[] object : configuration)
+				space.registerPhysicsObject(
+						new PhysicsObject(object[0], object[1], object[2], object[3], object[4], object[5], object[6]));
 		space.simulationID = getID();
 		initialConfig = configuration;
 	}
