@@ -11,6 +11,7 @@ import com.github.infosimulators.IDRegistry.IDd;
 import com.github.infosimulators.physic.PhysicsObject;
 import com.github.infosimulators.physic.Space;
 import com.github.infosimulators.physic.Vector2;
+import com.github.infosimulators.polygons.Polygon;
 
 /**
  * Calculates data on given parameters.
@@ -55,19 +56,19 @@ public class Simulation extends IDd {
 	}
 
 	/**
-	 * Creates a (partly) random new object in space and adds it to the space.
+	 * Creates a new object in space and adds it to the space.
 	 *
 	 * @param position
-	 *            the initial position of this object
+	 *            The initial position of this object
 	 * @param velocity
-	 *            the initial velocity of this object
+	 *            The initial velocity of this object
 	 * @param mass
-	 *            the mass of this object
+	 *            The mass of this object
 	 * @param size
-	 *            the size of this object
+	 *            The collider of this object
 	 */
-	public void addObject(Vector2 position, Vector2 velocity, float mass, float size) {
-		PhysicsObject a = new PhysicsObject(position, velocity, mass, size);
+	public void addObject(Vector2 position, Vector2 velocity, float mass, Polygon collider) {
+		PhysicsObject a = new PhysicsObject(position, velocity, mass, collider);
 		space.registerPhysicsObject(a);
 	}
 

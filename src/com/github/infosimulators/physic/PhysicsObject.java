@@ -83,13 +83,15 @@ public class PhysicsObject extends IDd {
 	 *            The angle of the position in relation to the origin.
 	 * @param mass
 	 *            The mass of the object.
-	 * @param radius
-	 *            The radius of the object.
+	 * @param size
+	 *            The size of the object.
 	 * @param impulsVelocity
 	 *            A float representing the magnitude of the velocity of the
 	 *            object.
 	 * @param alpha
-	 *            The angle of the velocity
+	 *            The angle of the velocity.
+	 * @param shape
+	 *            A float representing the number of vertices the object will have.
 	 */
 	public PhysicsObject(float distance, float theta, float mass, float impulsVelocity, float alpha, float size,
 			float shape) {
