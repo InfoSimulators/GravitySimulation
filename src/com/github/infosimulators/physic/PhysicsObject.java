@@ -213,7 +213,7 @@ public class PhysicsObject extends IDd {
 	 * @param one
 	 *            The first object.
 	 * @param two
-	 *            The secound object.
+	 *            The second object.
 	 */
 	public static PhysicsObject unite(PhysicsObject one, PhysicsObject two) {
 		Polygon united = new Polygon();
