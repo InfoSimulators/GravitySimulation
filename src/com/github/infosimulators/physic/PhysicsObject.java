@@ -89,7 +89,7 @@ public class PhysicsObject extends IDd {
 	* @param position The position of the new object.
 	* @param velocity The velocity of the new object.
 	* @param mass The mass of the Object.
-	* @param radius The radius of the object.
+	* @param collider The collider of the object.
 	*/
 	public PhysicsObject(Vector2 position, Vector2 velocity, float mass, Polygon collider) {
 		super();

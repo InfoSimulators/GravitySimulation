@@ -18,6 +18,7 @@ import com.github.infosimulators.physic.Vector2;
 public class Simulation extends IDd {
 	protected Space space;
 	private float[][] initialConfig;
+	public boolean finished = false;
 
 	/**
 	 * Constructor.
@@ -101,12 +102,14 @@ public class Simulation extends IDd {
 	 * Called on each frame
 	 */
 	public void update() {
+		if (finished)
+			return;
 		space.tick();
-		if(space.getSpaceRegister().size() <= 1){
+		if (space.getSpaceRegister().size() <= 1) {
 			clearID();
+			finished = true;
 		}
 	}
-
 
 	/**
 	 * @return The content of the simulation as ArrayList of {@link PhysicsObject}s.
@@ -176,11 +179,11 @@ public class Simulation extends IDd {
 		}
 		return success;
 	}
-	
+
 	@Override
 	public void clearID() {
 		super.clearID();
 		space.clearIDs();
 	}
-	
+
 }
