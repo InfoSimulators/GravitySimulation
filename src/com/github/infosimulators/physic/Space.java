@@ -69,12 +69,11 @@ public class Space {
     */
     public void clearIDs() {
         for (PhysicsObject object : spaceRegister) {
-           object.clearID();
+            object.clearID();
         }
     }
 
     /**
-     * Gets the space register.
      * @return The space register as ArrayList of {@link PhysicsObject}s.
      */
     public ArrayList<PhysicsObject> getSpaceRegister() {
@@ -141,7 +140,8 @@ public class Space {
     * @return weather both objects will fuse.
     */
     protected boolean wouldUnite(PhysicsObject one, PhysicsObject two) {
-        return Vector2.sqrDistance(one.velocity, two.velocity) < gravitation(one, two).sqrMagnitude();
+        return Vector2.sqrDistance(one.velocity, two.velocity) < gravitation(one, two).sqrMagnitude()
+                || Vector2.sqrDistance(one.velocity, two.velocity) == 0f;
     }
 
     // Tickmethodes
@@ -150,26 +150,23 @@ public class Space {
     *  Called on every frame.
     */
     public void tick() {
+        handleCollisions();
         addGravitationForces();
         Iterator<PhysicsObject> registerIterator = spaceRegister.iterator();
         while (registerIterator.hasNext()) {
             PhysicsObject object = registerIterator.next();
+            object.playoutForces();
+            object.move();
             if (willLeave(object)) {
                 registerIterator.remove();
                 EventRegistry.fire(new Event(EventType.SIMU_PLANET_LEFT, Arrays.asList(EventCategory.SIMULATION),
                         new String[] { "" + simulationID, "" + nor, "" + object.getID() }));
                 continue;
             }
-            object.playoutForces();
-            object.move();
         }
-        handleCollisions();
-        if (spaceRegister.size() <= 1) {
+        if (spaceRegister.size() <= 1)
             EventRegistry.fire(new Event(EventType.SIMU_END, Arrays.asList(EventCategory.SIMULATION),
                     new String[] { "" + simulationID, "" + nor }));
-
-            clearIDs();
-        }
         nor++;
     }
 
@@ -179,7 +176,7 @@ public class Space {
     public void addGravitationForces() {
         for (PhysicsObject object : spaceRegister) {
             for (PhysicsObject other : spaceRegister) {
-                if (object == other)//If we calculated the force between one object and itself, the force would be infinite and the simulation would crash.
+                if (object == other || Vector2.sqrDistance(object.position, other.position) == 0)//If we calculated the force between one object and itself, the force would be infinite and the simulation would crash.
                     continue;
                 object.appendForce(gravitation(object, other));
             }
@@ -196,10 +193,11 @@ public class Space {
      *
      */
     protected void doElasticCollision(PhysicsObject one, PhysicsObject two) {
+        System.out.println("doElasticCollision");
         float v1 = one.velocity.magnitude();
-        Vector2 v1_vector = one.velocity;
+        Vector2 v1_vector = one.velocity.copy();
         float v2 = two.velocity.magnitude();
-        Vector2 v2_vector = two.velocity;
+        Vector2 v2_vector = two.velocity.copy();
         one.velocity = v2_vector
                 .setMag((one.getMass() * v1 + two.getMass() * (2 * v1 - v2)) / (one.getMass() + two.getMass()));
         two.velocity = v1_vector
@@ -215,24 +213,28 @@ public class Space {
      */
     public void handleCollisions() {
         ArrayList<PhysicsObject> united = new ArrayList<PhysicsObject>();
+        ArrayList<PhysicsObject> remove = new ArrayList<PhysicsObject>();
         ArrayList<PhysicsObject> collided = new ArrayList<PhysicsObject>();
         Iterator<PhysicsObject> registerIterator1 = spaceRegister.iterator();
-        Iterator<PhysicsObject> registerIterator2 = spaceRegister.iterator();
         while (registerIterator1.hasNext()) {
             PhysicsObject object = registerIterator1.next();
+            Iterator<PhysicsObject> registerIterator2 = spaceRegister.iterator();
             while (registerIterator2.hasNext()) {
                 PhysicsObject other = registerIterator2.next();
                 if (object == other)
                     continue;
+                if (remove.contains(object) && remove.contains(other))
+                    continue;
                 if (areColliding(object, other)) {
                     if (wouldUnite(object, other)) {
+                        System.out.println("UNITE");
                         EventRegistry.fire(new Event(EventType.SIMU_PLANET_UNITE,
                                 Arrays.asList(EventCategory.SIMULATION),
                                 new String[] { "" + simulationID, "" + nor, "" + object.getID(), "" + other.getID() }));
                         //Unite Objects and remove old
                         united.add(PhysicsObject.unite(object, other));
-                        registerIterator1.remove();
-                        registerIterator2.remove();
+                        remove.add(object);
+                        remove.add(other);
                     } else { /*Else do an elastic collision*/
                         if (collided.contains(object) && collided.contains(other))
                             continue;
@@ -248,6 +250,9 @@ public class Space {
         }
         for (PhysicsObject unity : united) {
             registerPhysicsObject(unity);
+        }
+        for (PhysicsObject rem : remove) {
+            unregisterPhysicsObject(rem);
         }
     }
 
