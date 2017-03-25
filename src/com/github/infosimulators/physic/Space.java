@@ -180,7 +180,11 @@ public class Space {
 		while (registerIterator.hasNext()) {
 			PhysicsObject object = registerIterator.next();
 			object.playoutForces();
+			EventRegistry.fire(new Event(EventType.SIMU_PLANET_MOVE, Arrays.asList(EventCategory.SIMULATION),
+					new String[] { "" + simulationID, "" + nor, "" + object.getID(),
+							"" + Vector2.scale(object.acceleration, 0.5f).add(object.velocity).magnitude() }));
 			object.move();
+
 			if (willLeave(object)) {
 				registerIterator.remove();
 				EventRegistry.fire(new Event(EventType.SIMU_PLANET_LEFT, Arrays.asList(EventCategory.SIMULATION),
