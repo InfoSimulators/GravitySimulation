@@ -18,7 +18,7 @@ import com.github.infosimulators.polygons.Polygon;
 public class Space {
 
 	/**
-	 * Stores the maximum distance from the origin Objects further appart are
+	 * Stores the maximum distance from the origin Objects further apart are
 	 * seen lost and will be removed from space register and deleted by GC.
 	 */
 	public float observedRange = 10e15f;
@@ -30,7 +30,7 @@ public class Space {
 	public Vector2 pointOfOrigin = Vector2.zero();
 
 	/**
-	 * Spaceregister that stores all objects that should be effected by gravity.
+	 * Register that stores all objects that should be effected by gravity.
 	 */
 	protected ArrayList<PhysicsObject> spaceRegister = new ArrayList<PhysicsObject>();
 

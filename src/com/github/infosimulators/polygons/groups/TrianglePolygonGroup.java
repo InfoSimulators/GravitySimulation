@@ -16,7 +16,7 @@ public class TrianglePolygonGroup extends PolygonGroup {
     */
     public TrianglePolygonGroup(int N) {
         super();
-        PolarVector2[] x = Polygon.getVerticiesOnCircle(N);
+        PolarVector2[] x = Polygon.getVerticesOnCircle(N);
         polygons = new ArrayList<Polygon>();
         for (int i = 0; i < x.length; i++)
             polygons.add(new Polygon(new PolarVector2[] { x[i], PolarVector2.zero(), x[(i + 1) % x.length] }));

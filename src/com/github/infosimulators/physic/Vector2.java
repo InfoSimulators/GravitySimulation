@@ -289,7 +289,7 @@ public class Vector2 {
 	 * Linear interpolate the vector to another vector.
 	 *
 	 * @param v
-	 *            the vector to lerp to
+	 *            the vector to interpolate to
 	 * @param amt
 	 *            The amount of interpolation; some value between 0.0 (old
 	 *            vector) and 1.0 (new vector). 0.1 is very near the old vector;
@@ -503,9 +503,9 @@ public class Vector2 {
 	 * @param v1
 	 *            The vector to start from.
 	 * @param v2
-	 *            The vector to lerp to.
+	 *            The vector to interpolate to.
 	 * @param amt
-	 *            The amount of lerping.
+	 *            The amount of interpolating.
 	 * @return The interpolated {@link Vector2}.
 	 */
 	public static Vector2 lerp(Vector2 v1, Vector2 v2, float amt) {

@@ -6,7 +6,7 @@ import com.github.infosimulators.polygons.Polygon;
 import com.github.infosimulators.polygons.Sphere;
 
 /**
- * Baseclass for all objects, manipulated by physics. It stores position,
+ * Superclass for all objects, manipulated by physics. It stores position,
  * forces, acceleration, velocity, mass and size. It is assumed to be a sphere
  * with the radius size with the mass located in the middle.
  */
@@ -218,11 +218,11 @@ public class PhysicsObject extends IDd {
 	public static PhysicsObject unite(PhysicsObject one, PhysicsObject two) {
 		Polygon united = new Polygon();
 		float angel = Vector2.subtract(one.getPosition(), two.getPosition()).angle();
-		for (PolarVector2 v : one.collider.getLocalVerticies()) {
+		for (PolarVector2 v : one.collider.getLocalVertices()) {
 			if (Math.abs(angel - v.theta) <= Math.PI)
 				united.addVertex(v);
 		}
-		for (PolarVector2 v : two.collider.getLocalVerticies()) {
+		for (PolarVector2 v : two.collider.getLocalVertices()) {
 			if (Math.abs(angel - v.theta) > Math.PI)
 				united.addVertex(v);
 		}
