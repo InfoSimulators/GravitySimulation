@@ -21,21 +21,43 @@ public class IDRegistry {
 	 * @return The next available ID
 	 */
 	private static long nextID() {
-		return current++;
+		return getNextID(true);
 	}
 
 	/**
 	 * @return The next ID that will be given out
 	 */
 	public static long getNextID() {
-		return current + 1;
+		return getNextID(false);
 	}
 
 	/**
-	 * @return The last ID that was given out to an object.
+	 * @param delete
+	 *            Whether or not to remove the ID from available ones.
+	 * @return The next ID to be given out.
 	 */
-	public static long getLastID() {
-		return current;
+	private static long getNextID(boolean delete) {
+		if (freed.size() > 0) {
+			// give out last ID from freed space, if available
+
+			long[] lastInterval = freed.get(freed.size() - 1);
+			if (lastInterval.length == 1) { // one-ID-interval
+				freed.remove(lastInterval);
+				return lastInterval[0];
+			}
+			if (lastInterval[0] + 1 == lastInterval[1]) { // two-ID-interval
+				freed.set(freed.size() - 1, new long[] { lastInterval[0] });
+				return lastInterval[1];
+			}
+			// three-or-more-ID-interval
+			freed.set(freed.size() - 1, new long[] { lastInterval[0], lastInterval[1] - 1 });
+			return lastInterval[1];
+		}
+
+		// else: give out ID by current counter
+		if (delete)
+			return current++;
+		return current + 1;
 	}
 
 	/**
@@ -47,10 +69,10 @@ public class IDRegistry {
 	 */
 	public static void clear(long id) {
 		if (freed.size() == 0) {
-			freed.add(new long[]{id});
+			freed.add(new long[] { id });
 			return;
 		}
-		
+
 		for (int i = 0; i < freed.size(); i++) {
 			long[] interval = freed.get(i);
 			long start = interval[0];

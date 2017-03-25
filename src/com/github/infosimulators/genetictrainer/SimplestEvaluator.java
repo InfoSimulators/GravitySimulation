@@ -42,7 +42,7 @@ public class SimplestEvaluator extends Evaluator {
 
 	public static void main(String[] args) {
 		int generations = 1000;
-		boolean doPrint = false;
+		boolean doPrint = true;
 		
 		GeneticTrainer trainer = new GeneticTrainer(5, 6, 1000);
 		Evaluator evaluator = new SimplestEvaluator();
@@ -51,7 +51,7 @@ public class SimplestEvaluator extends Evaluator {
 
 		for (int i = 0; i < generations; i++) {
 			if (doPrint)
-				System.out.println("----------");
+				System.out.println((i + 1) + ": ----------");
 			trainer.startSimulations();
 
 			boolean stepsDone = false;
