@@ -486,18 +486,6 @@ public class Vector2 {
 	}
 
 	/**
-	 * @param v1
-	 *            Any variable of type {@link Vector2}.
-	 * @param v2
-	 *            Any variable of type {@link Vector2}.
-	 * @return null
-	 * @deprecated
-	 */
-	public static Vector2 cross(Vector2 v1, Vector2 v2) {
-		return null;
-	}
-
-	/**
 	 * Linear interpolate between two {@link Vector2}.
 	 *
 	 * @param v1
@@ -552,5 +540,17 @@ public class Vector2 {
 	 */
 	static public Vector2 reflect(Vector2 inDirection, Vector2 inNormal) {
 		return Vector2.add(Vector2.scale(inNormal, -2f * Vector2.dot(inDirection, inNormal)), inDirection);
+	}
+
+	/**
+	* @param a
+	*            The vector to project onto.
+	* @param b
+	*            The vector to project.
+	*
+	* @return {@link Vector2} B projected onto a.
+	*/
+	static public float project(Vector2 a, Vector2 b) {
+		return (Vector2.dot(a, b) / a.magnitude());
 	}
 }

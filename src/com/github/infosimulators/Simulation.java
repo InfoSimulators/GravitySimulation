@@ -16,26 +16,13 @@ import com.github.infosimulators.physic.Vector2;
  * Calculates data on given parameters.
  */
 public class Simulation extends IDd {
-	
+
 	protected Space space;
 	private float[][] initialConfig;
 	public boolean finished = false;
 
 	/**
-	 * Constructor. Startes a simulation with a {@link Space} of the size size;
-	 *
-	 * @param size
-	 *            The size of the {@link Space} containing the simulation.
-	 */
-	public Simulation(float size) {
-		super();
-		space = new Space();
-		space.observedRange = size;
-		space.simulationID = getID();
-	}
-
-	/**
-	 * Constructor. Startes a simulation with a space filled with spaceobjects
+	 * Constructor. Starts a simulation with a space filled with objects.
 	 * defined by the parameter configuration.
 	 *
 	 * @param configuration
@@ -59,28 +46,6 @@ public class Simulation extends IDd {
 					new PhysicsObject(object[0], object[1], object[2], object[3], object[4], object[5]));
 		}
 		space.simulationID = getID();
-		initialConfig = configuration;
-	}
-
-	/**
-	 * Constructor. Startes a simulation with a space filled with spaceobjects
-	 * defined by the parameter configuration.
-	 *
-	 * @param configuration
-	 *            See {@link Simulation#Simulation(float[][])}.
-	 * @param size
-	 *            The viewable size of this simulation.
-	 */
-	public Simulation(float[][] configuration, float size) {
-		super();
-		space = new Space();
-		space.simulationID = getID();
-		for (float[] object : configuration) {
-			space.registerPhysicsObject(
-					new PhysicsObject(object[0], object[1], object[2], object[3], object[4], object[5]));
-		}
-		space.simulationID = getID();
-		space.observedRange = size;
 		initialConfig = configuration;
 	}
 
@@ -123,7 +88,7 @@ public class Simulation extends IDd {
 	}
 
 	/**
-	 * @return The inital configuration.
+	 * @return The initial configuration.
 	 */
 	public float[][] getInitialConfig() {
 		return initialConfig;
@@ -131,9 +96,9 @@ public class Simulation extends IDd {
 
 	/**
 	 * Loads a simulation from a file.
-	 * 
+	 *
 	 * @param name
-	 *            The name of the Siumaltion to load.
+	 *            The name of the Simulation to load.
 	 * @return The loaded simulation.
 	 */
 	public Simulation loadSimulation(String name) {
@@ -162,11 +127,11 @@ public class Simulation extends IDd {
 
 	/**
 	 * Writes a simulation into a file, which can be read with {@link load}().
-	 * 
+	 *
 	 * @param name
 	 *            THe name to store the simulation in.
 	 * @param simulation
-	 *            The siumlation to store.
+	 *            The simulation to store.
 	 * @return Whether the storing was a success.
 	 */
 	public boolean writeSimulation(String name, Simulation simulation) {

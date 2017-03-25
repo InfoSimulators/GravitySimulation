@@ -21,7 +21,7 @@ public class Space {
 	 * Stores the maximum distance from the origin Objects further apart are
 	 * seen lost and will be removed from space register and deleted by GC.
 	 */
-	public float observedRange = 10e15f;
+	public float observedRange = Float.POSITIVE_INFINITY;
 
 	/**
 	 * Stores the position of the center point. The outside is calculated on the
@@ -116,9 +116,8 @@ public class Space {
 	public boolean willLeave(PhysicsObject object) {
 		if (!isPositionObservable(object.position))
 			return true;
-		return false;
-		// return Vector2.dot(object.velocity, Vector2.subtract(object.position,
-		// pointOfOrigin)) > getEscapeVelocity(object, this);
+		return (Vector2.project(object.velocity,
+				Vector2.subtract(object.position, pointOfOrigin)) > getEscapeVelocity(object, this));
 	}
 
 	/**
@@ -324,7 +323,7 @@ public class Space {
 	 */
 	public static float getEscapeVelocity(PhysicsObject a, Space s) {
 		return (float) Math
-				.sqrt((2f * Constants.G * s.summedMass()) / Vector2.sqrDistance(a.getPosition(), s.pointOfOrigin));
+				.sqrt(2f * Constants.G * s.summedMass() / Vector2.distance(a.getPosition(), s.pointOfOrigin));
 	}
 
 }
