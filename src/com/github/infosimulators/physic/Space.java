@@ -102,6 +102,13 @@ public class Space {
 		return sum;
 	}
 
+	/**
+	* @return How often tick has been called.
+	*/
+	public int getNumberOfRuns() {
+		return nor;
+	}
+
 	/*
 	 * Checks
 	 */
@@ -192,9 +199,6 @@ public class Space {
 				continue;
 			}
 		}
-		if (spaceRegister.size() <= 1)
-			EventRegistry.fire(new Event(EventType.SIMU_END, Arrays.asList(EventCategory.SIMULATION),
-					new String[] { "" + simulationID, "" + nor }));
 		nor++;
 	}
 

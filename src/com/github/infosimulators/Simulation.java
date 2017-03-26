@@ -8,6 +8,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import com.github.infosimulators.IDRegistry.IDd;
+import com.github.infosimulators.events.Event;
+import com.github.infosimulators.events.EventCategory;
+import com.github.infosimulators.events.EventRegistry;
+import com.github.infosimulators.events.EventType;
 import com.github.infosimulators.physic.PhysicsObject;
 import com.github.infosimulators.physic.Space;
 import com.github.infosimulators.physic.Vector2;
@@ -80,6 +84,8 @@ public class Simulation extends IDd {
 			return;
 		space.tick();
 		if (space.getSpaceRegister().size() <= 1) {
+			EventRegistry.fire(new Event(EventType.SIMU_END, Arrays.asList(EventCategory.SIMULATION),
+					new String[] { "" + getID(), "" + space.getNumberOfRuns() }));
 			clearID();
 			finished = true;
 		}
