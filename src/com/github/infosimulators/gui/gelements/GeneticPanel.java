@@ -24,21 +24,22 @@ public class GeneticPanel extends GElement{
 		trainer.startSimulations();
 		
 		generation = 1;
-		MAX_TICKS = 600;
+		MAX_TICKS = 60;
 		ticks = 0;
 	}
 
 	@Override
 	public void update(PApplet p) {
+		SimulationPanel.displaySimulation(p, trainer.getSimulations().get(0), x, y, xSize, ySize);
 		trainer.step();
 		if(!trainer.isRunningSimulations() || ticks > MAX_TICKS){
 			float[] results = evaluator.eval(trainer.getEvalEvents());
-			System.out.println(results);
 			try {
 				trainer.generateNextGeneration(results, evaluator.isCostFunction());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+			trainer.startSimulations();
 			generation++;
 			ticks = 0;
 		}

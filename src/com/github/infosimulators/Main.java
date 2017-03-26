@@ -230,7 +230,7 @@ public class Main {
 		
 		autoModeSetupState.addElement(new NumberField("GenomeNumberField", 5, 230, 238, 100, 35));
 		
-		EventRegistry.fire(new Event(EventType.GUI_NUMBERFIELD_VALUE_SET, new String[]{"GenomeNumberField", "5000"}));
+		EventRegistry.fire(new Event(EventType.GUI_NUMBERFIELD_VALUE_SET, new String[]{"GenomeNumberField", "1000"}));
 		
 		autoModeSetupState.addElement(new RectButton("DoneSetupButton", "Done!", 400, 500, 180, 40));
 		
@@ -239,13 +239,15 @@ public class Main {
 			@Override
 			public void run() {
 				int planets = 10;
-				int genomes = 5000;
+				int genomes = 1000;
 				
 				for(Event event : EventRegistry.getEventsOfType(EventType.GUI_NUMBERFIELD_VALUE_CHANGE)){
 					if(event.getArgs()[0] == "PlanetNumberField"){
 						planets = Integer.parseInt(event.getArgs()[1]);
+						event.setHandled();
 					}else if(event.getArgs()[0] == "GenomeNumberField"){
-						planets = Integer.parseInt(event.getArgs()[1]);
+						genomes = Integer.parseInt(event.getArgs()[1]);
+						event.setHandled();
 					}
 				}
 				
