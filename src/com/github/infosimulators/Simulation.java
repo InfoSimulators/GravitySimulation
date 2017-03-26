@@ -79,6 +79,7 @@ public class Simulation extends IDd {
 		if (finished)
 			return;
 		space.tick();
+
 		if (space.getSpaceRegister().size() <= 1) {
 			clearID();
 			finished = true;

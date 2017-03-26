@@ -5,9 +5,17 @@ import java.util.Random;
 import com.github.infosimulators.events.Event;
 import com.github.infosimulators.events.EventRegistry;
 import com.github.infosimulators.events.EventType;
+
+import com.github.infosimulators.genetictrainer.Evaluator;
+import com.github.infosimulators.genetictrainer.GeneticTrainer;
+import com.github.infosimulators.gui.*;
+import com.github.infosimulators.gui.gelements.GeneticPanel;
+import com.github.infosimulators.gui.gelements.NumberField;
+
 import com.github.infosimulators.gui.GUI;
 import com.github.infosimulators.gui.Listener;
 import com.github.infosimulators.gui.State;
+
 import com.github.infosimulators.gui.gelements.RectButton;
 import com.github.infosimulators.gui.gelements.SimulationPanel;
 import com.github.infosimulators.gui.gelements.SimulationSetupPanel;
@@ -137,7 +145,7 @@ public class Main {
 
 			@Override
 			public void run() {
-				autoMode();
+				autoModeSetup();
 			}
 
 		}));
@@ -206,10 +214,59 @@ public class Main {
 		gui.setState(randomModeState);
 	}
 
-	private static void autoMode() {
-		State autoModeState = new State(0, 120, 255);
+	private static void autoModeSetup() {
+		State autoModeSetupState = new State(0, 120, 255);
 
-		gui.setState(autoModeState);
+		String s = "This is the Training Mode! A genetic Algorithm will develop interesting and fun to watch starting situation, but first of all you can specify what kind of situation you want to be developed.";
+		autoModeSetupState.addElement(new Text("AutoModeInfo", s, 18, PApplet.CENTER, 0, 70, gui.width, 100));
+		
+		autoModeSetupState.addElement(new Text("PlanetNumberText", "Number of planets:", 16, PApplet.LEFT, 20, 200, 150, 20));
+		
+		autoModeSetupState.addElement(new NumberField("PlanetNumberField", 3, 230, 188, 100, 35));
+		
+		EventRegistry.fire(new Event(EventType.GUI_NUMBERFIELD_VALUE_SET, new String[]{"PlanetNumberField", "10"}));
+		
+		autoModeSetupState.addElement(new Text("GenomeNumberText", "Number of genomes:", 16, PApplet.LEFT, 20, 250, 150, 20));
+		
+		autoModeSetupState.addElement(new NumberField("GenomeNumberField", 5, 230, 238, 100, 35));
+		
+		EventRegistry.fire(new Event(EventType.GUI_NUMBERFIELD_VALUE_SET, new String[]{"GenomeNumberField", "5000"}));
+		
+		autoModeSetupState.addElement(new RectButton("DoneSetupButton", "Done!", 400, 500, 180, 40));
+		
+		autoModeSetupState.addListener(new Listener("DoneSetupButton", new Runnable(){
+
+			@Override
+			public void run() {
+				int planets = 10;
+				int genomes = 5000;
+				
+				for(Event event : EventRegistry.getEventsOfType(EventType.GUI_NUMBERFIELD_VALUE_CHANGE)){
+					if(event.getArgs()[0] == "PlanetNumberField"){
+						planets = Integer.parseInt(event.getArgs()[1]);
+					}else if(event.getArgs()[0] == "GenomeNumberField"){
+						planets = Integer.parseInt(event.getArgs()[1]);
+					}
+				}
+				
+				Main.getGUI().setState(new State());
+				Main.getGUI().getState().addElement(new GeneticPanel("GeneticPanel", planets, genomes, 0, 0, gui.width, gui.height));
+			}
+			
+		}));
+
+		autoModeSetupState.addElement(new RectButton("MainMenuButton", "Back", gui.width - 90, 10, 80, 40));
+
+		autoModeSetupState.addListener(new Listener("MainMenuButton", new Runnable() {
+
+			@Override
+			public void run() {
+				mainMenu();
+			}
+
+		}));
+
+		gui.setState(autoModeSetupState);
 	}
 
 	/**
