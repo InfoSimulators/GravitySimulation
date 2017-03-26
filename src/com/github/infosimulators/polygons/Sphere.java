@@ -6,7 +6,7 @@ import com.github.infosimulators.polygons.Polygon;
 public class Sphere extends Polygon {
 
 	public final static int NUMBER_OF_POLYGONS_IN_SPHERE = 50;
-	public float radius;
+	public float radius = 1;
 
 	/**
 	 * Constructor.
@@ -23,6 +23,18 @@ public class Sphere extends Polygon {
 	 */
 	public Sphere(Vector2 offset) {
 		super(NUMBER_OF_POLYGONS_IN_SPHERE, offset);
+
+	}
+
+	/**
+	* Constructor.
+	*
+	* @param scale
+	*            The size of the object.
+	*/
+	public Sphere(float scale) {
+		super(NUMBER_OF_POLYGONS_IN_SPHERE);
+		scale(scale);
 
 	}
 
