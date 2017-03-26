@@ -96,10 +96,10 @@ public class PhysicsObject extends IDd {
 	public PhysicsObject(float distance, float theta, float mass, float impulsVelocity, float alpha, float size,
 			float shape) {
 		super();
-		this.position = new PolarVector2(theta, distance).toCartesian();
 		this.velocity = new PolarVector2(alpha, impulsVelocity).toCartesian();
-		this.collider = new Polygon((int) shape, position);
+		this.collider = ((int) shape > 0) ? new Polygon((int) shape) : new Sphere();
 		this.collider.scale(size);
+		setPosition(new PolarVector2(theta, distance).toCartesian());
 		setMass(mass);
 	}
 
@@ -118,8 +118,9 @@ public class PhysicsObject extends IDd {
 	public PhysicsObject(Vector2 position, Vector2 velocity, float mass, float radius) {
 		super();
 		this.position = position;
-		this.collider = new Sphere(position, radius);
+		this.collider = new Sphere(radius);
 		setMass(mass);
+		setPosition(position);
 		this.velocity = velocity;
 	}
 
