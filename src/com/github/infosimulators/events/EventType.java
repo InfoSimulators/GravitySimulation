@@ -8,17 +8,17 @@ public enum EventType {
 	 * args = [int generationNum]
 	 */
 	TRAINER_SIMU_START,
-	
+
 	/**
 	 * GeneticTrainer-Event: Fires when one simulation finishes.
-	 * 
+	 *
 	 * args = [int simulationID]
 	 */
 	TRAINER_SIMU_END,
-	
+
 	/**
 	 * GeneticTrainer-Event: Fires when all simulations finished.
-	 * 
+	 *
 	 * args = []
 	 */
 	TRAINER_SIMUS_END,
@@ -147,16 +147,22 @@ public enum EventType {
 	SIMU_PLANET_LEFT,
 
 	/**
-	 * Simulation-Event: Fired when two planets would unite into one
+	 * Simulation-Event: Fired when two planets would unite into one.
 	 *
 	 * args = [int simulationID, int runNumber, int planetID1, int planetID2]
 	 */
 	SIMU_PLANET_UNITE,
 	/**
-	 * Simulation-Event: Fired when two planets would unite into one
+	 * Simulation-Event: Fired when a planet moved.
 	 *
-	 * args = [int simulationID, int runNumber, int planetID1, int planetID2]
+	 * args = [int simulationID, int planetID, float lengthOfMovement]
 	 */
+	SIMU_PLANET_MOVE,
+	/**
+	* Simulation-Event: Fired when two planets collide.
+	*
+	* args = [int simulationID, int runNumber, int planetID1, int planetID2]
+	*/
 	SIMU_PLANET_COLLISION,
 
 	/**

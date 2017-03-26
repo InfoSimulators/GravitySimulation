@@ -23,13 +23,13 @@ public class SimulationPanel extends GElement {
 		p.noFill();
 		p.stroke(color3);
 		p.rect(x, y, xSize, ySize);
-		
+
 		if (ticks > 10) {
 			simulation.update();
 			ticks -= 10;
 		}
 		ticks++;
-		
+
 		float necessaryDistance = xSize/2;
 		for (PhysicsObject object : simulation.getContent()) {
 			if(Math.abs(object.getPosition().x) > necessaryDistance){
@@ -39,10 +39,10 @@ public class SimulationPanel extends GElement {
 				necessaryDistance = Math.abs(object.getPosition().y);
 			}
 		}
-		
+
 		for (PhysicsObject object : simulation.getContent()) {
 			p.beginShape();
-			for (Vector2 vec : object.collider.getVerticies()) {
+			for (Vector2 vec : object.collider.getVertices()) {
 				p.vertex(PApplet.map(vec.x, -necessaryDistance, necessaryDistance, x, xSize), PApplet.map(vec.y, -necessaryDistance, necessaryDistance, y, ySize));
 			}
 			p.endShape();

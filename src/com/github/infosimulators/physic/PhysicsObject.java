@@ -1,30 +1,50 @@
 package com.github.infosimulators.physic;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+
 import com.github.infosimulators.IDRegistry.IDd;
+import com.github.infosimulators.events.Event;
+import com.github.infosimulators.events.EventCategory;
+import com.github.infosimulators.events.EventRegistry;
+import com.github.infosimulators.events.EventType;
 import com.github.infosimulators.polygons.Polygon;
 import com.github.infosimulators.polygons.Sphere;
 
 /**
- * Baseclass for all objects, manipulated by physics.
- * It stores position, forces,acceleration, velocity, mass and size
- * It is assumed to be a sphere with the radius size with the mass located in the middle
+ * Superclass for all objects, manipulated by physics. It stores position,
+ * forces, acceleration, velocity, mass and size. It is assumed to be a sphere
+ * with the radius size with the mass located in the middle.
  */
 public class PhysicsObject extends IDd {
 
-	/** The position of the object in a Cartesian coordinate system represented as a {@link Vector2} */
+	/**
+	 * The position of the object in a Cartesian coordinate system represented
+	 * as a {@link Vector2}
+	 */
 	protected Vector2 position;
 
-	/** The velocity of the object in a Cartesian coordinate system represented as a {@link Vector2} */
+	/**
+	 * The velocity of the object in a Cartesian coordinate system represented
+	 * as a {@link Vector2}
+	 */
 	public Vector2 velocity;
 
-	/** The acceleration of the object in a Cartesian coordinate system represented as a {@link Vector2} */
+	/**
+	 * The acceleration of the object in a Cartesian coordinate system
+	 * represented as a {@link Vector2}
+	 */
 	public Vector2 acceleration = Vector2.zero();
 
-	/** A list storing all forces applied to the object since the last call of {@link #playoutForces()} as {@link Vector2} */
+	/**
+	 * A list storing all forces applied to the object since the last call of
+	 * {@link #playoutForces()} as {@link Vector2}
+	 */
 	protected ArrayList<Vector2> forces = new ArrayList<Vector2>();
 
-	/** stores the mass of the object as float in kilogramm */
+	/**
+	 * stores the mass of the object as float in kilograms
+	 */
 	protected float mass;
 
 	public Polygon collider = new Sphere();
@@ -32,12 +52,19 @@ public class PhysicsObject extends IDd {
 	/**
 	 * Constructor.
 	 *
-	 * @param distance The distance the new object should have from the origin.
-	 * @param theta The angle of the position in relation to the origin.
-	 * @param mass The mass of the Object.
-	 * @param radius The radius of the object.
-	 * @param impulsVelocity A float representing the magnitude of the velocity of the object.
-	 * @param alpha The angle of the velocity
+	 * @param distance
+	 *            The distance the new object should have from the origin.
+	 * @param theta
+	 *            The angle of the position in relation to the origin.
+	 * @param mass
+	 *            The mass of the object.
+	 * @param radius
+	 *            The radius of the object.
+	 * @param impulsVelocity
+	 *            A float representing the magnitude of the velocity of the
+	 *            object.
+	 * @param alpha
+	 *            The angle of the velocity
 	 */
 	public PhysicsObject(float distance, float theta, float mass, float impulsVelocity, float alpha, float size) {
 		super();
@@ -48,49 +75,67 @@ public class PhysicsObject extends IDd {
 	}
 
 	/**
-	* Constructor.
-	*
-	* @param distance The distance the new object should have from the origin.
-	* @param theta The angle of the position in relation to the origin.
-	* @param mass The mass of the Object.
-	* @param radius The radius of the object.
-	* @param impulsVelocity A float representing the magnitude of the velocity of the object.
-	* @param alpha The angle of the velocity
-	*/
+	 * Constructor.
+	 *
+	 * @param distance
+	 *            The distance the new object should have from the origin.
+	 * @param theta
+	 *            The angle of the position in relation to the origin.
+	 * @param mass
+	 *            The mass of the object.
+	 * @param size
+	 *            The size of the object.
+	 * @param impulsVelocity
+	 *            A float representing the magnitude of the velocity of the
+	 *            object.
+	 * @param alpha
+	 *            The angle of the velocity.
+	 * @param shape
+	 *            A float representing the number of vertices the object will have.
+	 */
 	public PhysicsObject(float distance, float theta, float mass, float impulsVelocity, float alpha, float size,
 			float shape) {
 		super();
-		this.position = new PolarVector2(theta, distance).toCartesian();
 		this.velocity = new PolarVector2(alpha, impulsVelocity).toCartesian();
-		this.collider = new Polygon((int) shape, position);
+		this.collider = ((int) shape > 0) ? new Polygon((int) shape) : new Sphere();
 		this.collider.scale(size);
+		setPosition(new PolarVector2(theta, distance).toCartesian());
 		setMass(mass);
 	}
 
 	/**
-	* Constructor.
-	*
-	* @param position The position of the new object.
-	* @param velocity The velocity of the new object.
-	* @param mass The mass of the Object.
-	* @param radius The radius of the object.
-	*/
+	 * Constructor.
+	 *
+	 * @param position
+	 *            The position of the new object.
+	 * @param velocity
+	 *            The velocity of the new object.
+	 * @param mass
+	 *            The mass of the object.
+	 * @param radius
+	 *            The radius of the object.
+	 */
 	public PhysicsObject(Vector2 position, Vector2 velocity, float mass, float radius) {
 		super();
 		this.position = position;
-		this.collider = new Sphere(position, radius);
+		this.collider = new Sphere(radius);
 		setMass(mass);
+		setPosition(position);
 		this.velocity = velocity;
 	}
 
 	/**
-	* Constructor.
-	*
-	* @param position The position of the new object.
-	* @param velocity The velocity of the new object.
-	* @param mass The mass of the Object.
-	* @param radius The radius of the object.
-	*/
+	 * Constructor.
+	 *
+	 * @param position
+	 *            The position of the new object.
+	 * @param velocity
+	 *            The velocity of the new object.
+	 * @param mass
+	 *            The mass of the object.
+	 * @param collider
+	 *            The collider of the object.
+	 */
 	public PhysicsObject(Vector2 position, Vector2 velocity, float mass, Polygon collider) {
 		super();
 		this.collider = collider;
@@ -100,39 +145,40 @@ public class PhysicsObject extends IDd {
 	}
 
 	/**
-	 * @return {@link PhysicsObject.mass}.
+	 * @return {@link PhysicsObject.mass}
 	 */
 	public Vector2 getPosition() {
 		return position;
 	}
 
 	/**
-	* Sets {@link PhysicsObject.position}.
-	*/
+	 * Sets {@link PhysicsObject.position}
+	 */
 	public void setPosition(Vector2 position) {
 		this.position = position;
 		this.collider.setOffset(position);
 	}
 
 	/**
-	* @return {@link PhysicsObject.mass}.
-	*/
+	 * @return {@link PhysicsObject.mass}
+	 */
 	public float getMass() {
 		return mass;
 	}
 
 	/**
-	* Sets {@link PhysicsObject.mass}.
-	*/
+	 * Sets {@link PhysicsObject.mass}
+	 */
 	public void setMass(float mass) {
 		this.mass = mass;
 		this.collider.setMass(mass);
 	}
 
 	/**
-	 * Adds a force to the protected list of forces {@link #forces}.
+	 * Adds a force to the protected list of {@link #forces}.
 	 *
-	 * @param force The force to add to the list.
+	 * @param force
+	 *            The force to add to the list.
 	 */
 	public void appendForce(Vector2 force) {
 		forces.add(force);
@@ -141,15 +187,15 @@ public class PhysicsObject extends IDd {
 	/**
 	 * Clears the list of forces.
 	 *
-	 * Use this methode to remove all current forces from an object.
+	 * Use this method to remove all current forces from an object.
 	 */
 	public void resetForces() {
 		forces.clear();
 	}
 
 	/**
-	 * Updates {@link #acceleration} with the current forces.
-	 * It also resets the {@link #forces}-list and therefore calling it in a row will result in nothing.
+	 * Updates {@link #acceleration} with the current forces and clears
+	 * {@link #forces}.
 	 */
 	public void playoutForces() {
 		Vector2 sum = new Vector2();
@@ -161,8 +207,8 @@ public class PhysicsObject extends IDd {
 	}
 
 	/**
-	 * Updates the position based on the velocity and acceleration.
-	 * And updates the velocity based on the acceleration.
+	 * Updates the position based on the velocity and acceleration. Updates the
+	 * velocity based on the acceleration.
 	 */
 	public void move() {
 		position.add(Vector2.scale(acceleration, 0.5f).add(velocity));
@@ -173,17 +219,19 @@ public class PhysicsObject extends IDd {
 	/**
 	 * Unites two PhysicsObjects into one.
 	 *
-	 * @param one The first object.
-	 * @param two The secound object.
+	 * @param one
+	 *            The first object.
+	 * @param two
+	 *            The second object.
 	 */
 	public static PhysicsObject unite(PhysicsObject one, PhysicsObject two) {
 		Polygon united = new Polygon();
 		float angel = Vector2.subtract(one.getPosition(), two.getPosition()).angle();
-		for (PolarVector2 v : one.collider.getLocalVerticies()) {
+		for (PolarVector2 v : one.collider.getLocalVertices()) {
 			if (Math.abs(angel - v.theta) <= Math.PI)
 				united.addVertex(v);
 		}
-		for (PolarVector2 v : two.collider.getLocalVerticies()) {
+		for (PolarVector2 v : two.collider.getLocalVertices()) {
 			if (Math.abs(angel - v.theta) > Math.PI)
 				united.addVertex(v);
 		}
