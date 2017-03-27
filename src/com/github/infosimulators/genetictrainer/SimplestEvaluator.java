@@ -39,6 +39,11 @@ public class SimplestEvaluator extends Evaluator {
 	public boolean isCostFunction() {
 		return true;
 	}
+	
+	@Override
+	public float maxValue() {
+		return 50;
+	}
 
 	public static void main(String[] args) {
 		int generations = 1000;

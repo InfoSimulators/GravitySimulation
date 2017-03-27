@@ -16,6 +16,10 @@ public class GeneticTrainer {
 	private int paramsPerPlanet;
 	private int genomesPerGeneration;
 
+	private ArrayList<float[]> learningHistory;
+	private float learningGraphHeight;
+	private String[] learningCurveNames;
+
 	private boolean isRunningSimulations;
 	private int generationCounter;
 
@@ -45,6 +49,10 @@ public class GeneticTrainer {
 
 		generationCounter = 0;
 		isRunningSimulations = false;
+
+		learningHistory = new ArrayList<float[]>();
+		learningGraphHeight = 100;
+		learningCurveNames = new String[] { "Top", "Avg", "Low" };
 	}
 
 	/**
@@ -73,6 +81,62 @@ public class GeneticTrainer {
 			genome[i] = random.nextFloat() * Float.MAX_VALUE;
 
 		return genome;
+	}
+
+	/**
+	 * The maximum height the learning graph can reach.
+	 */
+	public float getLearningGraphHeight() {
+		return learningGraphHeight;
+	}
+
+	/**
+	 * Sets the maximum value a learning graph can have. Default is 100. Does
+	 * not have to be changed.
+	 * 
+	 * @param max
+	 *            The maximum value to reach in learning process.
+	 */
+	public void configureLearningGraphHeight(float max) {
+		learningGraphHeight = max;
+	}
+
+	/**
+	 * Adds points to learning graphs at the end.
+	 * 
+	 * @param points
+	 *            The y values of the points. x is auto-set to the next int
+	 *            value after the last points on the graphs.
+	 */
+	public void addLearningGraphPoints(float[] points, float maxValue, boolean byCostFunction) {
+		for (int i = 0; i < points.length; i++)
+			points[i] = ((byCostFunction ? (maxValue - points[i]) : points[i]) / maxValue) * getLearningGraphHeight();
+		learningHistory.add(points);
+	}
+
+	/**
+	 * @return The values for all learning curves to display.
+	 */
+	public ArrayList<float[]> getLearningGraphs() {
+		return learningHistory;
+	}
+
+	/**
+	 * @return Names for the learning curves that can be displayed.
+	 */
+	public String[] getLearningCurveNames() {
+		return learningCurveNames;
+	}
+
+	/**
+	 * Sets names for the learning curves that can help evaluating the learning
+	 * process manually.
+	 * 
+	 * @param names
+	 *            The names for the different graphs.
+	 */
+	public void setLearningCurveNames(String[] names) {
+		learningCurveNames = names;
 	}
 
 	/**
