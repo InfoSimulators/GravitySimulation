@@ -92,6 +92,15 @@ public enum EventType {
 	 * args = [String sliderID, float value]
 	 */
 	GUI_SLIDER_VALUE_CHANGE,
+	
+	/**
+	 * GUI-Event
+	 *
+	 * Determines the value of a checkbox.
+	 *
+	 * args = [String sliderID, boolean value]
+	 */
+	GUI_CHECKBOX_VALUE_CHANGE,
 
 	/**
 	 * GUI-Event
@@ -119,6 +128,15 @@ public enum EventType {
 	 * args = [String SimulationPanelID]
 	 */
 	GUI_SIMULATION_SETDOTS,
+	
+	/**
+	 * GUI-Event
+	 *
+	 * Calls for display/non-display of simulation while auto simulating.
+	 *
+	 * args = [String GeneticPanelID]
+	 */
+	GUI_AUTO_SHOWSIMULATION,
 
 	/**
 	 * GUI-Event
