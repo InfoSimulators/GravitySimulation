@@ -108,6 +108,13 @@ public class Simulation extends IDd {
 	}
 
 	/**
+	 * Sets the time between updates. Equals space.setDeltaTime()
+	 * @param The new time between updates.
+	 */
+	public void setDeltaTime(float deltaTime){
+		space.setDeltaTime(deltaTime);
+	}
+	/**
 	 * Loads a simulation from a file.
 	 *
 	 * @param name
