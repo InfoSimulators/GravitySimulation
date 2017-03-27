@@ -45,24 +45,27 @@ public class SimulationPanel extends GElement {
 		float yMax = 0;
 		
 		for (PhysicsObject object : simulation.getContent()) {
-			if(object.getPosition().x < xMin){
-				xMin = object.getPosition().x - 10;
-			}else if(object.getPosition().x > xMax){
-				xMax = object.getPosition().x + 10;
+			if(object.getPosition().x < xMin || xMin == 0){
+				xMin = object.getPosition().x ;
+			}else if(object.getPosition().x > xMax || xMax == 0){
+				xMax = object.getPosition().x ;
 			}
-			if(object.getPosition().y < yMin){
-				xMin = object.getPosition().y - 10;
-			}else if(object.getPosition().y > yMax){
-				xMax = object.getPosition().y + 10;
+			if(object.getPosition().y < yMin || yMin == 0){
+				xMin = object.getPosition().y;
+			}else if(object.getPosition().y > yMax || yMax == 0){
+				xMax = object.getPosition().y;
 			}
 		}
 
+		p.stroke(120);
+		p.fill(255);
 		for (PhysicsObject object : simulation.getContent()) {
 			p.beginShape();
 			for (Vector2 vec : object.getVertices()) {
 				//p.vertex(PApplet.map(vec.x, -necessaryDistance - 10, necessaryDistance + 10, x, xSize), PApplet.map(vec.y, -necessaryDistance - 10, necessaryDistance + 10, y, ySize));
-				p.vertex(PApplet.norm(vec.x, xMin, xMax)*xSize + x, PApplet.norm(vec.y, yMin, yMax)*ySize + y);
-				// System.out.println(PApplet.norm(vec.x, xMin, xMax));
+				p.vertex(PApplet.norm(vec.x, xMin - 50, xMax + 50)*xSize + x, PApplet.norm(vec.y, yMin - 50, yMax + 50)*ySize + y);
+				if(vec.x > xMax + 100){
+				}
 			}
 			p.endShape();
 		}
