@@ -83,6 +83,7 @@ public class Simulation extends IDd {
 		if (finished)
 			return;
 		space.tick();
+
 		if (space.getSpaceRegister().size() <= 1) {
 			EventRegistry.fire(new Event(EventType.SIMU_END, Arrays.asList(EventCategory.SIMULATION),
 					new String[] { "" + getID(), "" + space.getNumberOfRuns() }));

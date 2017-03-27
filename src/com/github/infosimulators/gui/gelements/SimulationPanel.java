@@ -30,23 +30,42 @@ public class SimulationPanel extends GElement {
 		}
 		ticks++;
 
-		float necessaryDistance = xSize/2;
+		displaySimulation(p, this.simulation, x, y, xSize, ySize);
+	}
+
+	public void setSimulation(Simulation simulation){
+		this.simulation = simulation;
+	}
+	
+	public static void displaySimulation(PApplet p, Simulation simulation, float x, float y, float xSize, float ySize){
+		
+		float xMin = 0;
+		float xMax = 0;
+		float yMin = 0;
+		float yMax = 0;
+		
 		for (PhysicsObject object : simulation.getContent()) {
-			if(Math.abs(object.getPosition().x) > necessaryDistance){
-				necessaryDistance = Math.abs(object.getPosition().x);
+			if(object.getPosition().x < xMin){
+				xMin = object.getPosition().x - 10;
+			}else if(object.getPosition().x > xMax){
+				xMax = object.getPosition().x + 10;
 			}
-			if(Math.abs(object.getPosition().y) > necessaryDistance){
-				necessaryDistance = Math.abs(object.getPosition().y);
+			if(object.getPosition().y < yMin){
+				xMin = object.getPosition().y - 10;
+			}else if(object.getPosition().y > yMax){
+				xMax = object.getPosition().y + 10;
 			}
 		}
 
 		for (PhysicsObject object : simulation.getContent()) {
 			p.beginShape();
 			for (Vector2 vec : object.getVertices()) {
-				p.vertex(PApplet.map(vec.x, -necessaryDistance, necessaryDistance, x, xSize), PApplet.map(vec.y, -necessaryDistance, necessaryDistance, y, ySize));
+				//p.vertex(PApplet.map(vec.x, -necessaryDistance - 10, necessaryDistance + 10, x, xSize), PApplet.map(vec.y, -necessaryDistance - 10, necessaryDistance + 10, y, ySize));
+				p.vertex(PApplet.norm(vec.x, xMin, xMax)*xSize + x, PApplet.norm(vec.y, yMin, yMax)*ySize + y);
+				System.out.println(PApplet.norm(vec.x, xMin, xMax));
 			}
 			p.endShape();
 		}
 	}
-
+	
 }

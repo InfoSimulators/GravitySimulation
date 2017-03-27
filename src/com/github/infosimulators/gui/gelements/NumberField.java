@@ -56,13 +56,13 @@ public class NumberField extends GElement {
 		if (active) {
 			for (Event event : EventRegistry.getEventsOfType(EventType.KEY_RELEASED)) {
 				keyPress(event.getArgs()[0]);
-				event.setHandled();
 			}
 		}
 
 		for (Event event : EventRegistry.getEventsOfType(EventType.GUI_NUMBERFIELD_VALUE_SET)) {
 			if (event.getArgs()[0] == ID) {
 				value = Integer.parseInt(event.getArgs()[1]);
+				event.setHandled();
 			}
 		}
 
@@ -82,6 +82,10 @@ public class NumberField extends GElement {
 
 		if (k.charAt(0) == PApplet.BACKSPACE) {
 			value = (value - value % 10) / 10;
+		}
+		
+		if(k.charAt(0) == PApplet.ENTER){
+			setActive(false);
 		}
 
 		if (Integer.toString(value).length() < max) {
@@ -116,9 +120,6 @@ public class NumberField extends GElement {
 			case '9':
 				value = Integer.parseInt(Integer.toString(value) + "9");
 				break;
-			case PApplet.ENTER:
-				setActive(false);
-
 			}
 		}
 
