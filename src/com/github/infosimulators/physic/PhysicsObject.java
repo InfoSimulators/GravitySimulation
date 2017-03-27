@@ -1,13 +1,8 @@
 package com.github.infosimulators.physic;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import com.github.infosimulators.IDRegistry.IDd;
-import com.github.infosimulators.events.Event;
-import com.github.infosimulators.events.EventCategory;
-import com.github.infosimulators.events.EventRegistry;
-import com.github.infosimulators.events.EventType;
 import com.github.infosimulators.polygons.Polygon;
 import com.github.infosimulators.polygons.Sphere;
 

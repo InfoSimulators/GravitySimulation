@@ -14,8 +14,6 @@ import com.github.infosimulators.gui.gelements.RectButton;
 import com.github.infosimulators.gui.gelements.SimulationPanel;
 import com.github.infosimulators.gui.gelements.SimulationSetupPanel;
 import com.github.infosimulators.gui.gelements.Text;
-import com.github.infosimulators.physic.PhysicsObject;
-import com.github.infosimulators.physic.Vector2;
 
 import processing.core.PApplet;
 
