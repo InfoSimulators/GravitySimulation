@@ -173,11 +173,27 @@ public class Simulation extends IDd {
 		}
 		return success;
 	}
-
+	/**
+	 * Clears all ids.
+	 */
 	@Override
 	public void clearID() {
 		super.clearID();
 		space.clearIDs();
+	}
+
+	public static void test(Simulation s, int testruns){
+		for(int i = 0; i < testruns; i++){
+			System.out.println("run: " + i);
+			s.update();
+			for(PhysicsObject p : s.getContent()){
+				System.out.println("object at " + p.getPosition());
+				for(Vector2 v : p.getVertices()){
+					System.out.print(v + " ");
+				}
+				System.out.println();
+			}
+		}
 	}
 
 }
