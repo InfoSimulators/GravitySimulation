@@ -171,9 +171,9 @@ public class Main {
 			@Override
 			public void run() {
 				EventRegistry.fire(new Event(EventType.GUI_SIMULATION_START));
-				Main.getGUI().getState().addElement(
-						new RectButton("ChangeDotsButton", "Toggle: Red Center", 125, 10, gui.width - 230, 40));
-				Main.getGUI().getState().addListener(new Listener("ChangeDotsButton", new Runnable() {
+				Main.getGUI().getState()
+						.addElement(new CheckBox("ChangeDotsCheckBox", false, 125, 10, gui.width - 230, 40));
+				Main.getGUI().getState().addListener(new Listener("ChangeDotsCheckBox", new Runnable() {
 
 					@Override
 					public void run() {
@@ -278,8 +278,8 @@ public class Main {
 				}
 
 				Main.getGUI().setState(new State());
-				Main.getGUI().getState()
-						.addElement(new GeneticPanel("GeneticPanel", planets, genomes, showSimulations, 0, 0, gui.width, gui.height));
+				Main.getGUI().getState().addElement(new GeneticPanel("GeneticPanel", planets, genomes, showSimulations,
+						0, 0, gui.width, gui.height));
 			}
 
 		}));
