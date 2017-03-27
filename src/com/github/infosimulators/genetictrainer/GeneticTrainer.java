@@ -22,6 +22,7 @@ public class GeneticTrainer {
 	private Random random = new Random();
 	private float chanceOfMutation = .03f;
 	private float chanceOfCompleteMutation = .04f;
+	private boolean keepBest = false;
 
 	private float[][] genomes;
 	private SimuIdEvalEventsListPair[] evalEvents;
@@ -82,27 +83,55 @@ public class GeneticTrainer {
 	 * @param byCostFunction
 	 *            Whether the evaluator that created the results used a cost
 	 *            function. False for fitness function.
-	 * @throws Exception
-	 *             If the results-length does not match genomesPerGeneration.
 	 */
-	public void generateNextGeneration(float[] results, boolean byCostFunction) throws Exception {
+	public void generateNextGeneration(float[] results, boolean byCostFunction) {
 		if (results.length != genomesPerGeneration)
-			throw new Exception("Results returned are of wrong size. Expected " + genomesPerGeneration + " received "
-					+ results.length + ".");
+			System.err.println("Expected " + genomesPerGeneration + " results, received " + results.length
+					+ " in generateNextGeneration().");
 
 		// always two indices of parent-genomes
 		int[][] parentIndices = new int[genomesPerGeneration][2];
 
+		// find parent indices for each genome
 		for (int i = 0; i < genomesPerGeneration; i++)
 			parentIndices[i] = getRandomParents(results, byCostFunction);
 
+		// init array for new genomes
 		float[][] newGenomes = new float[genomesPerGeneration][numPlanets * paramsPerPlanet];
 
-		for (int i = 0; i < genomesPerGeneration; i++)
+		// keep best genome if activated
+		if (keepBest)
+			newGenomes[0] = genomes[getIndexOfBest(results, byCostFunction)];
+		else
+			newGenomes[0] = generateGenomeFromParents(genomes[parentIndices[0][0]], genomes[parentIndices[0][1]]);
+
+		// generate the rest of genomes
+		for (int i = 1; i < genomesPerGeneration; i++)
 			newGenomes[i] = generateGenomeFromParents(genomes[parentIndices[i][0]], genomes[parentIndices[i][1]]);
 
 		genomes = newGenomes.clone();
 		EventRegistry.fire(new Event(EventType.TRAINER_GEN_GENERATED, new String[] { "" + generationCounter++ }));
+	}
+
+	/**
+	 * Returns the index of the best value in the given array. If cost function,
+	 * the lower the better, if not cost function (fitness function), the higher
+	 * the better.
+	 * 
+	 * @param array
+	 *            The array to find the index in.
+	 * @return The index of the best result.
+	 */
+	private int getIndexOfBest(float[] array, boolean byCostFunction) {
+		int tempIndex = 0;
+		float tempValue = array[0];
+		for (int i = 1; i < array.length; i++) {
+			if (byCostFunction && array[0] > tempValue || !byCostFunction && array[0] < tempValue) {
+				tempIndex = i;
+				tempValue = array[0];
+			}
+		}
+		return tempIndex;
 	}
 
 	/**
@@ -435,6 +464,49 @@ public class GeneticTrainer {
 	 */
 	public void setChanceOfCompleteMutation(float chanceOfCompleteMutation) {
 		this.chanceOfCompleteMutation = chanceOfCompleteMutation;
+	}
+
+	/**
+	 * @return Whether the best performing genome will be kept for the next
+	 *         generation.
+	 */
+	public boolean keepsBest() {
+		return keepBest;
+	}
+
+	/**
+	 * Enables keeping the best performing genome for the next generation.
+	 */
+	public void enableKeepBest() {
+		setKeepBest(true);
+	}
+
+	/**
+	 * Disables keeping the best performing genome for the next generation.
+	 */
+	public void disableKeepBest() {
+		setKeepBest(false);
+	}
+
+	/**
+	 * Toggles the value of whether the best performing genome should be kept
+	 * for the next generation.
+	 */
+	public void toggleKeepBest() {
+		setKeepBest(!keepsBest());
+	}
+
+	/**
+	 * Sets whether the best performing genome will be kept for the next
+	 * generation.
+	 * 
+	 * @param keepBest
+	 *            True: the best performing genome will be kept in the next
+	 *            generation; False: the best performing genome will not be kept
+	 *            in the next generation, but it might by chance.
+	 */
+	public void setKeepBest(boolean keepBest) {
+		this.keepBest = keepBest;
 	}
 
 	/**
