@@ -97,7 +97,41 @@ public class PhysicsObject extends IDd {
 			float shape) {
 		super();
 		this.velocity = new PolarVector2(alpha, impulsVelocity).toCartesian();
-		this.collider = ((int) shape > 0) ? new Polygon((int) shape) : new Sphere();
+		this.collider = ((int) shape >= 3) ? new Polygon((int) shape) : new Sphere();
+		this.collider.scale(size);
+		setPosition(new PolarVector2(theta, distance).toCartesian());
+		setMass(mass);
+	}
+
+	/**
+	* Constructor.
+	*
+	* @param distance
+	*            The distance the new object should have from the origin.
+	* @param theta
+	*            The angle of the position in relation to the origin.
+	* @param mass
+	*            The mass of the object.
+	* @param size
+	*            The size of the object.
+	* @param impulsVelocity
+	*            A float representing the magnitude of the velocity of the
+	*            object.
+	* @param alpha
+	*            The angle of the velocity.
+	* @param shape
+	*            A float representing the number of vertices the object will have.
+	*/
+	public PhysicsObject(float distance, float theta, float mass, float impulsVelocity, float alpha, float size,
+			float[] shape) {
+		super();
+		this.velocity = new PolarVector2(alpha, impulsVelocity).toCartesian();
+		Polygon temp = new Sphere();
+		for(int i = 0; i< shape.length; i++){
+			temp = Polygon.unite(temp, ((int) shape[i] >= 3) ? new Polygon((int) shape[i]) : new Sphere(), shape[i+1]);
+			i++;
+		}
+		this.collider = temp;
 		this.collider.scale(size);
 		setPosition(new PolarVector2(theta, distance).toCartesian());
 		setMass(mass);

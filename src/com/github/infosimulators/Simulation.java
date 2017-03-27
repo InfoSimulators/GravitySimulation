@@ -51,10 +51,14 @@ public class Simulation extends IDd {
 			for (float[] object : configuration)
 				space.registerPhysicsObject(
 						new PhysicsObject(object[0], object[1], object[2], object[3], object[4], object[5]));
-		else
+		else if(configuration[0].length == 7)
 			for (float[] object : configuration)
 				space.registerPhysicsObject(
 						new PhysicsObject(object[0], object[1], object[2], object[3], object[4], object[5], object[6]));
+		else
+			for (float[] object : configuration)
+				space.registerPhysicsObject(
+						new PhysicsObject(object[0], object[1], object[2], object[3], object[4], object[5], Arrays.copyOfRange(object, 6,object.length)));
 		space.simulationID = getID();
 		initialConfig = configuration;
 	}

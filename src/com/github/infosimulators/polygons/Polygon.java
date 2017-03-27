@@ -342,5 +342,18 @@ public class Polygon {
 		}
 		return vertices.toArray(new PolarVector2[vertices.size()]);
 	}
+	public static Polygon unite(Polygon one,Polygon two,float angle){
+		Polygon united = new Polygon();
+		float angel = angle;
+		for (PolarVector2 v : one.getLocalVertices()) {
+			if (Math.abs(angel - v.theta) <= Math.PI)
+				united.addVertex(v);
+		}
+		for (PolarVector2 v : two.getLocalVertices()) {
+			if (Math.abs(angel - v.theta) > Math.PI)
+				united.addVertex(v);
+		}
+		return united;
+	}
 
 }
