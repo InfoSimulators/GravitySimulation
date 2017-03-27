@@ -188,7 +188,7 @@ public class Space {
 	 */
 	protected boolean wouldUnite(PhysicsObject one, PhysicsObject two) {
 		return Vector2.sqrDistance(one.velocity, two.velocity) < gravitation(one, two).sqrMagnitude()
-				|| Vector2.sqrDistance(one.velocity, two.velocity) == 0f;
+				|| Vector2.sqrDistance(one.position, two.position) == 0f;
 	}
 
 	/*
