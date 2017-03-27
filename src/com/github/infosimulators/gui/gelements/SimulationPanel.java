@@ -65,6 +65,7 @@ public class SimulationPanel extends GElement {
 				//p.vertex(PApplet.map(vec.x, -necessaryDistance - 10, necessaryDistance + 10, x, xSize), PApplet.map(vec.y, -necessaryDistance - 10, necessaryDistance + 10, y, ySize));
 				p.vertex(PApplet.norm(vec.x, xMin - 50, xMax + 50)*xSize + x, PApplet.norm(vec.y, yMin - 50, yMax + 50)*ySize + y);
 				if(vec.x > xMax + 100){
+					//System.out.println("vec.x wrong");
 				}
 			}
 			p.endShape();
