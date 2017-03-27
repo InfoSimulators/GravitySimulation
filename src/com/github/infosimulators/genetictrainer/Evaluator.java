@@ -41,6 +41,12 @@ public abstract class Evaluator {
 	public abstract boolean isCostFunction();
 
 	/**
+	 * @return The maximum value that can be reached using this evaluator. This
+	 *         is only needed for learning graphs.
+	 */
+	public abstract float maxValue();
+
+	/**
 	 * @return Whether this evaluator is based on a fitness function, meaning 0
 	 *         is the worst outcome, but the higher the outcome the better.
 	 */
