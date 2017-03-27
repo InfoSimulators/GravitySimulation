@@ -42,7 +42,7 @@ public class SimulationPanel extends GElement {
 
 		for (PhysicsObject object : simulation.getContent()) {
 			p.beginShape();
-			for (Vector2 vec : object.collider.getVertices()) {
+			for (Vector2 vec : object.getVertices()) {
 				p.vertex(PApplet.map(vec.x, -necessaryDistance, necessaryDistance, x, xSize), PApplet.map(vec.y, -necessaryDistance, necessaryDistance, y, ySize));
 			}
 			p.endShape();

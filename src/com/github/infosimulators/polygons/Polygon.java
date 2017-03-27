@@ -36,7 +36,8 @@ public class Polygon {
 	 *            The vertices of the Polygon.
 	 */
 	public Polygon(PolarVector2[] vertices) {
-		this.vertices = PolarVector2.order(vertices);
+		this.vertices =vertices;
+		solveIssues();
 	}
 
 	/**
@@ -49,7 +50,7 @@ public class Polygon {
 	 */
 	public Polygon(PolarVector2[] vertices, Vector2 offset) {
 		this.offset = offset;
-		this.vertices = PolarVector2.order(vertices);
+		solveIssues();
 	}
 
 	/**
@@ -80,7 +81,15 @@ public class Polygon {
 	 * @return The center of mass of this polygon.
 	 */
 	public Vector2 center() {
-		return offset;
+		float x = 0f;
+		float y = 0f;
+		int pointCount = vertices.length;
+		for (int i = 0; i == pointCount - 1; i++) {
+			final Vector2 point = vertices[i].toCartesian();
+			x += point.x;
+			y += point.y;
+		}
+		return new Vector2(x / pointCount, y / pointCount);
 	}
 
 	/**
@@ -137,6 +146,13 @@ public class Polygon {
 	public void setMass(float mass) {
 		this.mass = mass;
 	}
+	/**
+	 * Solves differences between the position and the center.
+	 */
+	protected void solveIssues(){
+		this.vertices = PolarVector2.order(this.vertices);
+		setOffset(center().scale(-1f));
+	}
 
 	/**
 	 * @return A list of all points relative to world space (with offset
@@ -165,7 +181,8 @@ public class Polygon {
 	 *            {@link PolarVector2}.
 	 */
 	public void setVertices(PolarVector2[] vertices) {
-		this.vertices = PolarVector2.order(vertices);
+		this.vertices = vertices;
+		solveIssues();
 	}
 
 	/**
@@ -180,7 +197,8 @@ public class Polygon {
 			temp[i] = vertices[i];
 		for (int i = 0; i < vertex.length; i++)
 			temp[vertices.length + i] = vertex[i];
-		this.vertices = PolarVector2.order(temp);
+		this.vertices = temp;
+		solveIssues();
 	}
 
 	/**

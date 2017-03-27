@@ -40,6 +40,8 @@ public class Space {
 	public long simulationID;
 
 	private int nor = 0;
+	/** The time in seconds between calls of tick. */
+	protected float deltaTime = 1f;
 
 	/*
 	 * Constructors
@@ -86,7 +88,7 @@ public class Space {
 	}
 
 	/**
-	 * @return The space register as ArrayList of {@link PhysicsObject}s.
+	 * @return The space register as an ArrayList of {@link PhysicsObject}s.
 	 */
 	public ArrayList<PhysicsObject> getSpaceRegister() {
 		return spaceRegister;
@@ -109,6 +111,22 @@ public class Space {
 		return nor;
 	}
 
+	/**
+	 * @return The current deltaTime.
+	 */
+	public float getDeltaTime() {
+		return deltaTime;
+	}
+
+	/**
+	 * Sets the time between calls of tick().
+	 *
+	* @param deltaTime
+	*					The new time between calls of tick().
+	*/
+	public void setDeltaTime(float deltaTime) {
+		this.deltaTime = deltaTime;
+	}
 	/*
 	 * Checks
 	 */
@@ -190,7 +208,7 @@ public class Space {
 			EventRegistry.fire(new Event(EventType.SIMU_PLANET_MOVE, Arrays.asList(EventCategory.SIMULATION),
 					new String[] { "" + simulationID, "" + nor, "" + object.getID(),
 							"" + Vector2.scale(object.acceleration, 0.5f).add(object.velocity).magnitude() }));
-			object.move();
+			object.move(deltaTime);
 
 			if (willLeave(object)) {
 				registerIterator.remove();
