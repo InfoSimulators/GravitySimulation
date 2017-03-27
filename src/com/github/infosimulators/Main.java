@@ -172,6 +172,15 @@ public class Main {
 			@Override
 			public void run() {
 				EventRegistry.fire(new Event(EventType.GUI_SIMULATION_START));
+				Main.getGUI().getState().addElement(new RectButton("ChangeDotsButton", "Toggle: Red Center", 125, 10, gui.width - 230, 40));
+				Main.getGUI().getState().addListener(new Listener("ChangeDotsButton", new Runnable(){
+
+					@Override
+					public void run() {
+						EventRegistry.fire(new Event(EventType.GUI_SIMULATION_SETDOTS, new String[]{"SimulationPanel"}));
+					}
+					
+				}));
 			}
 
 		}));
@@ -190,7 +199,7 @@ public class Main {
 			asteroids[i][2] = (float) (Math.random() * 2e5f);
 			asteroids[i][3] = ran.nextInt(15);
 			asteroids[i][4] = (float) (ran.nextInt(360) / (2 * Math.PI));
-			asteroids[i][5] = (float) (Math.random() * 40f);
+			asteroids[i][5] = (float) (Math.random() * 80f);
 		}
 
 		randomModeState.addElement(

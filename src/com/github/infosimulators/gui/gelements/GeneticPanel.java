@@ -30,7 +30,7 @@ public class GeneticPanel extends GElement{
 
 	@Override
 	public void update(PApplet p) {
-		SimulationPanel.displaySimulation(p, trainer.getSimulations().get(0), x, y, xSize, ySize);
+		SimulationPanel.displaySimulation(p, trainer.getSimulations().get(0), false, x, y, xSize, ySize);
 		trainer.step();
 		if(!trainer.isRunningSimulations() || ticks > MAX_TICKS){
 			float[] results = evaluator.eval(trainer.getEvalEvents());

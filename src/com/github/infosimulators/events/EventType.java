@@ -110,6 +110,15 @@ public enum EventType {
 	 * args = []
 	 */
 	GUI_SIMULATION_START,
+	
+	/**
+	 * GUI-Event
+	 *
+	 * Calls for display/non-display of red dots while simulating.
+	 *
+	 * args = [String SimulationPanelID]
+	 */
+	GUI_SIMULATION_SETDOTS,
 
 	/**
 	 * GUI-Event
