@@ -18,7 +18,7 @@ public class SimulationPanel extends GElement {
 	public SimulationPanel(String ID, Simulation simulation, float x, float y, float xSize, float ySize) {
 		super(ID, x, y, xSize, ySize);
 		this.simulation = simulation;
-		simulation.setDeltaTime(1f);
+		simulation.setDeltaTime(0.001f);
 
 		setShowRedDots(false);
 	}
@@ -81,6 +81,9 @@ public class SimulationPanel extends GElement {
 			p.beginShape();
 			for (Vector2 vec : object.getVertices()) {
 				p.vertex(PApplet.map(vec.x, xMin, xMax, x, x + xSize), PApplet.map(vec.y, yMin, yMax, y, y + ySize));
+				if(vec.x > xMax || vec.x < xMin || vec.y > yMax || vec.y < yMin){
+					System.out.println("Calc off");
+				}
 			}
 			p.endShape();
 		}

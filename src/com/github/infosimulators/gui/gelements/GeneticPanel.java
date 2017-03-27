@@ -38,16 +38,20 @@ public class GeneticPanel extends GElement {
 
 	@Override
 	public void update(PApplet p) {
+
 		for (Event event : EventRegistry.getEventsOfType(EventType.GUI_AUTO_SHOWSIMULATION)) {
 			if (event.getArgs()[0] == ID) {
 				showSimulation = !showSimulation;
 				event.setHandled();
 			}
 		}
+
 		if (showSimulation) {
 			SimulationPanel.displaySimulation(p, trainer.getSimulations().get(0), false, x, y, xSize, ySize);
 		}
+
 		trainer.step();
+
 		if (!trainer.isRunningSimulations() || ticks > MAX_TICKS) {
 			float[] results = evaluator.eval(trainer.getEvalEvents());
 			try {

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Collection;
 
 import com.github.infosimulators.Main;
+import com.github.infosimulators.events.Event;
 import com.github.infosimulators.events.EventRegistry;
 import com.github.infosimulators.events.EventType;
 import com.github.infosimulators.gui.gelements.GElement;
@@ -50,14 +51,17 @@ public class State {
 		}
 
 		Collection<String> events = new ArrayList<String>();
-		for (com.github.infosimulators.events.Event event : EventRegistry
-				.getEventsOfType(EventType.GUI_BUTTON_PRESSED)) {
+		for (Event event : EventRegistry.getEventsOfType(EventType.GUI_BUTTON_PRESSED)) {
 			events.add(event.getArgs()[0]);
 			event.setHandled();
 		}
 
-		for (com.github.infosimulators.events.Event event : EventRegistry
-				.getEventsOfType(EventType.GUI_ELEMENT_HOVERED)) {
+		for (Event event : EventRegistry.getEventsOfType(EventType.GUI_ELEMENT_HOVERED)) {
+			events.add(event.getArgs()[0]);
+			event.setHandled();
+		}
+		
+		for(Event event : EventRegistry.getEventsOfType(EventType.GUI_CHECKBOX_VALUE_CHANGE)){
 			events.add(event.getArgs()[0]);
 			event.setHandled();
 		}
@@ -119,11 +123,11 @@ public class State {
 	public void setElements(List<GElement> elements) {
 		this.elements = elements;
 	}
-	
-	public List<SimulationSetupPanel> getSimulationSetupPanels(){
+
+	public List<SimulationSetupPanel> getSimulationSetupPanels() {
 		List<SimulationSetupPanel> setupPanels = new ArrayList<SimulationSetupPanel>();
-		for(GElement element : elements){
-			if (element.getClass() == SimulationSetupPanel.class){
+		for (GElement element : elements) {
+			if (element.getClass() == SimulationSetupPanel.class) {
 				setupPanels.add((SimulationSetupPanel) element);
 			}
 		}
