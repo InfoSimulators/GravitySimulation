@@ -8,6 +8,7 @@ import com.github.infosimulators.events.EventType;
 import com.github.infosimulators.gui.GUI;
 import com.github.infosimulators.gui.Listener;
 import com.github.infosimulators.gui.State;
+import com.github.infosimulators.gui.gelements.CheckBox;
 import com.github.infosimulators.gui.gelements.GeneticPanel;
 import com.github.infosimulators.gui.gelements.NumberField;
 import com.github.infosimulators.gui.gelements.RectButton;
@@ -38,7 +39,7 @@ public class Main {
 
 	public static Simulation workingExample() {
 		Simulation x = new Simulation(new float[][] { { 0f, (float) Math.PI, 10, 0f, 0f, 1f } });
-		//Simulation.test(x, 5);
+		// Simulation.test(x, 5);
 		return x;
 	}
 
@@ -170,14 +171,16 @@ public class Main {
 			@Override
 			public void run() {
 				EventRegistry.fire(new Event(EventType.GUI_SIMULATION_START));
-				Main.getGUI().getState().addElement(new RectButton("ChangeDotsButton", "Toggle: Red Center", 125, 10, gui.width - 230, 40));
-				Main.getGUI().getState().addListener(new Listener("ChangeDotsButton", new Runnable(){
+				Main.getGUI().getState().addElement(
+						new RectButton("ChangeDotsButton", "Toggle: Red Center", 125, 10, gui.width - 230, 40));
+				Main.getGUI().getState().addListener(new Listener("ChangeDotsButton", new Runnable() {
 
 					@Override
 					public void run() {
-						EventRegistry.fire(new Event(EventType.GUI_SIMULATION_SETDOTS, new String[]{"SimulationPanel"}));
+						EventRegistry
+								.fire(new Event(EventType.GUI_SIMULATION_SETDOTS, new String[] { "SimulationPanel" }));
 					}
-					
+
 				}));
 			}
 
@@ -221,7 +224,11 @@ public class Main {
 		State autoModeSetupState = new State(0, 120, 255);
 
 		String s = "This is the Training Mode! A genetic Algorithm will develop interesting and fun to watch starting situation, but first of all you can specify what kind of situation you want to be developed.";
-		autoModeSetupState.addElement(new Text("AutoModeInfo", s, 18, PApplet.CENTER, 0, 70, gui.width, 100));
+		autoModeSetupState.addElement(new Text("AutoModeInfo", s, 18, PApplet.CENTER, 10, 70, gui.width - 30, 100));
+
+		autoModeSetupState.addElement(
+				new Text("ConfigInfo", "(The default options work just fine, if you are not sure about anything.)", 14,
+						PApplet.CENTER, 10, 140, gui.width - 30, 100));
 
 		autoModeSetupState
 				.addElement(new Text("PlanetNumberText", "Number of planets:", 16, PApplet.LEFT, 20, 200, 150, 20));
@@ -237,6 +244,11 @@ public class Main {
 
 		EventRegistry
 				.fire(new Event(EventType.GUI_NUMBERFIELD_VALUE_SET, new String[] { "GenomeNumberField", "1000" }));
+
+		autoModeSetupState
+				.addElement(new Text("ShowSimulationText", "Show Simulation: ", 16, PApplet.LEFT, 20, 300, 150, 20));
+
+		autoModeSetupState.addElement(new CheckBox("ShowSimulationCheckBox", true, 265, 290, 30, 30));
 
 		autoModeSetupState.addElement(new RectButton("DoneSetupButton", "Done!", 400, 500, 180, 40));
 
@@ -257,9 +269,17 @@ public class Main {
 					}
 				}
 
+				boolean showSimulations = true;
+
+				for (Event event : EventRegistry.getEventsOfType(EventType.GUI_CHECKBOX_VALUE_CHANGE)) {
+					if (event.getArgs()[0] == "ShowSimulationCheckBox") {
+						showSimulations = Boolean.parseBoolean(event.getArgs()[1]);
+					}
+				}
+
 				Main.getGUI().setState(new State());
 				Main.getGUI().getState()
-						.addElement(new GeneticPanel("GeneticPanel", planets, genomes, 0, 0, gui.width, gui.height));
+						.addElement(new GeneticPanel("GeneticPanel", planets, genomes, showSimulations, 0, 0, gui.width, gui.height));
 			}
 
 		}));
