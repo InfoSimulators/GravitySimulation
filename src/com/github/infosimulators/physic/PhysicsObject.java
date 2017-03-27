@@ -47,7 +47,7 @@ public class PhysicsObject extends IDd {
 	 */
 	protected float mass;
 
-	public Polygon collider = new Sphere();
+	protected Polygon collider = new Sphere();
 
 	/**
 	 * Constructor.
@@ -152,11 +152,27 @@ public class PhysicsObject extends IDd {
 	}
 
 	/**
+	 * @return All vertices of this object.
+	 */
+	public Vector2[] getVertices() {
+		Vector2[] temp = collider.getVertices();
+		for(int i = 0; i<temp.length; i++){
+			temp[i].add(position);
+		}
+		return temp;
+	}
+	/**
+	 * Scales the attached polygons
+	 * @param amt Amount of scaling.
+	 */
+	public void scale(float amt){
+		this.collider.scale(amt);
+	}
+	/**
 	 * Sets {@link PhysicsObject.position}
 	 */
 	public void setPosition(Vector2 position) {
 		this.position = position;
-		this.collider.setOffset(position);
 	}
 
 	/**
@@ -209,11 +225,11 @@ public class PhysicsObject extends IDd {
 	/**
 	 * Updates the position based on the velocity and acceleration. Updates the
 	 * velocity based on the acceleration.
+	 * @param time The time since the last call.
 	 */
-	public void move() {
-		position.add(Vector2.scale(acceleration, 0.5f).add(velocity));
-		velocity.add(acceleration);
-		collider.setOffset(position);
+	public void move(float time) {
+		position.add(Vector2.scale(acceleration, 0.5f*time*time).add(velocity));
+		velocity.add(acceleration.scale(time));
 	}
 
 	/**

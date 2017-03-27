@@ -59,7 +59,7 @@ public class SimulationPanel extends GElement {
 
 		for (PhysicsObject object : simulation.getContent()) {
 			p.beginShape();
-			for (Vector2 vec : object.collider.getVertices()) {
+			for (Vector2 vec : object.getVertices()) {
 				//p.vertex(PApplet.map(vec.x, -necessaryDistance - 10, necessaryDistance + 10, x, xSize), PApplet.map(vec.y, -necessaryDistance - 10, necessaryDistance + 10, y, ySize));
 				p.vertex(PApplet.norm(vec.x, xMin, xMax)*xSize + x, PApplet.norm(vec.y, yMin, yMax)*ySize + y);
 				System.out.println(PApplet.norm(vec.x, xMin, xMax));
