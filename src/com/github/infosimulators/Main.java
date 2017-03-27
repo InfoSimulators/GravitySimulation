@@ -5,17 +5,11 @@ import java.util.Random;
 import com.github.infosimulators.events.Event;
 import com.github.infosimulators.events.EventRegistry;
 import com.github.infosimulators.events.EventType;
-
-import com.github.infosimulators.genetictrainer.Evaluator;
-import com.github.infosimulators.genetictrainer.GeneticTrainer;
-import com.github.infosimulators.gui.*;
-import com.github.infosimulators.gui.gelements.GeneticPanel;
-import com.github.infosimulators.gui.gelements.NumberField;
-
 import com.github.infosimulators.gui.GUI;
 import com.github.infosimulators.gui.Listener;
 import com.github.infosimulators.gui.State;
-
+import com.github.infosimulators.gui.gelements.GeneticPanel;
+import com.github.infosimulators.gui.gelements.NumberField;
 import com.github.infosimulators.gui.gelements.RectButton;
 import com.github.infosimulators.gui.gelements.SimulationPanel;
 import com.github.infosimulators.gui.gelements.SimulationSetupPanel;

@@ -12,7 +12,7 @@ public class SimplestEvaluator extends Evaluator {
 	protected float eval(List<Event> events) {
 		if (events.isEmpty())
 			return .5f;
-		
+
 		float p = 0;
 
 		for (Event event : events) {
@@ -42,8 +42,9 @@ public class SimplestEvaluator extends Evaluator {
 
 	public static void main(String[] args) {
 		int generations = 1000;
+		int maxSteps = 100;
 		boolean doPrint = true;
-		
+
 		GeneticTrainer trainer = new GeneticTrainer(5, 6, 1000);
 		Evaluator evaluator = new SimplestEvaluator();
 
@@ -56,10 +57,9 @@ public class SimplestEvaluator extends Evaluator {
 
 			boolean stepsDone = false;
 			int steps = 0;
-			
+
 			while (!stepsDone) {
 				trainer.step();
-				handleAllEvents();
 
 				List<Event> events = EventRegistry.getEventsOfType(EventType.TRAINER_SIMUS_END);
 				if (events.size() > 0) {
@@ -67,12 +67,15 @@ public class SimplestEvaluator extends Evaluator {
 				}
 				for (Event event : events)
 					event.setHandled();
-				
-				if (++steps > 10) {
+
+				if (++steps > maxSteps) {
 					if (doPrint)
 						System.out.println("Too many steps");
 					stepsDone = true;
 				}
+				
+				// for RAM clearing
+				handleAllEvents();
 			}
 
 			float[] results = evaluator.eval(trainer.getEvalEvents());
@@ -88,7 +91,7 @@ public class SimplestEvaluator extends Evaluator {
 			}
 		}
 	}
-	
+
 	private static void handleAllEvents() {
 		for (Event event : EventRegistry.getEvents())
 			event.setHandled();
