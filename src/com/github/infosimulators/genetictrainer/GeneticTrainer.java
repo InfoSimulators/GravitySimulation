@@ -404,6 +404,40 @@ public class GeneticTrainer {
 	}
 
 	/**
+	 * @return The chance that a genome mutates at all
+	 */
+	public float getChanceOfMutation() {
+		return chanceOfMutation;
+	}
+
+	/**
+	 * @param chanceOfMutation
+	 *            The chance that a genome mutates at all
+	 */
+	public void setChanceOfMutation(float chanceOfMutation) {
+		this.chanceOfMutation = chanceOfMutation;
+	}
+
+	/**
+	 * @return The chance that, if the genome will mutate, it will have a
+	 *         completely random new value at the mutated genome instead of a
+	 *         slight change
+	 */
+	public float getChanceOfCompleteMutation() {
+		return chanceOfCompleteMutation;
+	}
+
+	/**
+	 * @param chanceOfCompleteMutation
+	 *            The chance that, if the genome will mutate, it will have a
+	 *            completely random new value at the mutated genome instead of a
+	 *            slight change
+	 */
+	public void setChanceOfCompleteMutation(float chanceOfCompleteMutation) {
+		this.chanceOfCompleteMutation = chanceOfCompleteMutation;
+	}
+
+	/**
 	 * Helper class for putting pairs of simulation IDs and evaluation events
 	 * into an array.
 	 */
