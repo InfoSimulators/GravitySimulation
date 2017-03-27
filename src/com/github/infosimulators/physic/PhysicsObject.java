@@ -258,7 +258,7 @@ public class PhysicsObject extends IDd {
 	 */
 	public void move(float time) {
 		position.add(Vector2.scale(acceleration, 0.5f*time*time).add(velocity));
-		velocity.add(acceleration.scale(time));
+		velocity.add(Vector2.scale(acceleration,time));
 	}
 
 	/**
