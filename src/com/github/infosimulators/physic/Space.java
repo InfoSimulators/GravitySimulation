@@ -167,7 +167,6 @@ public class Space {
 	 *            Another {@link PhysicsObject}.
 	 */
 	public static boolean areColliding(PhysicsObject one, PhysicsObject two) {
-		//return false;
 		return Vector2.sqrDistance(one.getPosition(), two.getPosition())< (one.radius + two.radius);
 	}
 
