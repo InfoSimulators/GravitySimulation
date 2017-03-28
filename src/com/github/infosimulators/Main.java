@@ -39,7 +39,7 @@ public class Main {
 
 	public static Simulation workingExample() {
 		Simulation x = new Simulation(new float[][] { { 0f, (float) Math.PI, 10, 0f, 0f, 1f ,3f}, { 10f, (float) Math.PI, 10, 0f, 0f, 1f ,3f}});
-		Simulation.test(x, 5);
+		// Simulation.test(x, 5);
 		return x;
 	}
 
