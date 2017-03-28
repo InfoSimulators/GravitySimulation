@@ -3,8 +3,6 @@ package com.github.infosimulators.physic;
 import java.util.ArrayList;
 
 import com.github.infosimulators.IDRegistry.IDd;
-import com.github.infosimulators.polygons.Polygon;
-import com.github.infosimulators.polygons.Sphere;
 
 /**
  * Superclass for all objects, manipulated by physics. It stores position,
@@ -42,7 +40,7 @@ public class PhysicsObject extends IDd {
 	 */
 	protected float mass;
 
-	protected Polygon collider = new Sphere();
+	public float radius;
 
 	/**
 	 * Constructor.
@@ -65,7 +63,7 @@ public class PhysicsObject extends IDd {
 		super();
 		this.position = new PolarVector2(theta, distance).toCartesian();
 		this.velocity = new PolarVector2(alpha, impulsVelocity).toCartesian();
-		this.collider = new Sphere(position, size);
+		this.radius = size;
 		setMass(mass);
 	}
 
@@ -92,8 +90,7 @@ public class PhysicsObject extends IDd {
 			float shape) {
 		super();
 		this.velocity = new PolarVector2(alpha, impulsVelocity).toCartesian();
-		this.collider = ((int) shape >= 3) ? new Polygon((int) shape) : new Sphere();
-		this.collider.scale(size);
+		this.radius = size;
 		setPosition(new PolarVector2(theta, distance).toCartesian());
 		setMass(mass);
 	}
@@ -121,13 +118,7 @@ public class PhysicsObject extends IDd {
 			float[] shape) {
 		super();
 		this.velocity = new PolarVector2(alpha, impulsVelocity).toCartesian();
-		Polygon temp = new Sphere();
-		for(int i = 0; i< shape.length; i++){
-			temp = Polygon.unite(temp, ((int) shape[i] >= 3) ? new Polygon((int) shape[i]) : new Sphere(), shape[i+1]);
-			i++;
-		}
-		this.collider = temp;
-		this.collider.scale(size);
+		this.radius = size;
 		setPosition(new PolarVector2(theta, distance).toCartesian());
 		setMass(mass);
 	}
@@ -147,7 +138,7 @@ public class PhysicsObject extends IDd {
 	public PhysicsObject(Vector2 position, Vector2 velocity, float mass, float radius) {
 		super();
 		this.position = position;
-		this.collider = new Sphere(radius);
+		this.radius = radius;
 		setMass(mass);
 		setPosition(position);
 		this.velocity = velocity;
@@ -165,13 +156,6 @@ public class PhysicsObject extends IDd {
 	 * @param collider
 	 *            The collider of the object.
 	 */
-	public PhysicsObject(Vector2 position, Vector2 velocity, float mass, Polygon collider) {
-		super();
-		this.collider = collider;
-		setPosition(position);
-		setMass(mass);
-		this.velocity = velocity;
-	}
 
 	/**
 	 * @return {@link PhysicsObject.mass}
@@ -179,23 +163,12 @@ public class PhysicsObject extends IDd {
 	public Vector2 getPosition() {
 		return position;
 	}
-
-	/**
-	 * @return All vertices of this object.
-	 */
-	public Vector2[] getVertices() {
-		Vector2[] temp = collider.getVertices();
-		for(int i = 0; i<temp.length; i++){
-			temp[i].add(position);
-		}
-		return temp;
-	}
 	/**
 	 * Scales the attached polygons
 	 * @param amt Amount of scaling.
 	 */
-	public void scale(float amt){
-		this.collider.scale(amt);
+	public void setRadius(float amt){
+		this.radius = amt;
 	}
 	/**
 	 * Sets {@link PhysicsObject.position}
@@ -216,7 +189,7 @@ public class PhysicsObject extends IDd {
 	 */
 	public void setMass(float mass) {
 		this.mass = mass;
-		this.collider.setMass(mass);
+
 	}
 
 	/**
@@ -270,21 +243,11 @@ public class PhysicsObject extends IDd {
 	 *            The second object.
 	 */
 	public static PhysicsObject unite(PhysicsObject one, PhysicsObject two) {
-		Polygon united = new Polygon();
-		float angel = Vector2.subtract(one.getPosition(), two.getPosition()).angle();
-		for (PolarVector2 v : one.collider.getLocalVertices()) {
-			if (Math.abs(angel - v.theta) <= Math.PI)
-				united.addVertex(v);
-		}
-		for (PolarVector2 v : two.collider.getLocalVertices()) {
-			if (Math.abs(angel - v.theta) > Math.PI)
-				united.addVertex(v);
-		}
 		return new PhysicsObject(Vector2.lerp(one.getPosition(), two.getPosition(), two.mass / (one.mass + two.mass)),
 				Vector2.add(one.velocity, two.velocity)
 						.setMag((one.mass * one.velocity.magnitude() + two.mass * two.velocity.magnitude())
 								/ (one.mass + two.mass)),
-				one.mass + two.mass, united);
+				one.mass + two.mass, one.radius + two.radius);
 	}
 
 }

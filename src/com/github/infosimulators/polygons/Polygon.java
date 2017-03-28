@@ -20,6 +20,7 @@ public class Polygon {
 	 */
 	private float mass = 1f;
 	private Vector2 offset = Vector2.zero();
+	public float radius = 1f;
 
 	/**
 	 * Constructor.

@@ -46,37 +46,11 @@ public class Simulation extends IDd {
 		super();
 		space = new Space();
 		space.simulationID = getID();
-		if (configuration[0].length == 6)
 			for (float[] object : configuration)
 				space.registerPhysicsObject(
 						new PhysicsObject(object[0], object[1], object[2], object[3], object[4], object[5]));
-		else if(configuration[0].length == 7)
-			for (float[] object : configuration)
-				space.registerPhysicsObject(
-						new PhysicsObject(object[0], object[1], object[2], object[3], object[4], object[5], object[6]));
-		else if(configuration[0].length > 7)
-			for (float[] object : configuration)
-				space.registerPhysicsObject(
-						new PhysicsObject(object[0], object[1], object[2], object[3], object[4], object[5], Arrays.copyOfRange(object, 6,object.length)));
-		space.simulationID = getID();
+						space.simulationID = getID();
 		initialConfig = configuration;
-	}
-
-	/**
-	 * Creates a new object in space and adds it to the space.
-	 *
-	 * @param position
-	 *            The initial position of this object
-	 * @param velocity
-	 *            The initial velocity of this object
-	 * @param mass
-	 *            The mass of this object
-	 * @param size
-	 *            The collider of this object
-	 */
-	public void addObject(Vector2 position, Vector2 velocity, float mass, Polygon collider) {
-		PhysicsObject a = new PhysicsObject(position, velocity, mass, collider);
-		space.registerPhysicsObject(a);
 	}
 
 	/**
@@ -186,14 +160,21 @@ public class Simulation extends IDd {
 	}
 
 	public static void test(Simulation s, int testruns){
+		for (PhysicsObject p : s.getContent()) {
+			System.out.println("object at " + p.getPosition());
+			//for (Vector2 v : p.getVertices())
+			//	System.out.print(v + " ");
+
+			System.out.println();
+		}
 		for(int i = 0; i < testruns; i++){
 			System.out.println("run: " + i);
 			s.update();
 			for(PhysicsObject p : s.getContent()){
 				System.out.println("object at " + p.getPosition());
-				for(Vector2 v : p.getVertices()){
-					System.out.print(v + " ");
-				}
+				//for(Vector2 v : p.getVertices()){
+				//	System.out.print(v + " ");
+				//}
 				System.out.println();
 			}
 		}
